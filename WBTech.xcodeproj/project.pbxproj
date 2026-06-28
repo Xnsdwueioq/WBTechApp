@@ -1,0 +1,587 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 110;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		B7C99D292FF1509700FA2D9D /* UISystem in Frameworks */ = {isa = PBXBuildFile; productRef = B7C99D282FF1509700FA2D9D /* UISystem */; };
+		B7C99D602FF1518A00FA2D9D /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = B7C99D5F2FF1518A00FA2D9D /* .gitignore */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		B7C99D0C2FF14DA900FA2D9D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B7C99CF62FF14DA700FA2D9D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B7C99CFD2FF14DA700FA2D9D;
+			remoteInfo = WBTech;
+		};
+		B7C99D162FF14DA900FA2D9D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B7C99CF62FF14DA700FA2D9D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B7C99CFD2FF14DA700FA2D9D;
+			remoteInfo = WBTech;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		B7C99CFE2FF14DA700FA2D9D /* WBTech.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WBTech.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B7C99D0B2FF14DA900FA2D9D /* WBTechTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WBTechTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		B7C99D152FF14DA900FA2D9D /* WBTechUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WBTechUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		B7C99D262FF1502D00FA2D9D /* UISystem */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = UISystem; sourceTree = "<group>"; };
+		B7C99D5F2FF1518A00FA2D9D /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		B7C99D002FF14DA700FA2D9D /* WBTech */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = WBTech;
+			sourceTree = "<group>";
+		};
+		B7C99D0E2FF14DA900FA2D9D /* WBTechTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = WBTechTests;
+			sourceTree = "<group>";
+		};
+		B7C99D182FF14DA900FA2D9D /* WBTechUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = WBTechUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		B7C99CFB2FF14DA700FA2D9D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			files = (
+				B7C99D292FF1509700FA2D9D /* UISystem in Frameworks */,
+			);
+		};
+		B7C99D082FF14DA900FA2D9D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			files = (
+			);
+		};
+		B7C99D122FF14DA900FA2D9D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			files = (
+			);
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		B7C99CF52FF14DA700FA2D9D = {
+			isa = PBXGroup;
+			children = (
+				B7C99D5F2FF1518A00FA2D9D /* .gitignore */,
+				B7C99D262FF1502D00FA2D9D /* UISystem */,
+				B7C99D002FF14DA700FA2D9D /* WBTech */,
+				B7C99D0E2FF14DA900FA2D9D /* WBTechTests */,
+				B7C99D182FF14DA900FA2D9D /* WBTechUITests */,
+				B7C99CFF2FF14DA700FA2D9D /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		B7C99CFF2FF14DA700FA2D9D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B7C99CFE2FF14DA700FA2D9D /* WBTech.app */,
+				B7C99D0B2FF14DA900FA2D9D /* WBTechTests.xctest */,
+				B7C99D152FF14DA900FA2D9D /* WBTechUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		B7C99CFD2FF14DA700FA2D9D /* WBTech */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B7C99D1D2FF14DA900FA2D9D /* Build configuration list for PBXNativeTarget "WBTech" */;
+			buildPhases = (
+				B7C99CFA2FF14DA700FA2D9D /* Sources */,
+				B7C99CFB2FF14DA700FA2D9D /* Frameworks */,
+				B7C99CFC2FF14DA700FA2D9D /* Resources */,
+			);
+			buildRules = (
+			);
+			fileSystemSynchronizedGroups = (
+				B7C99D002FF14DA700FA2D9D /* WBTech */,
+			);
+			name = WBTech;
+			packageProductDependencies = (
+				B7C99D282FF1509700FA2D9D /* UISystem */,
+			);
+			productName = WBTech;
+			productReference = B7C99CFE2FF14DA700FA2D9D /* WBTech.app */;
+			productType = "com.apple.product-type.application";
+		};
+		B7C99D0A2FF14DA900FA2D9D /* WBTechTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B7C99D202FF14DA900FA2D9D /* Build configuration list for PBXNativeTarget "WBTechTests" */;
+			buildPhases = (
+				B7C99D072FF14DA900FA2D9D /* Sources */,
+				B7C99D082FF14DA900FA2D9D /* Frameworks */,
+				B7C99D092FF14DA900FA2D9D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B7C99D0D2FF14DA900FA2D9D /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				B7C99D0E2FF14DA900FA2D9D /* WBTechTests */,
+			);
+			name = WBTechTests;
+			productName = WBTechTests;
+			productReference = B7C99D0B2FF14DA900FA2D9D /* WBTechTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		B7C99D142FF14DA900FA2D9D /* WBTechUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B7C99D232FF14DA900FA2D9D /* Build configuration list for PBXNativeTarget "WBTechUITests" */;
+			buildPhases = (
+				B7C99D112FF14DA900FA2D9D /* Sources */,
+				B7C99D122FF14DA900FA2D9D /* Frameworks */,
+				B7C99D132FF14DA900FA2D9D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B7C99D172FF14DA900FA2D9D /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				B7C99D182FF14DA900FA2D9D /* WBTechUITests */,
+			);
+			name = WBTechUITests;
+			productName = WBTechUITests;
+			productReference = B7C99D152FF14DA900FA2D9D /* WBTechUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		B7C99CF62FF14DA700FA2D9D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2700;
+				LastUpgradeCheck = 2700;
+				TargetAttributes = {
+					B7C99CFD2FF14DA700FA2D9D = {
+						CreatedOnToolsVersion = 27.0;
+					};
+					B7C99D0A2FF14DA900FA2D9D = {
+						CreatedOnToolsVersion = 27.0;
+						TestTargetID = B7C99CFD2FF14DA700FA2D9D;
+					};
+					B7C99D142FF14DA900FA2D9D = {
+						CreatedOnToolsVersion = 27.0;
+						TestTargetID = B7C99CFD2FF14DA700FA2D9D;
+					};
+				};
+			};
+			buildConfigurationList = B7C99CF92FF14DA700FA2D9D /* Build configuration list for PBXProject "WBTech" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = B7C99CF52FF14DA700FA2D9D;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				B7C99D272FF1509700FA2D9D /* XCLocalSwiftPackageReference "UISystem" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = B7C99CFF2FF14DA700FA2D9D /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				B7C99CFD2FF14DA700FA2D9D /* WBTech */,
+				B7C99D0A2FF14DA900FA2D9D /* WBTechTests */,
+				B7C99D142FF14DA900FA2D9D /* WBTechUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		B7C99CFC2FF14DA700FA2D9D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			files = (
+				B7C99D602FF1518A00FA2D9D /* .gitignore in Resources */,
+			);
+		};
+		B7C99D092FF14DA900FA2D9D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			files = (
+			);
+		};
+		B7C99D132FF14DA900FA2D9D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			files = (
+			);
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		B7C99CFA2FF14DA700FA2D9D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			files = (
+			);
+		};
+		B7C99D072FF14DA900FA2D9D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			files = (
+			);
+		};
+		B7C99D112FF14DA900FA2D9D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			files = (
+			);
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		B7C99D0D2FF14DA900FA2D9D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B7C99CFD2FF14DA700FA2D9D /* WBTech */;
+			targetProxy = B7C99D0C2FF14DA900FA2D9D /* PBXContainerItemProxy */;
+		};
+		B7C99D172FF14DA900FA2D9D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B7C99CFD2FF14DA700FA2D9D /* WBTech */;
+			targetProxy = B7C99D162FF14DA900FA2D9D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		B7C99D1B2FF14DA900FA2D9D /* Debug configuration for PBXProject "WBTech" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = HYBW48Y72N;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 27.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		B7C99D1C2FF14DA900FA2D9D /* Release configuration for PBXProject "WBTech" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = HYBW48Y72N;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 27.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		B7C99D1E2FF14DA900FA2D9D /* Debug configuration for PBXNativeTarget "WBTech" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = HYBW48Y72N;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = ru.t02.WBTech;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		B7C99D1F2FF14DA900FA2D9D /* Release configuration for PBXNativeTarget "WBTech" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = HYBW48Y72N;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = ru.t02.WBTech;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		B7C99D212FF14DA900FA2D9D /* Debug configuration for PBXNativeTarget "WBTechTests" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = HYBW48Y72N;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 27.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = ru.t02.WBTechTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WBTech.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/WBTech";
+			};
+			name = Debug;
+		};
+		B7C99D222FF14DA900FA2D9D /* Release configuration for PBXNativeTarget "WBTechTests" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = HYBW48Y72N;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 27.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = ru.t02.WBTechTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WBTech.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/WBTech";
+			};
+			name = Release;
+		};
+		B7C99D242FF14DA900FA2D9D /* Debug configuration for PBXNativeTarget "WBTechUITests" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = HYBW48Y72N;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = ru.t02.WBTechUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = WBTech;
+			};
+			name = Debug;
+		};
+		B7C99D252FF14DA900FA2D9D /* Release configuration for PBXNativeTarget "WBTechUITests" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = HYBW48Y72N;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = ru.t02.WBTechUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = WBTech;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		B7C99CF92FF14DA700FA2D9D /* Build configuration list for PBXProject "WBTech" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B7C99D1B2FF14DA900FA2D9D /* Debug configuration for PBXProject "WBTech" */,
+				B7C99D1C2FF14DA900FA2D9D /* Release configuration for PBXProject "WBTech" */,
+			);
+			defaultConfigurationName = Release;
+		};
+		B7C99D1D2FF14DA900FA2D9D /* Build configuration list for PBXNativeTarget "WBTech" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B7C99D1E2FF14DA900FA2D9D /* Debug configuration for PBXNativeTarget "WBTech" */,
+				B7C99D1F2FF14DA900FA2D9D /* Release configuration for PBXNativeTarget "WBTech" */,
+			);
+			defaultConfigurationName = Release;
+		};
+		B7C99D202FF14DA900FA2D9D /* Build configuration list for PBXNativeTarget "WBTechTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B7C99D212FF14DA900FA2D9D /* Debug configuration for PBXNativeTarget "WBTechTests" */,
+				B7C99D222FF14DA900FA2D9D /* Release configuration for PBXNativeTarget "WBTechTests" */,
+			);
+			defaultConfigurationName = Release;
+		};
+		B7C99D232FF14DA900FA2D9D /* Build configuration list for PBXNativeTarget "WBTechUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B7C99D242FF14DA900FA2D9D /* Debug configuration for PBXNativeTarget "WBTechUITests" */,
+				B7C99D252FF14DA900FA2D9D /* Release configuration for PBXNativeTarget "WBTechUITests" */,
+			);
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		B7C99D272FF1509700FA2D9D /* XCLocalSwiftPackageReference "UISystem" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = UISystem;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		B7C99D282FF1509700FA2D9D /* UISystem */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = UISystem;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = B7C99CF62FF14DA700FA2D9D /* Project object */;
+	validationLevel = 1;
+}
