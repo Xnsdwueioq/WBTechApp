@@ -2,7 +2,7 @@
 
 import Foundation
 
-actor CatalogService: CatalogServiceProtocol {
+actor MockCatalogService: CatalogServiceProtocol {
   
   func fetchCategories() async throws -> [Category] {
     try await Task.sleep(for: .seconds(1.0))
