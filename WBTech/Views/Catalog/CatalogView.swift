@@ -19,6 +19,7 @@ struct CatalogView: View {
           CatalogContentView(categories: categories)
         }
       }
+      .scrollIndicators(.hidden)
       .task {
         await loadData()
       }
