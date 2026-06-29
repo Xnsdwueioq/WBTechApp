@@ -7,7 +7,7 @@ struct ContentView: View {
   
   @State private var selectedTab: AppTab = .catalog
   
-  private enum Layout {
+  private enum Configuration {
     static let selectTabAnimationDuration: CGFloat = 0.25
   }
   
@@ -17,7 +17,7 @@ struct ContentView: View {
   }
   
   private func selectTab(_ tab: AppTab) {
-    withAnimation(.easeInOut(duration: Layout.selectTabAnimationDuration)) {
+    withAnimation(.easeInOut(duration: Configuration.selectTabAnimationDuration)) {
       selectedTab = tab
     }
   }

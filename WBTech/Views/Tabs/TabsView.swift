@@ -10,6 +10,7 @@ struct TabsView: View {
   private enum Layout {
     static let tabsSpacing: CGFloat = 16
     static let horizontalSpacing: CGFloat = 12
+    static let tabsFade: LinearGradient = .dsTabsFade
   }
   
   var body: some View {
@@ -27,7 +28,7 @@ struct TabsView: View {
     }
     .scrollIndicators(.hidden)
       .overlay {
-        LinearGradient(stops: [.init(color: .white, location: 0), .init(color: .clear, location: 0.05)], startPoint: .leading, endPoint: .trailing)
+        Layout.tabsFade
       }
   }
 }
