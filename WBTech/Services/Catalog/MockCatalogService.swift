@@ -15,7 +15,7 @@ actor MockCatalogService: CatalogServiceProtocol {
     ]
   }
   
-  func fetchProducts() async throws -> [Product] {
+  func fetchProducts(categoryId: String? = nil) async throws -> [Product] {
     try await Task.sleep(for: .seconds(0.2))
     
     return [

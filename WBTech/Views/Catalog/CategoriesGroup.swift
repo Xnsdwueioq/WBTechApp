@@ -13,8 +13,8 @@ struct CategoriesGroup: View {
   
   var body: some View {
     VStack(spacing: Layout.titleContentSpacing) {
-      CategoriesGroupTitle(title: title)
-      CategoriesView(categories: categories)
+      DSCategoriesGroupTitle(title: title)
+      CategoriesView(groupTitle: title, categories: categories)
     }
   }
 }

@@ -12,13 +12,4 @@ struct Product: Identifiable, Hashable {
   let reviewCount: Int
   let isFavorite: Bool
   let discount: Double
-  
-  var formattedPrice: String {
-    return price.formatted(.currency(code: "RUB"))
-  }
-  
-  var formattedWeight: String {
-    let measurement = Measurement(value: weight, unit: UnitMass.grams)
-    return measurement.formatted(.measurement(width: .abbreviated))
-  }
 }
