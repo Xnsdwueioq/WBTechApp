@@ -4,6 +4,6 @@ protocol CatalogServiceProtocol {
   
   func fetchCategories() async throws -> [Category]
   
-  func fetchProducts() async throws -> [Product]
+  func fetchProducts(categoryId: String?) async throws -> [Product]
   
 }
