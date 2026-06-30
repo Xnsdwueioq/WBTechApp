@@ -13,7 +13,18 @@ struct ContentView: View {
   
   var body: some View {
     TabsView(selectedTab: selectedTab, onSelect: selectTab)
-    CatalogView(catalogService: catalogService)
+    switch selectedTab {
+    case .forYou:
+      Spacer()
+    case .catalog:
+      CatalogView(catalogService: catalogService)
+    case .discounts:
+      Spacer()
+    case .favourites:
+      Spacer()
+    case .alreadyOrdered:
+      Spacer()
+    }
   }
   
   private func selectTab(_ tab: AppTab) {
