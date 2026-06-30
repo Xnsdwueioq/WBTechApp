@@ -15,20 +15,17 @@ struct CategoryProductsView: View {
   
   var body: some View {
     VStack {
-      Button("Back") { router.pop() } // TODO: move icon to UISystem
-      Text(route.groupTitle) // TODO: move titles to UISystem
-      Text(route.categoryTitle)
-      ScrollView {
-        switch isLoading {
-        case true:
-          ProgressView()
-        case false:
-          ForEach(products) { product in
-            DSProductCardView(config: product.uiConfig, action: {})
-          }
-        }
-      }
-      .scrollIndicators(.hidden)
+      CategoryProductsHeaderView(
+        groupTitle: route.groupTitle,
+        categoryTitle: route.categoryTitle,
+        onTapBack: { router.pop() }
+      )
+      ProductListView(
+        products: products,
+        isLoading: isLoading,
+        onFavoriteTap: { },
+        onAddToCart: { }
+      )
     }
     .task {
       await loadProducts()
