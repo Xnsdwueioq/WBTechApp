@@ -21,8 +21,8 @@ actor MockCatalogService: CatalogServiceProtocol {
     return [
       Product(
         id: "product1",
-        image: URL(string: "https://example.com/cucumber.png"),
-        name: "Огурец в тесте",
+        image: URL(string: "https://damcdn.samokat.ru/dam-storage-ext-env-prod/2025/12/026c8f99-bbe3-40b4-9ef9-3c3759a857ff"),
+        name: "Огурец в тесте c соусом",
         weight: 80,
         price: 750,
         rating: 3.8,
@@ -32,7 +32,7 @@ actor MockCatalogService: CatalogServiceProtocol {
       ),
       Product(
         id: "product2",
-        image: URL(string: "https://example.com/breadsausage.png"),
+        image: URL(string: "https://damcdn.samokat.ru/dam-storage-ext-env-prod/2026/01/4d4df69d-8021-4bea-a5ed-25dc9ebfeb32"),
         name: "Будер с колбасов",
         weight: 100,
         price: 900,

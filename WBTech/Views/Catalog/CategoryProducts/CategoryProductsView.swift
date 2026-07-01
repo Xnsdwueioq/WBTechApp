@@ -7,26 +7,12 @@ import OSLog
 struct CategoryProductsView: View {
   let route: CategoryRoute
   let service: CatalogServiceProtocol
-  
-  @Environment(CatalogRouter.self) private var router
-  
+    
   @State private var products: [Product] = []
   @State private var isLoading = true
   
   var body: some View {
-    VStack {
-      CategoryProductsHeaderView(
-        groupTitle: route.groupTitle,
-        categoryTitle: route.categoryTitle,
-        onTapBack: { router.pop() }
-      )
-      ProductListView(
-        products: products,
-        isLoading: isLoading,
-        onFavoriteTap: { },
-        onAddToCart: { }
-      )
-    }
+    CategoryProductsContentView(route: route, products: products, isLoading: isLoading)
     .task {
       await loadProducts()
     }
