@@ -36,7 +36,3 @@ struct CatalogView: View {
     isLoading = false
   }
 }
-
-#Preview {
-  CatalogView(catalogService: MockCatalogService())
-}

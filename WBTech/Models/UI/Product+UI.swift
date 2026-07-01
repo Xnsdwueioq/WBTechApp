@@ -9,10 +9,13 @@ extension Product {
     DSProductCardConfig(
       name: self.name,
       weight: {
-        let measurement = Measurement(value: self.weight, unit: UnitMass.grams)
-        return measurement.formatted(.measurement(width: .abbreviated))
+        return "\(Int(self.weight))г"
+//        let measurement = Measurement(value: self.weight, unit: UnitMass.grams)
+//        return measurement.formatted(.measurement(width: .abbreviated))
       }(),
-      price: self.price.formatted(.currency(code: "RUB")),
+      price: "\(self.price)",
+      priceSign: "₽",
+//      price: self.price.formatted(.currency(code: "RUB")),
       imageUrl: self.image,
       rating: self.rating,
       reviewCount: "\(self.reviewCount)",

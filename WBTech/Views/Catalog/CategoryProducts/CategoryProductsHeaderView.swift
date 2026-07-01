@@ -20,7 +20,7 @@ struct CategoryProductsHeaderView: View {
   var body: some View {
     VStack(alignment: Layout.alignment, spacing: Layout.barTextSpacing) {
       HStack {
-        Button("Back", action: onTapBack)
+        DSBarBackButton(action: onTapBack)
         Spacer()
       }
       VStack(alignment: Layout.alignment, spacing: Layout.titlesSpacing) {
