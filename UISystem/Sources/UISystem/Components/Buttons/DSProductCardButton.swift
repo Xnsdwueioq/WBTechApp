@@ -2,7 +2,7 @@
 
 import SwiftUI
 
-struct DSProductCardButton: View {
+public struct DSProductCardButton: View {
   let quantity: Int
   let onIncrement: () -> Void
   let onDecrement: () -> Void
