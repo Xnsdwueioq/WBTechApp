@@ -28,10 +28,10 @@ public struct DSProductCardFooterView: View {
   }
   
   public var body: some View {
-    VStack(spacing: Configuration.infoAndButtonSpacing) {
-      VStack(spacing: Configuration.priceAndTitlesSpacing) {
+    VStack(alignment: .leading, spacing: Configuration.infoAndButtonSpacing) {
+      VStack(alignment: .leading, spacing: Configuration.priceAndTitlesSpacing) {
         DSProductCardPrice(price: config.price, priceSign: config.priceSign)
-        VStack(spacing: Configuration.titleAndRatingSpacing) {
+        VStack(alignment: .leading, spacing: Configuration.titleAndRatingSpacing) {
           DSProductCardFooterTitle(title: config.name, weight: config.weight)
           DSProductCardFooterReviews(rating: config.rating, reviewCount: config.reviewCount)
         }
