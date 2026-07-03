@@ -37,7 +37,7 @@ public struct DSProductCardFooterView: View {
         }
       }
       HStack {
-        DSProductCardButton(action: {}, title: "В корзину")
+        DSProductCardButton(title: "В корзину")
         Spacer()
       }
     }
