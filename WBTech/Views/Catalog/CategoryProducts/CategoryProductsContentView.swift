@@ -1,6 +1,7 @@
 //
 
 import SwiftUI
+import UISystem
 
 struct CategoryProductsContentView: View {
   let route: CategoryRoute
@@ -8,6 +9,7 @@ struct CategoryProductsContentView: View {
   let isLoading: Bool
   
   private enum Layout {
+    static let productCardFooterStyle = ProductCardFooterStyle.standart
     static let headerListSpacing: CGFloat = 0
     static let topPadding: CGFloat = 10
     static let horizontalPadding: CGFloat = 12
@@ -26,6 +28,7 @@ struct CategoryProductsContentView: View {
       ProductListView(
         products: products,
         isLoading: isLoading,
+        productCardFooterStyle: Layout.productCardFooterStyle,
         onFavoriteTap: { },
         onAddToCart: { }
       )

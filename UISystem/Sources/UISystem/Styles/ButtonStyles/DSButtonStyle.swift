@@ -19,6 +19,13 @@ public enum DSButtonSize {
     case .small: return 8
     }
   }
+  
+  public var font: Font {
+    switch self {
+    case .large: return .dsLargeStandart
+    case .small: return .dsSmallStandart
+    }
+  }
 }
 
 public enum DSButtonVariant: CaseIterable {
@@ -28,21 +35,6 @@ public enum DSButtonVariant: CaseIterable {
   case productCardVariant
   case surface
   case outline
-}
-
-public extension DSButtonVariant {
-  
-  var font: Font {
-    switch self {
-    case .accent: .dsAccent
-    case .accentDisabled: .dsAccentDisabled
-    case .standart: .dsStandart
-    case .productCardVariant: .dsProductCardButton
-    case .surface: .dsSurface
-    case .outline: .dsOutline
-    }
-  }
-  
 }
 
 public extension DSButtonVariant {
@@ -61,7 +53,7 @@ public extension DSButtonVariant {
 }
 
 public extension DSButtonVariant {
-
+  
   @ViewBuilder
   func backgroundView(cornerRadius: CGFloat) -> some View {
     switch self {
@@ -76,10 +68,11 @@ public extension DSButtonVariant {
     case .surface:
       ZStack {
         RoundedRectangle(cornerRadius: cornerRadius)
-          .strokeBorder(Color.dsSurfaceButtonBorder, lineWidth: 1)
           .foregroundStyle(.ultraThinMaterial)
           .blur(radius: 1)
           .opacity(0.95)
+        RoundedRectangle(cornerRadius: cornerRadius)
+          .strokeBorder(Color.dsSurfaceButtonBorder, lineWidth: 1)
       }
     case .outline:
       Color.dsOutlineButtonBackground
@@ -107,7 +100,7 @@ public struct DSButtonStyle: ButtonStyle {
   
   public func makeBody(configuration: Configuration) -> some View {
     configuration.label
-      .font(style.font)
+      .font(size.font)
       .foregroundStyle(style.foregroundColor)
       .padding(.horizontal, Layout.horizontalPadding)
       .frame(height: size.height)
@@ -116,7 +109,7 @@ public struct DSButtonStyle: ButtonStyle {
   }
 }
 
-#Preview {
+#Preview(traits: .sizeThatFitsLayout) {
   ZStack {
     ScrollView {
       Circle()
@@ -131,8 +124,9 @@ public struct DSButtonStyle: ButtonStyle {
         })
         .buttonStyle(DSButtonStyle(size: .large, style: variant))
         Button(action: {}, label: { Text("Заказать") })
-        .buttonStyle(DSButtonStyle(size: .small, style: variant))
+          .buttonStyle(DSButtonStyle(size: .small, style: variant))
       }
     }
   }
+  
 }

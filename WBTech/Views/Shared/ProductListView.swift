@@ -6,13 +6,15 @@ import UISystem
 struct ProductListView: View {
   let products: [Product]
   let isLoading: Bool
+  let productCardFooterStyle: ProductCardFooterStyle
   let onFavoriteTap: () -> Void
   let onAddToCart: () -> Void
   let onError: ((Error) -> Void)?
   
-  init(products: [Product], isLoading: Bool, onFavoriteTap: @escaping () -> Void, onAddToCart: @escaping () -> Void, onError: ((Error) -> Void)? = nil) {
+  init(products: [Product], isLoading: Bool, productCardFooterStyle: ProductCardFooterStyle, onFavoriteTap: @escaping () -> Void, onAddToCart: @escaping () -> Void, onError: ((Error) -> Void)? = nil) {
     self.products = products
     self.isLoading = isLoading
+    self.productCardFooterStyle = productCardFooterStyle
     self.onFavoriteTap = onFavoriteTap
     self.onAddToCart = onAddToCart
     self.onError = onError
@@ -36,6 +38,7 @@ struct ProductListView: View {
           ForEach(products) { product in
             DSProductCardView(
               config: product.uiConfig,
+              footerStyle: productCardFooterStyle,
               onFavoriteTap: onFavoriteTap,
               onAddToCart: onAddToCart,
               onError: onError
