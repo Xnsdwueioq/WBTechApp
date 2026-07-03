@@ -23,19 +23,24 @@ public struct DSProductCardView: View {
   
   private enum Layout {
     static let imageInfoSpacing: CGFloat = 8
+    static let favoriteIconPadding: CGFloat = 8
   }
   
   public var body: some View {
     // TODO: Impl favorite button
-    VStack(spacing: Layout.imageInfoSpacing) {
-      DSProductCardImageView(url: config.imageUrl, onError: onError)
-      DSProductCardFooterView(
-        config: config,
-        footerStyle: footerStyle,
-        quantity: quantity,
-        onIncrement: onIncrement,
-        onDecrement: onDecrement
-      )
+    ZStack(alignment: .topTrailing) {
+      VStack(spacing: Layout.imageInfoSpacing) {
+        DSProductCardImageView(url: config.imageUrl, onError: onError)
+        DSProductCardFooterView(
+          config: config,
+          footerStyle: footerStyle,
+          quantity: quantity,
+          onIncrement: onIncrement,
+          onDecrement: onDecrement
+        )
+      }
+      DSFavoriteButton(isActive: config.isFavorite, sizeType: .small, onFavoriteTap: {}) // TODO: Insert favorite action
+        .padding(Layout.favoriteIconPadding)
     }
   }
 }
