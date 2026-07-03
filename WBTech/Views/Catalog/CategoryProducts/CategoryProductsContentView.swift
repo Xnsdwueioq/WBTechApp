@@ -28,9 +28,7 @@ struct CategoryProductsContentView: View {
       ProductListView(
         products: products,
         isLoading: isLoading,
-        productCardFooterStyle: Layout.productCardFooterStyle,
-        onFavoriteTap: { },
-        onAddToCart: { }
+        productCardFooterStyle: Layout.productCardFooterStyle
       )
       .padding(.top, Layout.topPadding)
       .padding(.horizontal, Layout.horizontalPadding)

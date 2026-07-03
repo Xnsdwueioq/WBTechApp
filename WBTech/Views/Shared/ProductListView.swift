@@ -7,17 +7,11 @@ struct ProductListView: View {
   let products: [Product]
   let isLoading: Bool
   let productCardFooterStyle: ProductCardFooterStyle
-  let onFavoriteTap: () -> Void
-  let onAddToCart: () -> Void
-  let onError: ((Error) -> Void)?
   
-  init(products: [Product], isLoading: Bool, productCardFooterStyle: ProductCardFooterStyle, onFavoriteTap: @escaping () -> Void, onAddToCart: @escaping () -> Void, onError: ((Error) -> Void)? = nil) {
+  init(products: [Product], isLoading: Bool, productCardFooterStyle: ProductCardFooterStyle) {
     self.products = products
     self.isLoading = isLoading
     self.productCardFooterStyle = productCardFooterStyle
-    self.onFavoriteTap = onFavoriteTap
-    self.onAddToCart = onAddToCart
-    self.onError = onError
   }
   
   private enum Layout {
@@ -39,9 +33,11 @@ struct ProductListView: View {
             DSProductCardView(
               config: product.uiConfig,
               footerStyle: productCardFooterStyle,
-              onFavoriteTap: onFavoriteTap,
-              onAddToCart: onAddToCart,
-              onError: onError
+              quantity: 0, // TODO: Connect quantity value
+              onIncrement: {}, // TODO: Insert actions
+              onDecrement: {},
+              onFavoriteTap: {},
+              onError: nil
             )
           }
         }

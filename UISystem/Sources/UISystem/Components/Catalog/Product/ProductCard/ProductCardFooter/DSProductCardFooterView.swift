@@ -10,14 +10,16 @@ public enum ProductCardFooterStyle {
 public struct DSProductCardFooterView: View {
   let config: DSProductCardConfig
   let footerStyle: ProductCardFooterStyle
-  let increaseAction: () -> Void
-  let decreaseAction: () -> Void
+  let quantity: Int
+  let onIncrement: () -> Void
+  let onDecrement: () -> Void
   
-  public init(config: DSProductCardConfig, footerStyle: ProductCardFooterStyle, increaseAction: @escaping () -> Void, decreaseAction: @escaping () -> Void) {
+  public init(config: DSProductCardConfig, footerStyle: ProductCardFooterStyle, quantity: Int, onIncrement: @escaping () -> Void, onDecrement: @escaping () -> Void) {
     self.config = config
     self.footerStyle = footerStyle
-    self.increaseAction = increaseAction
-    self.decreaseAction = decreaseAction
+    self.quantity = quantity
+    self.onIncrement = onIncrement
+    self.onDecrement = onDecrement
   }
   
   private enum Configuration {
@@ -37,7 +39,7 @@ public struct DSProductCardFooterView: View {
         }
       }
       HStack {
-        DSProductCardButton(title: "В корзину")
+        DSProductCardButton(quantity: quantity, onIncrement: onIncrement, onDecrement: onDecrement)
         Spacer()
       }
     }
