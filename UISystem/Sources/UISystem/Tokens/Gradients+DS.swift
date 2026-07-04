@@ -54,4 +54,5 @@ public extension LinearGradient {
     startPoint: .leading,
     endPoint: .trailing
   )
+  
 }

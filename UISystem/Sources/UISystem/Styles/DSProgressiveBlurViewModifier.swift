@@ -2,9 +2,9 @@
 
 import SwiftUI
 
-struct DSProgressiveBlurViewModifier: ViewModifier {
+public struct DSProgressiveBlurViewModifier: ViewModifier {
   
-  func body(content: Content) -> some View {
+  public func body(content: Content) -> some View {
     content
       .blur(radius: 4)
       .mask {

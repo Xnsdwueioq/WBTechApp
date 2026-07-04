@@ -31,12 +31,12 @@ public extension Font {
   static let dsLargeStandart = Font.system(size: 20).weight(.semibold)
   static let dsSmallStandart = Font.system(size: 14).weight(.semibold)
   
-//  static let dsAccent = Font.system(size: 20).weight(.semibold)
-//  static let dsAccentDisabled = Font.dsAccent
-//  static let dsStandart = Font.system(size: 16).weight(.medium)
-//  static let dsProductCardButton = Font.system(size: 14).weight(.semibold)
-//  static let dsSurface = Font.system(size: 20).weight(.medium)
-//  static let dsOutline = Font.system(size: 20).weight(.semibold)
+  static let dsAccent = Font.system(size: 20).weight(.semibold)
+  static let dsAccentDisabled = Font.dsAccent
+  static let dsStandart = Font.system(size: 16).weight(.medium)
+  static let dsProductCardButton = Font.system(size: 14).weight(.semibold)
+  static let dsSurface = Font.system(size: 20).weight(.medium)
+  static let dsOutline = Font.system(size: 20).weight(.semibold)
   
 }
 
