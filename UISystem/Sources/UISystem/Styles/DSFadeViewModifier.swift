@@ -2,9 +2,9 @@
 
 import SwiftUI
 
-struct DSFadeViewModifier: ViewModifier {
+public struct DSFadeViewModifier: ViewModifier {
   
-  func body(content: Content) -> some View {
+  public func body(content: Content) -> some View {
     content
       .mask {
         LinearGradient.dsFade

@@ -6,6 +6,11 @@ public struct DSProductCardFooterTitle: View {
   let title: String
   let weight: String
   
+  public init(title: String, weight: String) {
+    self.title = title
+    self.weight = weight
+  }
+  
   private enum Layout {
     static let titleWeightSpacing: CGFloat = 8
   }
