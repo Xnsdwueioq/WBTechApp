@@ -14,11 +14,7 @@ public struct DSProductCardFooterReviews: View {
   public var body: some View {
     HStack {
       DSRatingComponent(rating: rating, ratingStyle: .compact)
-      HStack(spacing: 3) {
-        Image.dsReview
-        Text(reviewCount)
-      }
-      .font(.dsProductCardReviewCount)
+      DSReviewComponent(reviewCount: reviewCount, reviewStyle: .compact)
       Spacer()
     }
   }
