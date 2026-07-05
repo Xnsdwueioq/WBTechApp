@@ -17,14 +17,12 @@ public struct DSProductCardImageView: View {
   }
   
   public var body: some View {
-    ZStack(alignment: .center) {
-      Color.dsImagePlaceholderColor
-        .overlay {
-          DSAsyncImage(url: url, onError: onError)
-        }
-        .clipped()
-    }
-    .aspectRatio(Configuration.imageRatio, contentMode: .fit)
-    .clipShape(RoundedRectangle(cornerRadius: Configuration.cornerRadius))
+    Color.dsImagePlaceholderColor
+      .overlay {
+        DSAsyncImage(url: url, onError: onError)
+      }
+      .clipped()
+      .aspectRatio(Configuration.imageRatio, contentMode: .fit)
+      .clipShape(RoundedRectangle(cornerRadius: Configuration.cornerRadius))
   }
 }
