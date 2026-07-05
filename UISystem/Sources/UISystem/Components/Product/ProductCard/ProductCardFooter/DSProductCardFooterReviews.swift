@@ -13,11 +13,7 @@ public struct DSProductCardFooterReviews: View {
   
   public var body: some View {
     HStack {
-      HStack(spacing: 3) {
-        Text("★")
-        Text(String(format: "%.1f", rating))
-      }
-      .font(.dsRatingNumber)
+      DSRatingComponent(rating: rating, ratingStyle: .compact)
       HStack(spacing: 3) {
         Image.dsReview
         Text(reviewCount)

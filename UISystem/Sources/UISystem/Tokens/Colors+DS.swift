@@ -17,8 +17,8 @@ public extension Color {
   
   // Rating
   static let dsRatingNumberFontColor = Color.primary
-  static let dsRatingFillStarColor = Color.primary
-  static let dsRatingStarColor = Color.gray
+  static let dsRatingActiveStarColor = Color.primary
+  static let dsRatingIdleStarColor = Color.gray
   
 }
 
