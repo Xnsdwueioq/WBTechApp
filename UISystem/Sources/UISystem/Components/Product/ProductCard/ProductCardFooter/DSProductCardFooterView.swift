@@ -2,7 +2,7 @@
 
 import SwiftUI
 
-public enum ProductCardFooterStyle {
+public enum ProductCardFooterStyle: Sendable {
   case standart
   case compact
 }
