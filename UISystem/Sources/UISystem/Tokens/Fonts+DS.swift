@@ -13,10 +13,17 @@ public extension Font {
   
 }
 
+// MARK: Rating
+public extension Font {
+  
+  static let dsRatingStar = Font.system(size: 14)
+  static let dsRatingNumber = Font.system(size: 14)
+  
+}
+
 // MARK: Product Card
 public extension Font {
   
-  static let dsRatingNumber = Font.system(size: 14)
   static let dsProductCardPrice = Font.system(size: 18).weight(.semibold)
   static let dsProductCardPriceSign = Font.system(size: 14).weight(.semibold)
   static let dsProductCardTitle = Font.system(size: 14)
