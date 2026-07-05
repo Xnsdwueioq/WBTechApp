@@ -13,12 +13,13 @@ public extension Font {
   
 }
 
-// MARK: Rating
+// MARK: Rating & Review
 public extension Font {
   
   static let dsRatingStar = Font.system(size: 14)
   static let dsRatingNumber = Font.system(size: 14)
-  
+  static let dsReviewsCount = Font.system(size: 14)
+
 }
 
 // MARK: Product Card
@@ -28,7 +29,6 @@ public extension Font {
   static let dsProductCardPriceSign = Font.system(size: 14).weight(.semibold)
   static let dsProductCardTitle = Font.system(size: 14)
   static let dsProductCardWeight = Font.system(size: 14)
-  static let dsProductCardReviewCount = Font.system(size: 14)
   
 }
 

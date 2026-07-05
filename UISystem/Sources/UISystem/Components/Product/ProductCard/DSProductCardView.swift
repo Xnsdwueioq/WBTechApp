@@ -27,7 +27,6 @@ public struct DSProductCardView: View {
   }
   
   public var body: some View {
-    // TODO: Impl favorite button
     ZStack(alignment: .topTrailing) {
       VStack(spacing: Layout.imageInfoSpacing) {
         DSProductCardImageView(url: config.imageUrl, onError: onError)
