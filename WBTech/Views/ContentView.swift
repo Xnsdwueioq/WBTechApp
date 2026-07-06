@@ -3,10 +3,23 @@
 import SwiftUI
 
 struct ContentView: View {
-  let catalogService: CatalogServiceProtocol
+  private let catalogService: CatalogServiceProtocol
+  
+  @State private var cartStore: CartStore
+  @State private var favoritesStore: FavoritesStore
   
   @State private var router = CatalogRouter()
   @State private var selectedTab: AppTab = .catalog
+  
+  init(
+    catalogService: CatalogServiceProtocol,
+    cartStore: CartStore,
+    favoritesStore: FavoritesStore
+  ) {
+    self.catalogService = catalogService
+    self.cartStore = cartStore
+    self.favoritesStore = favoritesStore
+  }
   
   private enum Configuration {
     static let selectTabAnimationDuration: CGFloat = 0.25
@@ -34,6 +47,11 @@ struct ContentView: View {
       }
     }
     .environment(router)
+    .environment(cartStore)
+    .environment(favoritesStore)
+    .task {
+      await cartStore.load()
+    }
   }
   
   private func selectTab(_ tab: AppTab) {
@@ -44,5 +62,5 @@ struct ContentView: View {
 }
 
 #Preview {
-  ContentView(catalogService: MockCatalogService())
+  ContentView(catalogService: MockCatalogService(), cartStore: CartStore(cartService: MockCartService()), favoritesStore: FavoritesStore(favoritesService: MockFavoritesService()))
 }
