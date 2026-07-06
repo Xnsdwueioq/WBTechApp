@@ -21,6 +21,7 @@ actor CatalogService: CatalogServiceProtocol {
     let payload = try response.ok.body.json
     return payload.data.map(Self.product(from:))
   }
+  
 }
 
 private extension CatalogService {
@@ -46,4 +47,5 @@ private extension CatalogService {
       discount: dto.discount ?? 0
     )
   }
+  
 }

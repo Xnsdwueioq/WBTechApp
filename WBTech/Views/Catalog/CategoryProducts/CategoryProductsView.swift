@@ -24,7 +24,7 @@ struct CategoryProductsView: View {
     do {
       products = try await service.fetchProducts(categoryId: route.categoryId)
     } catch {
-      Logger.catalog.error("Ошибка загрузки продуктов категории с Id='\(route.categoryId)': \(error.localizedDescription)")
+      Logger.catalog.error("Error loading products in the category with Id='\(route.categoryId)': \(error.localizedDescription)")
     }
     isLoading = false
   }

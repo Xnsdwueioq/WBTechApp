@@ -30,7 +30,7 @@ struct CatalogView: View {
     do {
       categories = try await catalogService.fetchCategories()
     } catch {
-      Logger.catalog.error("Ошибка загрузки категорий: \(error.localizedDescription)")
+      Logger.catalog.error("Error loading categories: \(error.localizedDescription)")
     }
     
     isLoading = false
