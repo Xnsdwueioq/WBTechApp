@@ -32,14 +32,37 @@ public struct DSProductCardFooterView: View {
   public var body: some View {
     VStack(alignment: .leading, spacing: Configuration.infoAndButtonSpacing) {
       VStack(alignment: .leading, spacing: Configuration.priceAndTitlesSpacing) {
-        DSProductCardPrice(price: config.price, priceSign: config.priceSign)
+        switch footerStyle {
+        case .standart:
+          DSProductCardPrice(
+            price: config.price,
+            priceSign: config.priceSign
+          )
+        case .compact:
+          EmptyView()
+        }
         VStack(alignment: .leading, spacing: Configuration.titleAndRatingSpacing) {
-          DSProductTitle(title: config.name, weight: config.weight, weightSign: config.weightSign)
-          DSProductRatingReviews(rating: config.rating, reviewCount: config.reviewCount, style: .compact)
+          DSProductTitle(
+            title: config.name,
+            weight: config.weight,
+            weightSign: config.weightSign
+          )
+          DSProductRatingReviews(
+            rating: config.rating,
+            reviewCount: config.reviewCount,
+            style: .compact
+          )
         }
       }
       HStack {
-        DSProductCardButton(quantity: quantity, onIncrement: onIncrement, onDecrement: onDecrement)
+        DSProductCardButton(
+          quantity: quantity,
+          price: config.price,
+          priceSign: config.priceSign,
+          footerStyle: footerStyle,
+          onIncrement: onIncrement,
+          onDecrement: onDecrement
+        )
         Spacer()
       }
     }
