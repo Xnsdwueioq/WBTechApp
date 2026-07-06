@@ -35,7 +35,7 @@ public struct DSProductCardFooterView: View {
         DSProductCardPrice(price: config.price, priceSign: config.priceSign)
         VStack(alignment: .leading, spacing: Configuration.titleAndRatingSpacing) {
           DSProductTitle(title: config.name, weight: config.weight, weightSign: config.weightSign)
-          DSProductCardFooterReviews(rating: config.rating, reviewCount: config.reviewCount)
+          DSProductRatingReviews(rating: config.rating, reviewCount: config.reviewCount, style: .compact)
         }
       }
       HStack {

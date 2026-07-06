@@ -2,16 +2,16 @@
 
 import SwiftUI
 
-public enum ReviewStyle {
+public enum DSReviewStyle {
   case compact
   case extended(noun: String)
 }
 
 public struct DSReviewComponent: View {
   let reviewCount: String
-  let reviewStyle: ReviewStyle
+  let reviewStyle: DSReviewStyle
   
-  public init(reviewCount: String, reviewStyle: ReviewStyle) {
+  public init(reviewCount: String, reviewStyle: DSReviewStyle) {
     self.reviewCount = reviewCount
     self.reviewStyle = reviewStyle
   }
@@ -31,5 +31,12 @@ public struct DSReviewComponent: View {
       }
     }
     .font(.dsReviewsCount)
+  }
+}
+
+#Preview {
+  VStack {
+    DSReviewComponent(reviewCount: "2491", reviewStyle: .compact)
+    DSReviewComponent(reviewCount: "2491", reviewStyle: .extended(noun: "отзыв"))
   }
 }

@@ -2,7 +2,7 @@
 
 import SwiftUI
 
-public enum RatingStyle {
+public enum DSRatingStyle {
   case compact
   case extended
   case onlyStars
@@ -11,9 +11,9 @@ public enum RatingStyle {
 
 public struct DSRatingComponent: View {
   let rating: Double
-  let ratingStyle: RatingStyle
+  let ratingStyle: DSRatingStyle
   
-  public init(rating: Double, ratingStyle: RatingStyle) {
+  public init(rating: Double, ratingStyle: DSRatingStyle) {
     self.rating = rating
     self.ratingStyle = ratingStyle
   }
