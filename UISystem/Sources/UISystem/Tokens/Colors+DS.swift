@@ -43,6 +43,10 @@ public extension Color {
   
   // Border
   static let dsSurfaceButtonBorder = Color(hex: "9797AF").opacity(0.3)
+  
+  // Signs +-
+  static let dsSignsAccentColor = Color(hex: "BF22E1")
+
 }
 
 // MARK: - Gradient Colors

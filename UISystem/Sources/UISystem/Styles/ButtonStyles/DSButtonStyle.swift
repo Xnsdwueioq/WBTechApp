@@ -95,7 +95,7 @@ public struct DSButtonStyle: ButtonStyle {
   }
   
   private enum Layout {
-    static let horizontalPadding: CGFloat = 6
+    static let horizontalPadding: CGFloat = 12
   }
   
   public func makeBody(configuration: Configuration) -> some View {

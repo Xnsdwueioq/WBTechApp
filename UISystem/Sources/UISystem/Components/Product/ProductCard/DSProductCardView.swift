@@ -38,7 +38,11 @@ public struct DSProductCardView: View {
           onDecrement: onDecrement
         )
       }
-      DSFavoriteButton(isActive: config.isFavorite, sizeType: .small, onFavoriteTap: {}) // TODO: Insert favorite action
+      DSFavoriteButton(
+        isActive: config.isFavorite,
+        sizeType: .small,
+        onFavoriteTap: onFavoriteTap
+      )
         .padding(Layout.favoriteIconPadding)
     }
   }
