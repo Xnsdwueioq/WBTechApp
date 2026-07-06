@@ -8,6 +8,10 @@ struct WBTechApp: App {
   let cartService: CartServiceProtocol = MockCartService()
   let favoritesService: FavoritesServiceProtocol = MockFavoritesService()
   
+  init() {
+    TokenBootstrap.run()
+  }
+  
   var body: some Scene {
     WindowGroup {
       ContentView(
