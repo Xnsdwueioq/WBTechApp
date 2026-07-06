@@ -3,7 +3,7 @@
 import SwiftUI
 
 @Observable
-final class CatalogRouter {
+final class CatalogRouter: CatalogRouterProtocol {
   
   var path = NavigationPath()
   
