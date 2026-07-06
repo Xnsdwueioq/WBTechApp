@@ -629,6 +629,7 @@
     },
     "/products": {
       "get": {
+        "operationId": "getProducts",
         "tags": [
           "Товары"
         ],
@@ -744,6 +745,7 @@
     },
     "/products/{id}/favourite": {
       "post": {
+        "operationId": "addFavourite",
         "tags": [
           "Товары"
         ],
@@ -774,6 +776,7 @@
         }
       },
       "delete": {
+        "operationId": "removeFavourite",
         "tags": [
           "Товары"
         ],
@@ -871,6 +874,7 @@
     },
     "/categories": {
       "get": {
+        "operationId": "getCategories",
         "tags": [
           "Товары"
         ],
@@ -900,6 +904,7 @@
     },
     "/cart": {
       "get": {
+        "operationId": "getCart",
         "tags": [
           "Корзина"
         ],
@@ -977,6 +982,7 @@
     },
     "/cart/items": {
       "post": {
+        "operationId": "addCartItem",
         "tags": [
           "Корзина"
         ],
@@ -1024,6 +1030,7 @@
     },
     "/cart/items/{id}": {
       "delete": {
+        "operationId": "removeCartItem",
         "tags": [
           "Корзина"
         ],
