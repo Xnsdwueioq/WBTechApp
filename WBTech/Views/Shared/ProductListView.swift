@@ -8,6 +8,9 @@ struct ProductListView: View {
   let isLoading: Bool
   let productCardFooterStyle: ProductCardFooterStyle
   
+  @Environment(FavoritesStore.self) private var favoritesStore
+  @Environment(CartStore.self) private var cartStore
+  
   init(products: [Product], isLoading: Bool, productCardFooterStyle: ProductCardFooterStyle) {
     self.products = products
     self.isLoading = isLoading
@@ -30,13 +33,15 @@ struct ProductListView: View {
       case false:
         LazyVGrid(columns: Layout.columns, spacing: Layout.gridVerticalSpacing) {
           ForEach(products) { product in
+            let id = product.id
+            
             DSProductCardView(
-              config: product.uiConfig,
+              config: product.uiConfig(isFavorite: favoritesStore.isFavorite(id: id, fallback: product.isFavorite)),
               footerStyle: productCardFooterStyle,
-              quantity: 0, // TODO: Connect quantity value
-              onIncrement: {}, // TODO: Insert actions
-              onDecrement: {},
-              onFavoriteTap: {},
+              quantity: cartStore.quantity(for: id),
+              onIncrement: { Task { await cartStore.increment(id: id) } },
+              onDecrement: { Task { await cartStore.remove(id: id) } },
+              onFavoriteTap: { Task { await favoritesStore.toggle(id: id, current: favoritesStore.isFavorite(id: id, fallback: product.isFavorite)) } },
               onError: nil
             )
           }

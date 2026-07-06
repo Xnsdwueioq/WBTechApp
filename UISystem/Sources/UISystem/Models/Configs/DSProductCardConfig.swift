@@ -7,6 +7,7 @@ public struct DSProductCardConfig {
   public let weight: String
   public let weightSign: String
   public let price: String
+  public let priceValue: Int
   public let discount: String
   public let priceSign: String
   public let imageUrl: URL?
@@ -15,11 +16,12 @@ public struct DSProductCardConfig {
   public let reviewCountWord: String
   public let isFavorite: Bool
   
-  public init(name: String, weight: String, weightSign: String, price: String, discount: String, priceSign: String, imageUrl: URL?, rating: Double, reviewCount: String, reviewCountWord: String, isFavorite: Bool) {
+  public init(name: String, weight: String, weightSign: String, price: String, priceValue: Int, discount: String, priceSign: String, imageUrl: URL?, rating: Double, reviewCount: String, reviewCountWord: String, isFavorite: Bool) {
     self.name = name
     self.weight = weight
     self.weightSign = weightSign
     self.price = price
+    self.priceValue = priceValue
     self.discount = discount
     self.priceSign = priceSign
     self.imageUrl = imageUrl
