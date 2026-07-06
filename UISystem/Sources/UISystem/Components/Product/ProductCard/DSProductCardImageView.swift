@@ -24,5 +24,6 @@ public struct DSProductCardImageView: View {
       .clipped()
       .aspectRatio(Configuration.imageRatio, contentMode: .fit)
       .clipShape(RoundedRectangle(cornerRadius: Configuration.cornerRadius))
+      .contentShape(Rectangle()) // зона нажатия строго по рамке: картинка остаётся кликабельной (для перехода в детали), но её .fill-overflow больше не крадёт тап соседнего сердечка
   }
 }
