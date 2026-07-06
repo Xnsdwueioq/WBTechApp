@@ -58,6 +58,7 @@ public struct DSProductCardFooterView: View {
         DSProductCardButton(
           quantity: quantity,
           price: config.price,
+          priceValue: config.priceValue,
           priceSign: config.priceSign,
           footerStyle: footerStyle,
           onIncrement: onIncrement,

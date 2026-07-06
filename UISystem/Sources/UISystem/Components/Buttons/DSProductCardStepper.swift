@@ -3,13 +3,15 @@
 import SwiftUI
 
 public struct DSProductCardStepper: View {
-  let price: String
+  let quantity: Int
+  let priceValue: Int
   let priceSign: String
   let onIncrement: () -> Void
   let onDecrement: () -> Void
   
-  public init(price: String, priceSign: String, onIncrement: @escaping () -> Void, onDecrement: @escaping () -> Void) {
-    self.price = price
+  public init(quantity: Int, priceValue: Int, priceSign: String, onIncrement: @escaping () -> Void, onDecrement: @escaping () -> Void) {
+    self.quantity = quantity >= 0 ? quantity : 0
+    self.priceValue = priceValue
     self.priceSign = priceSign
     self.onIncrement = onIncrement
     self.onDecrement = onDecrement
@@ -17,22 +19,42 @@ public struct DSProductCardStepper: View {
   
   private enum Layout {
     static let elementsSpacing: CGFloat = 4
+    static let horizontalPadding: CGFloat = 12
+    static let iconWidth: CGFloat = 16
+    static let priceMinWidth: CGFloat = 44
   }
-  
-  public var body: some View { // TODO: FIX ACTIONS
-    Button(action: onIncrement) {
-      HStack(spacing: Layout.elementsSpacing) {
+
+  public var body: some View {
+    HStack(spacing: Layout.elementsSpacing) {
+      Button(action: onDecrement) {
         Image.dsMinusRounded
           .resizable()
           .scaledToFit()
-          .frame(width: 16)
-        Text("\(price)\(priceSign)")
+          .frame(width: Layout.iconWidth)
+          .contentShape(Rectangle())
+      }
+      Text("\(quantity * priceValue)\(priceSign)")
+        .monospacedDigit()
+        .frame(minWidth: Layout.priceMinWidth, alignment: .center)
+      Button(action: onIncrement) {
         Image.dsPlusRounded
           .resizable()
           .scaledToFit()
-          .frame(width: 16)
+          .frame(width: Layout.iconWidth)
+          .contentShape(Rectangle())
       }
     }
-    .buttonStyle(DSButtonStyle(size: .small, style: .accent))
+    .buttonStyle(.plain)
+    .font(DSButtonSize.small.font)
+    .foregroundStyle(DSButtonVariant.accent.foregroundColor)
+    .padding(.horizontal, Layout.horizontalPadding)
+    .frame(height: DSButtonSize.small.height)
+    .background(DSButtonVariant.accent.backgroundView(cornerRadius: DSButtonSize.small.cornerRadius))
+    .clipShape(RoundedRectangle(cornerRadius: DSButtonSize.small.cornerRadius))
   }
+}
+
+#Preview {
+  @Previewable @State var quantity = 2
+  DSProductCardStepper(quantity: quantity, priceValue: 300, priceSign: "$", onIncrement: {quantity += 1}, onDecrement: {quantity -= 1})
 }
