@@ -12,7 +12,7 @@ extension Product {
       weightSign: "г",
       price: "\(self.price)",
       priceValue: self.price,
-      discount: "\(self.discount)",
+      discount: "\(Int(self.discount))",
       priceSign: "₽",
       imageUrl: self.image,
       rating: self.rating,
