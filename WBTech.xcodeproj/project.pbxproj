@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		B7C99D292FF1509700FA2D9D /* UISystem in Frameworks */ = {isa = PBXBuildFile; productRef = B7C99D282FF1509700FA2D9D /* UISystem */; };
+		B7938ED62FFD603600D7B0C6 /* UISystem in Frameworks */ = {isa = PBXBuildFile; productRef = B7938ED52FFD603600D7B0C6 /* UISystem */; };
 		B7C99D602FF1518A00FA2D9D /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = B7C99D5F2FF1518A00FA2D9D /* .gitignore */; };
 /* End PBXBuildFile section */
 
@@ -32,7 +32,6 @@
 		B7C99CFE2FF14DA700FA2D9D /* WBTech.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WBTech.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B7C99D0B2FF14DA900FA2D9D /* WBTechTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WBTechTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B7C99D152FF14DA900FA2D9D /* WBTechUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WBTechUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		B7C99D262FF1502D00FA2D9D /* UISystem */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = UISystem; sourceTree = "<group>"; };
 		B7C99D5F2FF1518A00FA2D9D /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -58,7 +57,7 @@
 		B7C99CFB2FF14DA700FA2D9D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			files = (
-				B7C99D292FF1509700FA2D9D /* UISystem in Frameworks */,
+				B7938ED62FFD603600D7B0C6 /* UISystem in Frameworks */,
 			);
 		};
 		B7C99D082FF14DA900FA2D9D /* Frameworks */ = {
@@ -78,7 +77,6 @@
 			isa = PBXGroup;
 			children = (
 				B7C99D5F2FF1518A00FA2D9D /* .gitignore */,
-				B7C99D262FF1502D00FA2D9D /* UISystem */,
 				B7C99D002FF14DA700FA2D9D /* WBTech */,
 				B7C99D0E2FF14DA900FA2D9D /* WBTechTests */,
 				B7C99D182FF14DA900FA2D9D /* WBTechUITests */,
@@ -114,7 +112,7 @@
 			);
 			name = WBTech;
 			packageProductDependencies = (
-				B7C99D282FF1509700FA2D9D /* UISystem */,
+				B7938ED52FFD603600D7B0C6 /* UISystem */,
 			);
 			productName = WBTech;
 			productReference = B7C99CFE2FF14DA700FA2D9D /* WBTech.app */;
@@ -195,7 +193,7 @@
 			mainGroup = B7C99CF52FF14DA700FA2D9D;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				B7C99D272FF1509700FA2D9D /* XCLocalSwiftPackageReference "UISystem" */,
+				B7938ED42FFD603600D7B0C6 /* XCLocalSwiftPackageReference "UISystem" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = B7C99CFF2FF14DA700FA2D9D /* Products */;
@@ -569,14 +567,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		B7C99D272FF1509700FA2D9D /* XCLocalSwiftPackageReference "UISystem" */ = {
+		B7938ED42FFD603600D7B0C6 /* XCLocalSwiftPackageReference "UISystem" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = UISystem;
 		};
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		B7C99D282FF1509700FA2D9D /* UISystem */ = {
+		B7938ED52FFD603600D7B0C6 /* UISystem */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = UISystem;
 		};
