@@ -29,8 +29,6 @@ enum KeychainStore {
       kSecAttrService as String: service,
       kSecAttrAccount as String: account,
       kSecValueData as String: data,
-      // доступно после первой разблокировки устройства (в т.ч. в фоне),
-      // но не переезжает на новое устройство при восстановлении из бэкапа
       kSecAttrAccessible as String: kSecAttrAccessibleAfterFirstUnlock
     ]
 

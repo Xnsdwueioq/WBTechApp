@@ -34,6 +34,7 @@ public struct DSCategoryView: View {
       .clipShape(RoundedRectangle(cornerRadius: Configuration.cornerRadius))
     }
     .buttonStyle(DSStaticButtonStyle())
+    .accessibilityHint("Открывает категорию")
   }
 }
 
