@@ -1,22 +1,17 @@
 # WBTech
-
 iOS-приложение доставки еды (SwiftUI). Backend: `https://eat-and-pay.t02.ru`.
-
 ## Требования
-
 - Xcode (проект использует build-плагин `swift-openapi-generator` — клиент генерируется из [`WBTech/openapi.json`](WBTech/openapi.json) при сборке).
 
 ## Настройка перед запуском
-
 API закрыт авторизацией (`Bearer`-токен). Токен **намеренно не хранится в репозитории** — каждый разработчик подкладывает его локально. Поэтому перед первым запуском:
-
 1. В Xcode: `Product → Scheme → Edit Scheme…`
 2. Слева выбрать **Run** → вкладка **Arguments** → секция **Environment Variables** → `+`
 3. Добавить переменную:
    - **Name:** `BEARER_TOKEN`
    - **Value:** токен
 4. Запустить (`⌘R`).
-
 При первом запуске токен из этой переменной сохраняется в **Keychain**, дальше приложение берёт его оттуда.
-
 > Схема с токеном лежит в `xcuserdata/` (в `.gitignore`) и не коммитится.
+## Ревьюеру
+[REVIEW_NOTES.md](REVIEW_NOTES.md).
