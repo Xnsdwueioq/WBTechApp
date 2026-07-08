@@ -26,8 +26,8 @@ struct ContentView: View {
           Button("Перейти к Каталогу (Route.catalog)") {
             router.push(.catalog)
           }
-          Button("Перейти к Профилю (Route.profile)") {
-            router.push(.profile)
+          Button("Дизайн-система (Route.designSystem)") {
+            router.push(.designSystem)
           }
         }
         .buttonStyle(.borderedProminent)
@@ -42,6 +42,8 @@ struct ContentView: View {
           Text("Каталог")
         case .profile:
           Text("Профиль")
+        case .designSystem:
+          DSShowcaseView()
         }
       }
     }

@@ -11,6 +11,7 @@ enum Route {
   case auth
   case catalog
   case profile
+  case designSystem
 }
 
 protocol RouterProtocol {

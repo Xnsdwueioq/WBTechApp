@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		B7938ED62FFD603600D7B0C6 /* UISystem in Frameworks */ = {isa = PBXBuildFile; productRef = B7938ED52FFD603600D7B0C6 /* UISystem */; };
 		B7C99D602FF1518A00FA2D9D /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = B7C99D5F2FF1518A00FA2D9D /* .gitignore */; };
+		B7F8AD012FFE816B00BCB769 /* UISystem in Frameworks */ = {isa = PBXBuildFile; productRef = B7F8AD002FFE816B00BCB769 /* UISystem */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,6 +59,7 @@
 			isa = PBXFrameworksBuildPhase;
 			files = (
 				B7938ED62FFD603600D7B0C6 /* UISystem in Frameworks */,
+				B7F8AD012FFE816B00BCB769 /* UISystem in Frameworks */,
 			);
 		};
 		B7C99D082FF14DA900FA2D9D /* Frameworks */ = {
@@ -113,6 +115,7 @@
 			name = WBTech;
 			packageProductDependencies = (
 				B7938ED52FFD603600D7B0C6 /* UISystem */,
+				B7F8AD002FFE816B00BCB769 /* UISystem */,
 			);
 			productName = WBTech;
 			productReference = B7C99CFE2FF14DA700FA2D9D /* WBTech.app */;
@@ -193,7 +196,7 @@
 			mainGroup = B7C99CF52FF14DA700FA2D9D;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				B7938ED42FFD603600D7B0C6 /* XCLocalSwiftPackageReference "UISystem" */,
+				B7F8ACFF2FFE816B00BCB769 /* XCLocalSwiftPackageReference "UISystem" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = B7C99CFF2FF14DA700FA2D9D /* Products */;
@@ -567,7 +570,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		B7938ED42FFD603600D7B0C6 /* XCLocalSwiftPackageReference "UISystem" */ = {
+		B7F8ACFF2FFE816B00BCB769 /* XCLocalSwiftPackageReference "UISystem" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = UISystem;
 		};
@@ -575,6 +578,10 @@
 
 /* Begin XCSwiftPackageProductDependency section */
 		B7938ED52FFD603600D7B0C6 /* UISystem */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = UISystem;
+		};
+		B7F8AD002FFE816B00BCB769 /* UISystem */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = UISystem;
 		};

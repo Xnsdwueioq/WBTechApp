@@ -12,8 +12,7 @@ struct LoginView: View {
   
   var body: some View {
     ZStack {
-      // Фон для всего экрана
-      Color(uiColor: .secondarySystemBackground)
+      DSColors.background
         .ignoresSafeArea()
       
       VStack {
@@ -49,19 +48,16 @@ struct LoginView: View {
         Spacer()
       }
     }
-    .navigationBarHidden(true)
   }
   
   private func login() {
     isLoading = true
     errorMessage = nil
     
-    // Используем наш моковый сервис
     authService.login { result in
       isLoading = false
       switch result {
       case .success:
-        // При успехе - идем дальше (например в профиль или каталог)
         router.push(.profile)
       case .failure(let error):
         errorMessage = error.localizedDescription
