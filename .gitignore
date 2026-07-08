@@ -13,5 +13,3 @@ xcshememanagement.plist
 .DS_Store
 *.swp
 *.lock
-
-*.xcworkspace
