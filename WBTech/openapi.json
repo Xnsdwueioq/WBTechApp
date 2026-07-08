@@ -1075,6 +1075,7 @@
     },
     "/orders": {
       "post": {
+        "operationId": "createOrder",
         "tags": [
           "Заказы"
         ],
@@ -1118,6 +1119,7 @@
         }
       },
       "get": {
+        "operationId": "getOrders",
         "tags": [
           "Заказы"
         ],

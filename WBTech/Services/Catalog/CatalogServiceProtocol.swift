@@ -1,6 +1,6 @@
 //
 
-protocol CatalogServiceProtocol {
+protocol CatalogServiceProtocol: Sendable {
   
   func fetchCategories() async throws -> [Category]
   
