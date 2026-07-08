@@ -29,5 +29,7 @@ public struct DSProductCardCompactButton: View {
       }
     }
     .buttonStyle(DSButtonStyle(size: .small, style: .productCardVariant))
+    .accessibilityLabel("Добавить в корзину")
+    .accessibilityValue("\(price)\(priceSign)")
   }
 }

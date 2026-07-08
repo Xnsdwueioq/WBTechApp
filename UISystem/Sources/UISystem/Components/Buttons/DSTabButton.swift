@@ -25,5 +25,6 @@ public struct DSTabButton: View {
         .foregroundStyle(isSelected ? Configuration.selectedColor : Configuration.unselectedColor)
     }
     .buttonStyle(DSStaticButtonStyle())
+    .accessibilityAddTraits(isSelected ? [.isSelected] : [])
   }
 }

@@ -21,8 +21,10 @@ public struct DSFavoriteButton: View {
         .resizable()
         .scaledToFit()
         .frame(width: sizeType.size)
-        .contentShape(Rectangle()) // вся рамка кликабельна, а не только непрозрачные пиксели сердечка
+        .contentShape(Rectangle())
     }
+    .accessibilityLabel(isActive ? "Убрать из избранного" : "Добавить в избранное")
+    .accessibilityAddTraits(isActive ? [.isSelected] : [])
   }
 }
 

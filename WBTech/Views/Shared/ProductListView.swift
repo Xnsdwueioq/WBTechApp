@@ -30,6 +30,7 @@ struct ProductListView: View {
       switch isLoading {
       case true:
         ProgressView()
+          .accessibilityLabel("Загрузка товаров")
       case false:
         LazyVGrid(columns: Layout.columns, spacing: Layout.gridVerticalSpacing) {
           ForEach(products) { product in

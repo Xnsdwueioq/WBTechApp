@@ -18,5 +18,6 @@ public struct DSBarBackButton: View {
         .foregroundStyle(Color.dsBarBackButton)
     }
       .buttonStyle(DSStaticButtonStyle())
+      .accessibilityLabel("Назад")
   }
 }

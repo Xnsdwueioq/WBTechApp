@@ -33,9 +33,11 @@ public struct DSProductCardStepper: View {
           .frame(width: Layout.iconWidth)
           .contentShape(Rectangle())
       }
+      .accessibilityLabel("Убрать из корзины")
       Text("\(quantity * priceValue)\(priceSign)")
         .monospacedDigit()
         .frame(minWidth: Layout.priceMinWidth, alignment: .center)
+        .accessibilityLabel("В корзине \(quantity), сумма \(quantity * priceValue) \(priceSign)")
       Button(action: onIncrement) {
         Image.dsPlusRounded
           .resizable()
@@ -43,6 +45,7 @@ public struct DSProductCardStepper: View {
           .frame(width: Layout.iconWidth)
           .contentShape(Rectangle())
       }
+      .accessibilityLabel("Добавить ещё один")
     }
     .buttonStyle(.plain)
     .font(DSButtonSize.small.font)

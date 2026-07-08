@@ -28,7 +28,20 @@ public struct DSProductCardFooterView: View {
     static let titleAndRatingSpacing: CGFloat = 0
     static let bottomPadding: CGFloat = 10
   }
-  
+
+  private var infoAccessibilityLabel: String {
+    var parts: [String] = [
+      config.name,
+      "\(config.weight) \(config.weightSign)"
+    ]
+    if footerStyle == .standart {
+      parts.append("\(config.price) \(config.priceSign)")
+    }
+    parts.append("рейтинг \(String(format: "%.1f", config.rating))")
+    parts.append("\(config.reviewCount) \(config.reviewCountWord)")
+    return parts.joined(separator: ", ")
+  }
+
   public var body: some View {
     VStack(alignment: .leading, spacing: Configuration.infoAndButtonSpacing) {
       VStack(alignment: .leading, spacing: Configuration.priceAndTitlesSpacing) {
@@ -54,6 +67,8 @@ public struct DSProductCardFooterView: View {
           )
         }
       }
+      .accessibilityElement(children: .ignore)
+      .accessibilityLabel(infoAccessibilityLabel)
       HStack {
         DSProductCardButton(
           quantity: quantity,
