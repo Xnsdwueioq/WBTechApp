@@ -12,7 +12,7 @@ public struct DSProductCardImageView: View {
   }
   
   private enum Configuration {
-    static let imageRatio: CGFloat = 0.68
+    static let imageRatio: CGFloat = 1
     static let cornerRadius: CGFloat = 20
   }
   
