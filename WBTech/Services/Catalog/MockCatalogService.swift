@@ -44,4 +44,25 @@ actor MockCatalogService: CatalogServiceProtocol {
     ]
   }
   
+  func fetchProduct(id: String) async throws -> ProductDetailed {
+    try await Task.sleep(for: .seconds(1))
+    
+    return ProductDetailed(
+      id: id,
+      image: URL(string: "https://damcdn.samokat.ru/dam-storage-ext-env-prod/2025/12/026c8f99-bbe3-40b4-9ef9-3c3759a857ff"),
+      name: "Энергетик Burn тропический микс",
+      weight: 449.0,
+      price: 142,
+      rating: 4.3,
+      description: """
+        Тропический микс — это самый экзотический напиток в семействе Burn. В основе его яркого и многогранного вкуса лежит бодрящая и заводная сладость маракуйи, которая с лёгкостью разожжет любую вечеринку. Неслучайно именно этот напиток мы называем своим самым свежим миксом.
+        """,
+      isFavorite: true,
+      discount: 0.0,
+      reviews: [
+        Review(rating: 3.2, author: "Антон", createdAt: Date(), content: "ОЧень качественный продукт", images: [])
+      ]
+    )
+  }
+  
 }

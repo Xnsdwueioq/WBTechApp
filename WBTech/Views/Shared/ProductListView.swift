@@ -40,6 +40,7 @@ struct ProductListView: View {
               config: product.uiConfig(isFavorite: favoritesStore.isFavorite(id: id, fallback: product.isFavorite)),
               footerStyle: productCardFooterStyle,
               quantity: cartStore.quantity(for: id),
+              onTap: {  }, //TODO: Implement sheet open
               onIncrement: { Task { await cartStore.increment(id: id) } },
               onDecrement: { Task { await cartStore.remove(id: id) } },
               onFavoriteTap: { Task { await favoritesStore.toggle(id: id, current: favoritesStore.isFavorite(id: id, fallback: product.isFavorite)) } },
