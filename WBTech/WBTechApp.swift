@@ -26,7 +26,7 @@ struct WBTechApp: App {
   
   var body: some Scene {
     WindowGroup {
-      ContentView(
+      RootTabView(
         catalogService: catalogService,
         cartStore: CartStore(cartService: cartService),
         favoritesStore: FavoritesStore(favoritesService: favoritesService)
