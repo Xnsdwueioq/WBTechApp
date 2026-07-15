@@ -706,6 +706,7 @@
     },
     "/products/{id}": {
       "get": {
+        "operationId": "getProduct",
         "tags": [
           "Товары"
         ],

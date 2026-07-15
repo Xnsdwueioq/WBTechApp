@@ -6,4 +6,6 @@ protocol CatalogServiceProtocol: Sendable {
   
   func fetchProducts(categoryId: String?) async throws -> [Product]
   
+  func fetchProduct(id: String) async throws -> ProductDetailed
+  
 }

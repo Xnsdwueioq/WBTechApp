@@ -6,15 +6,17 @@ public struct DSProductCardView: View {
   let config: DSProductCardConfig
   let footerStyle: ProductCardFooterStyle
   let quantity: Int
+  let onTap: () -> Void
   let onIncrement: () -> Void
   let onDecrement: () -> Void
   let onFavoriteTap: () -> Void
   let onError: ((Error) -> Void)?
   
-  public init(config: DSProductCardConfig, footerStyle: ProductCardFooterStyle, quantity: Int, onIncrement: @escaping () -> Void, onDecrement: @escaping () -> Void, onFavoriteTap: @escaping () -> Void, onError: ((Error) -> Void)? = nil) {
+  public init(config: DSProductCardConfig, footerStyle: ProductCardFooterStyle, quantity: Int, onTap: @escaping () -> Void, onIncrement: @escaping () -> Void, onDecrement: @escaping () -> Void, onFavoriteTap: @escaping () -> Void, onError: ((Error) -> Void)? = nil) {
     self.config = config
     self.footerStyle = footerStyle
     self.quantity = quantity
+    self.onTap = onTap
     self.onIncrement = onIncrement
     self.onDecrement = onDecrement
     self.onFavoriteTap = onFavoriteTap
@@ -45,5 +47,6 @@ public struct DSProductCardView: View {
       )
         .padding(Layout.favoriteIconPadding)
     }
+    .onTapGesture(perform: onTap)
   }
 }
