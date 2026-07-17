@@ -32,5 +32,9 @@ final class FavoritesStore {
       overrides[id] = current
     }
   }
+
+  func toggle(id: String, fallback: Bool) async {
+    await toggle(id: id, current: isFavorite(id: id, fallback: fallback))
+  }
   
 }

@@ -43,7 +43,7 @@ struct ProductListView: View {
               onTap: {  }, //TODO: Implement sheet open
               onIncrement: { Task { await cartStore.increment(id: id) } },
               onDecrement: { Task { await cartStore.remove(id: id) } },
-              onFavoriteTap: { Task { await favoritesStore.toggle(id: id, current: favoritesStore.isFavorite(id: id, fallback: product.isFavorite)) } },
+              onFavoriteTap: { Task { await favoritesStore.toggle(id: id, fallback: product.isFavorite) } },
               onError: nil
             )
           }

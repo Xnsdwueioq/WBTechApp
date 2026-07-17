@@ -33,7 +33,7 @@ public struct DSProductCardButton: View {
     case (0, ProductCardFooterStyle.compact):
       DSProductCardCompactButton(price: price, priceSign: priceSign, onIncrement: onIncrement)
     case (1..., _):
-      DSProductCardStepper(quantity: quantity, priceValue: priceValue, priceSign: priceSign, onIncrement: onIncrement, onDecrement: onDecrement)
+      DSProductStepper(quantity: quantity, priceValue: priceValue, priceSign: priceSign, onIncrement: onIncrement, onDecrement: onDecrement)
     default: EmptyView()
     }
   }
