@@ -21,7 +21,7 @@ struct ProductDetailed: Identifiable, Hashable {
 }
 
 struct Review: Identifiable, Hashable {
-  let id = UUID()
+  let id = UUID() // TODO: REPLACE UUID WITH [?]
   let rating: Double
   let author: String
   let createdAt: Date

@@ -13,7 +13,10 @@ public struct DSAsyncImage: View {
   
   public var body: some View {
     if let url = url {
-      AsyncImage(url: url) { phase in
+      AsyncImage(
+        url: url,
+        transaction: Transaction(animation: .spring(duration: 0.25))
+      ) { phase in
         switch phase {
         case .empty:
           DSImageLoadingView()
@@ -21,6 +24,7 @@ public struct DSAsyncImage: View {
           image
             .resizable()
             .aspectRatio(contentMode: .fill)
+            .transition(.opacity)
         case .failure(let error):
           DSFallbackImage()
             .onAppear {
@@ -47,7 +51,7 @@ public struct DSFallbackImage: View {
 public struct DSImageLoadingView: View {
   public var body: some View {
     ZStack {
-      ProgressView()
+      Color.clear
     }
   }
 }

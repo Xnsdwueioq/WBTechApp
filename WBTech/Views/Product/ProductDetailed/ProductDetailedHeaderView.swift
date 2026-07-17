@@ -9,21 +9,25 @@ import SwiftUI
 import UISystem
 
 struct ProductDetailedHeaderView: View {
-  let product: DSProductCardConfig
-  let isFavorite: Bool
+  let config: DSProductCardConfig
   let onFavoriteTap: () -> Void
   
+  private enum Configuration {
+    static let contentVerticalSpacing: CGFloat = 0
+    static let ratingReviewsTopPadding: CGFloat = 10
+  }
+  
   var body: some View {
-    VStack(alignment: .leading, spacing: 0) {
-      HStack(spacing: 10) {
-        Text("\(product.price) \(product.priceSign)")
+    VStack(alignment: .leading, spacing: Configuration.contentVerticalSpacing) {
+      HStack {
+        Text("\(config.price) \(config.priceSign)")
           .font(Font.dsProductDetailedPrice.bold())
         Spacer()
-        DSFavoriteButton(isActive: isFavorite, sizeType: .medium, onFavoriteTap: onFavoriteTap)
+        DSFavoriteButton(isActive: config.isFavorite, sizeType: .medium, onFavoriteTap: onFavoriteTap)
       }
-      DSProductTitle(title: product.name, weight: product.weight, weightSign: product.weightSign, titleStyle: .detailed)
-      DSProductRatingReviews(rating: product.rating, reviewCount: product.reviewCount, style: .extended(reviewNoun: "отзывов"), size: .medium)
-        .padding(.top, 10)
+      DSProductTitle(title: config.name, weight: config.weight, weightSign: config.weightSign, titleStyle: .detailed)
+      DSProductRatingReviews(rating: config.rating, reviewCount: config.reviewCount, style: .extended(reviewNoun: "отзывов"), size: .medium)
+        .padding(.top, Configuration.ratingReviewsTopPadding)
     }
   }
 }

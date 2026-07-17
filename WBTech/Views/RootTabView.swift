@@ -1,6 +1,7 @@
 //
 
 import SwiftUI
+import UISystem
 
 struct RootTabView: View {
   private let catalogService: CatalogServiceProtocol
@@ -8,6 +9,7 @@ struct RootTabView: View {
   @State private var cartStore: CartStore
   @State private var favoritesStore: FavoritesStore
 
+  @State private var modalRouter = ModalRouter()
   @State private var selectedTab: AppTab = .catalog
 
   init(
@@ -41,6 +43,15 @@ struct RootTabView: View {
     }
     .environment(cartStore)
     .environment(favoritesStore)
+    .environment(modalRouter)
+    .sheet(item: $modalRouter.sheet) { item in
+      switch item {
+      case .productDetailed(let product):
+        ProductDetailedView(catalogService: catalogService, product: product, onError: nil)
+          .environment(cartStore)
+          .environment(favoritesStore)
+      }
+    }
     .task {
       await cartStore.load()
     }

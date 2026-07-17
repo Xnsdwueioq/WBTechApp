@@ -11,5 +11,6 @@ public extension Image {
   static let dsPlusRounded = Image("iconPlusRounded", bundle: .module)
   static let dsMinusRounded = Image("iconMinusRounded", bundle: .module)
   static let dsReviewChevron = Image(systemName: "chevron.right")
+  static let dsXmark = Image(systemName: "xmark")
   
 }

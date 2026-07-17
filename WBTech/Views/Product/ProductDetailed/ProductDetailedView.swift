@@ -7,35 +7,52 @@
 
 import SwiftUI
 import UISystem
+import OSLog
 
 struct ProductDetailedView: View {
-  let product: DSProductCardConfig
-  let onFavoriteTap: () -> Void
+  let catalogService: CatalogServiceProtocol
+  let product: Product
   let onError: (() -> Void)?
+
+  @Environment(FavoritesStore.self) private var favoritesStore
+  @Environment(CartStore.self) private var cartStore
   
-  private enum Configuration {
-    static let imageContentSpacing: CGFloat = 0
-    static let contentSectionsSpacing: CGFloat = 16
-    static let topPadding: CGFloat = 20
-    static let horizontalPadding: CGFloat = 12
-    static let bottomPadding: CGFloat = 84
+  @State private var isLoading = true
+  @State private var productDetailed: ProductDetailed?
+
+  var body: some View {
+    let id = product.id
+    let isFavorite = favoritesStore.isFavorite(id: id, fallback: product.isFavorite)
+
+    ProductDetailedContentView(
+      config: product.uiConfig(isFavorite: isFavorite),
+      description: productDetailed?.description,
+      reviews: productDetailed?.reviews ?? [],
+      quantity: cartStore.quantity(for: id),
+      onIncrement: { Task { await cartStore.increment(id: id) } },
+      onDecrement: { Task { await cartStore.remove(id: id) } },
+      onFavoriteTap: { Task { await favoritesStore.toggle(id: id, fallback: product.isFavorite) } },
+      onError: onError
+    )
+    .task {
+      await loadProductDetailed()
+    }
   }
   
-  var body: some View {
-    VStack(spacing: Configuration.imageContentSpacing) {
-      ProductDetailedImage(image: product.imageUrl, onError: onError)
-      VStack(spacing: Configuration.contentSectionsSpacing) {
-        ProductDetailedHeaderView(product: product, isFavorite: true, onFavoriteTap: onFavoriteTap)
-      }
-      .padding(.top, Configuration.topPadding)
-      .padding(.horizontal, Configuration.horizontalPadding)
-      .padding(.bottom, Configuration.bottomPadding)
+  private func loadProductDetailed() async {
+    isLoading = true
+    do {
+      productDetailed = try await catalogService.fetchProduct(id: product.id)
+    } catch {
+      Logger.catalog.error("Error loading detailed product info for item with id=\(product.id): \(error.localizedDescription)")
     }
+    isLoading = false
   }
 }
 
 #Preview {
   ProductDetailedView(
+    catalogService: MockCatalogService(),
     product: Product(
       id: "product1",
       image: URL(string: "https://damcdn.samokat.ru/dam-storage-ext-env-prod/2025/12/026c8f99-bbe3-40b4-9ef9-3c3759a857ff"),
@@ -46,8 +63,9 @@ struct ProductDetailedView: View {
       reviewCount: 1356,
       isFavorite: false,
       discount: 0
-    ).uiConfig(isFavorite: false),
-    onFavoriteTap: {},
+    ),
     onError: {}
   )
+  .environment(CartStore(cartService: MockCartService()))
+  .environment(FavoritesStore(favoritesService: MockFavoritesService()))
 }
