@@ -10,14 +10,12 @@ public struct DSRatingStarIcon: View {
   }
   
   private enum Configuration {
-    static let size = Font.dsRatingStar
     static let idleStar = Color.dsRatingIdleStarColor
     static let activeStar = Color.dsRatingActiveStarColor
   }
   
   public var body: some View {
     Text("★")
-      .font(Configuration.size)
       .foregroundStyle(isActive ? Configuration.activeStar : Configuration.idleStar)
   }
 }

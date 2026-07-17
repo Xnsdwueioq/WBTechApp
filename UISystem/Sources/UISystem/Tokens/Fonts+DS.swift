@@ -10,15 +10,27 @@ public extension Font {
   static let dsCatalogGroupTitle = Font.system(size: 32).weight(.medium)
   static let dsCategoryTitle = Font.system(size: 17).weight(.medium)
   static let dsCategoryGroupTitle = Font.system(size: 22).weight(.medium)
+}
+
+// MARK: Product Detailed View
+public extension Font {
+  
+  static let dsProductDetailedPrice = Font.system(size: 32).weight(.medium)
+  static let dsProductDetailedTitle = Font.system(size: 26).weight(.medium)
+  static let dsProductDetailedWeight = Font.system(size: 26).weight(.medium)
   
 }
 
 // MARK: Rating & Review
 public extension Font {
   
-  static let dsRatingStar = Font.system(size: 14)
-  static let dsRatingNumber = Font.system(size: 14)
-  static let dsReviewsCount = Font.system(size: 14)
+  static let dsRatingStarCard = Font.system(size: 14)
+  static let dsRatingNumberCard = Font.system(size: 14)
+  static let dsReviewsCountCard = Font.system(size: 14)
+  
+  static let dsRatingStarDetailed = Font.system(size: 16)
+  static let dsRatingNumberDetailed = Font.system(size: 16)
+  static let dsReviewsCountDetailed = Font.system(size: 16)
 
 }
 

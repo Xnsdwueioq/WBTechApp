@@ -10,5 +10,6 @@ public extension Image {
   static let dsActiveFavorite = Image("iconActiveFavourite", bundle: .module)
   static let dsPlusRounded = Image("iconPlusRounded", bundle: .module)
   static let dsMinusRounded = Image("iconMinusRounded", bundle: .module)
+  static let dsReviewChevron = Image(systemName: "chevron.right")
   
 }
