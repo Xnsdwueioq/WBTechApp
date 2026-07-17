@@ -29,6 +29,16 @@ public extension LinearGradient {
     endPoint: .top
   )
   
+  static let dsBottomBarFade = LinearGradient(
+    stops: [
+      .init(color: .dsFadeGradientColor3, location: 0.30),
+      .init(color: .dsFadeGradientColor2, location: 0.62),
+      .init(color: .dsFadeGradientColor1, location: 0.9)
+    ],
+    startPoint: .top,
+    endPoint: .bottom
+  )
+
   static let dsPreviewProgressiveBlurMask = LinearGradient(
     stops: [
       .init(color: .clear, location: 0.6),

@@ -11,6 +11,8 @@ struct ProductListView: View {
   @Environment(FavoritesStore.self) private var favoritesStore
   @Environment(CartStore.self) private var cartStore
   
+  @Environment(ModalRouter.self) private var modalRouter
+  
   init(products: [Product], isLoading: Bool, productCardFooterStyle: ProductCardFooterStyle) {
     self.products = products
     self.isLoading = isLoading
@@ -29,7 +31,7 @@ struct ProductListView: View {
     ScrollView {
       switch isLoading {
       case true:
-        ProgressView()
+        EmptyView()
           .accessibilityLabel("Загрузка товаров")
       case false:
         LazyVGrid(columns: Layout.columns, spacing: Layout.gridVerticalSpacing) {
@@ -40,7 +42,7 @@ struct ProductListView: View {
               config: product.uiConfig(isFavorite: favoritesStore.isFavorite(id: id, fallback: product.isFavorite)),
               footerStyle: productCardFooterStyle,
               quantity: cartStore.quantity(for: id),
-              onTap: {  }, //TODO: Implement sheet open
+              onTap: { modalRouter.present(route: .productDetailed(product: product)) },
               onIncrement: { Task { await cartStore.increment(id: id) } },
               onDecrement: { Task { await cartStore.remove(id: id) } },
               onFavoriteTap: { Task { await favoritesStore.toggle(id: id, fallback: product.isFavorite) } },
