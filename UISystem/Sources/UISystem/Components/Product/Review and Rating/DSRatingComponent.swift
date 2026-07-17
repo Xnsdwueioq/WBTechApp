@@ -9,13 +9,34 @@ public enum DSRatingStyle {
   case onlyNumber
 }
 
+public enum DSRatingSize {
+  case small
+  case medium
+  
+  var ratingNumberFont: Font {
+    switch self {
+    case .small: return .dsRatingNumberCard
+    case .medium: return .dsRatingNumberDetailed
+    }
+  }
+  
+  var ratingStarFont: Font {
+    switch self {
+    case .small: return .dsRatingStarCard
+    case .medium: return .dsRatingStarDetailed
+    }
+  }
+}
+
 public struct DSRatingComponent: View {
   let rating: Double
   let ratingStyle: DSRatingStyle
+  let ratingSize:DSRatingSize
   
-  public init(rating: Double, ratingStyle: DSRatingStyle) {
+  public init(rating: Double, ratingStyle: DSRatingStyle, ratingSize: DSRatingSize) {
     self.rating = rating
     self.ratingStyle = ratingStyle
+    self.ratingSize = ratingSize
   }
   
   private enum Layout {
@@ -26,27 +47,27 @@ public struct DSRatingComponent: View {
   
   public var body: some View {
     let ratingNumberText = Text(String(format: "%.1f", rating))
-    let extendedStars = DSRatingStarsComponent(starsNumber: Layout.maxStarsNumber, activeStarsNumber: calculateActiveStars())
+    let extendedStars = DSRatingStarsComponent(starsNumber: Layout.maxStarsNumber, activeStarsNumber: calculateActiveStars(), starFont: ratingSize.ratingStarFont)
     
     switch ratingStyle {
     case .compact:
       HStack(spacing: Layout.compactSpacing) {
-        DSRatingStarsComponent(starsNumber: 1, activeStarsNumber: 1)
+        DSRatingStarsComponent(starsNumber: 1, activeStarsNumber: 1, starFont: ratingSize.ratingStarFont)
         ratingNumberText
       }
-      .font(.dsRatingNumber)
+      .font(ratingSize.ratingNumberFont)
     case .extended:
       HStack(spacing: Layout.extendedSpacing) {
         ratingNumberText
         extendedStars
       }
-      .font(.dsRatingNumber)
+      .font(ratingSize.ratingNumberFont)
     case .onlyStars:
       extendedStars
-        .font(.dsRatingNumber)
+        .font(ratingSize.ratingNumberFont)
     case .onlyNumber:
       ratingNumberText
-        .font(.dsRatingNumber)
+        .font(ratingSize.ratingNumberFont)
     }
   }
   
@@ -63,9 +84,9 @@ public struct DSRatingComponent: View {
 
 #Preview {
   VStack {
-    DSRatingComponent(rating: 4.5, ratingStyle: .compact)
-    DSRatingComponent(rating: 4.5, ratingStyle: .extended)
-    DSRatingComponent(rating: 4.5, ratingStyle: .onlyStars)
-    DSRatingComponent(rating: 4.5, ratingStyle: .onlyNumber)
+    DSRatingComponent(rating: 4.5, ratingStyle: .compact, ratingSize: .medium)
+    DSRatingComponent(rating: 4.5, ratingStyle: .extended, ratingSize: .medium)
+    DSRatingComponent(rating: 4.5, ratingStyle: .onlyStars, ratingSize: .medium)
+    DSRatingComponent(rating: 4.5, ratingStyle: .onlyNumber, ratingSize: .medium)
   }
 }

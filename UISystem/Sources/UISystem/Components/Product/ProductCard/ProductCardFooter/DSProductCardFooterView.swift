@@ -63,7 +63,8 @@ public struct DSProductCardFooterView: View {
           DSProductRatingReviews(
             rating: config.rating,
             reviewCount: config.reviewCount,
-            style: .compact
+            style: .compact,
+            size: .small
           )
         }
       }
