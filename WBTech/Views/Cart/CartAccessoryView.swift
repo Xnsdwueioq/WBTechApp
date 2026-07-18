@@ -12,7 +12,7 @@ struct CartAccessoryView: View {
   var body: some View {
     if totalItems > 0 {
       Button {
-        // TODO: открыть экран корзины (следующий шаг)
+        // TODO: открыть экран корзины
       } label: {
         HStack(spacing: 12) {
           Text("\(totalItems) \(Self.itemsWord(for: totalItems))")

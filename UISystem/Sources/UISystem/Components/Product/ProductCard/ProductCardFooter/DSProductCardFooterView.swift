@@ -8,13 +8,13 @@ public enum ProductCardFooterStyle: Sendable {
 }
 
 public struct DSProductCardFooterView: View {
-  let config: DSProductCardConfig
+  let config: DSProductConfig
   let footerStyle: ProductCardFooterStyle
   let quantity: Int
   let onIncrement: () -> Void
   let onDecrement: () -> Void
   
-  public init(config: DSProductCardConfig, footerStyle: ProductCardFooterStyle, quantity: Int, onIncrement: @escaping () -> Void, onDecrement: @escaping () -> Void) {
+  public init(config: DSProductConfig, footerStyle: ProductCardFooterStyle, quantity: Int, onIncrement: @escaping () -> Void, onDecrement: @escaping () -> Void) {
     self.config = config
     self.footerStyle = footerStyle
     self.quantity = quantity

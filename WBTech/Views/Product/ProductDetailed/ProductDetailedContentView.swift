@@ -6,13 +6,14 @@ import SwiftUI
 import UISystem
 
 struct ProductDetailedContentView: View {
-  let config: DSProductCardConfig
+  let config: DSProductConfig
   let description: String?
   let reviews: [Review]?
   let quantity: Int
   let onIncrement: () -> Void
   let onDecrement: () -> Void
   let onFavoriteTap: () -> Void
+  let onOpenCart: () -> Void
   let onError: (() -> Void)?
   
   @Environment(\.dismiss) private var dismiss
@@ -58,7 +59,8 @@ struct ProductDetailedContentView: View {
         priceValue: config.priceValue,
         priceSign: config.priceSign,
         onIncrement: onIncrement,
-        onDecrement: onDecrement
+        onDecrement: onDecrement,
+        onOpenCart: onOpenCart
       )
       .padding(.horizontal, Configuration.buttonHorizontalPadding)
       .padding(.top, Configuration.buttonTopPadding)

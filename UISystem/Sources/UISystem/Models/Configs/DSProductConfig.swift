@@ -2,7 +2,7 @@
 
 import SwiftUI
 
-public struct DSProductCardConfig: Equatable, Hashable {
+public struct DSProductConfig: Equatable, Hashable, Sendable {
   public let name: String
   public let weight: String
   public let weightSign: String

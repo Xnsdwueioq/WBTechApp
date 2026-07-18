@@ -11,48 +11,67 @@ import OSLog
 
 struct ProductDetailedView: View {
   let catalogService: CatalogServiceProtocol
-  let product: Product
+  let id: String
+  let product: Product?
+  let onOpenCart: () -> Void
   let onError: (() -> Void)?
 
   @Environment(FavoritesStore.self) private var favoritesStore
   @Environment(CartStore.self) private var cartStore
   
-  @State private var isLoading = true
   @State private var productDetailed: ProductDetailed?
 
-  var body: some View {
-    let id = product.id
-    let isFavorite = favoritesStore.isFavorite(id: id, fallback: product.isFavorite)
+  private var isPlaceholder: Bool {
+    productDetailed == nil && product == nil
+  }
 
+  private var fallbackFavorite: Bool {
+    productDetailed?.isFavorite ?? product?.isFavorite ?? false
+  }
+
+  private var config: DSProductConfig {
+    let isFavorite = favoritesStore.isFavorite(id: id, fallback: fallbackFavorite)
+
+    if let productDetailed {
+      return productDetailed.uiConfig(isFavorite: isFavorite)
+    }
+    if let product {
+      return product.uiConfig(isFavorite: isFavorite)
+    }
+    return Product.uiConfigDefault
+  }
+
+  var body: some View {
     ProductDetailedContentView(
-      config: product.uiConfig(isFavorite: isFavorite),
+      config: config,
       description: productDetailed?.description,
       reviews: productDetailed?.reviews ?? [],
       quantity: cartStore.quantity(for: id),
       onIncrement: { Task { await cartStore.increment(id: id) } },
       onDecrement: { Task { await cartStore.remove(id: id) } },
-      onFavoriteTap: { Task { await favoritesStore.toggle(id: id, fallback: product.isFavorite) } },
+      onFavoriteTap: { Task { await favoritesStore.toggle(id: id, fallback: fallbackFavorite) } },
+      onOpenCart: onOpenCart,
       onError: onError
     )
+    .redacted(reason: isPlaceholder ? .placeholder : [])
     .task {
       await loadProductDetailed()
     }
   }
-  
+
   private func loadProductDetailed() async {
-    isLoading = true
     do {
-      productDetailed = try await catalogService.fetchProduct(id: product.id)
+      productDetailed = try await catalogService.fetchProduct(id: id)
     } catch {
-      Logger.catalog.error("Error loading detailed product info for item with id=\(product.id): \(error.localizedDescription)")
+      Logger.catalog.error("Error loading detailed product info for item with id=\(id): \(error.localizedDescription)")
     }
-    isLoading = false
   }
 }
 
 #Preview {
   ProductDetailedView(
     catalogService: MockCatalogService(),
+    id: "product1",
     product: Product(
       id: "product1",
       image: URL(string: "https://damcdn.samokat.ru/dam-storage-ext-env-prod/2025/12/026c8f99-bbe3-40b4-9ef9-3c3759a857ff"),
@@ -64,6 +83,7 @@ struct ProductDetailedView: View {
       isFavorite: false,
       discount: 0
     ),
+    onOpenCart: {},
     onError: {}
   )
   .environment(CartStore(cartService: MockCartService()))

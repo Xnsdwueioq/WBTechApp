@@ -8,10 +8,12 @@ import OSLog
 final class CartStore {
   
   private(set) var quantities: [String: Int]
+  private(set) var cartSummary: CartSummary?
   private let cartService: CartServiceProtocol
   
   init(quantities: [String : Int] = [:], cartService: CartServiceProtocol) {
     self.quantities = quantities
+    self.cartSummary = nil
     self.cartService = cartService
   }
   
@@ -21,6 +23,7 @@ final class CartStore {
       summary.items.forEach { item in
         quantities[item.id] = item.quantity
       }
+      cartSummary = summary
     } catch {
       Logger.cart.error("Unable to load the cart: \(error.localizedDescription)")
     }

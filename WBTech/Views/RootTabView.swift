@@ -47,9 +47,18 @@ struct RootTabView: View {
     .sheet(item: $modalRouter.sheet) { item in
       switch item {
       case .productDetailed(let product):
-        ProductDetailedView(catalogService: catalogService, product: product, onError: nil)
+        ProductDetailedView(
+          catalogService: catalogService,
+          id: product.id,
+          product: product,
+          onOpenCart: { modalRouter.present(route: .cart) },
+          onError: nil
+        )
           .environment(cartStore)
           .environment(favoritesStore)
+      case .cart:
+        CartView()
+          .environment(cartStore)
       }
     }
     .task {

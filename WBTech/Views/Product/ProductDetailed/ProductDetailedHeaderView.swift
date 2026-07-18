@@ -9,7 +9,7 @@ import SwiftUI
 import UISystem
 
 struct ProductDetailedHeaderView: View {
-  let config: DSProductCardConfig
+  let config: DSProductConfig
   let onFavoriteTap: () -> Void
   
   private enum Configuration {
