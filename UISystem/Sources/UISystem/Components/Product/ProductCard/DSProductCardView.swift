@@ -3,7 +3,7 @@
 import SwiftUI
 
 public struct DSProductCardView: View {
-  let config: DSProductCardConfig
+  let config: DSProductConfig
   let footerStyle: ProductCardFooterStyle
   let quantity: Int
   let onTap: () -> Void
@@ -12,7 +12,7 @@ public struct DSProductCardView: View {
   let onFavoriteTap: () -> Void
   let onError: ((Error) -> Void)?
   
-  public init(config: DSProductCardConfig, footerStyle: ProductCardFooterStyle, quantity: Int, onTap: @escaping () -> Void, onIncrement: @escaping () -> Void, onDecrement: @escaping () -> Void, onFavoriteTap: @escaping () -> Void, onError: ((Error) -> Void)? = nil) {
+  public init(config: DSProductConfig, footerStyle: ProductCardFooterStyle, quantity: Int, onTap: @escaping () -> Void, onIncrement: @escaping () -> Void, onDecrement: @escaping () -> Void, onFavoriteTap: @escaping () -> Void, onError: ((Error) -> Void)? = nil) {
     self.config = config
     self.footerStyle = footerStyle
     self.quantity = quantity

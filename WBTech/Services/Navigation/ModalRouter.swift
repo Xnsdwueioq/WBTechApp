@@ -6,10 +6,12 @@ import SwiftUI
 
 enum SheetRoute: Identifiable, Hashable, Equatable {
   case productDetailed(product: Product)
+  case cart
 
   var id: String {
     switch self {
     case .productDetailed(let product): product.id
+    case .cart: "cart"
     }
   }
 }
@@ -18,15 +20,15 @@ enum SheetRoute: Identifiable, Hashable, Equatable {
 final class ModalRouter: ModalRouterProtocol {
   
   var sheet: SheetRoute?
-  
+
   func present(route: SheetRoute) {
     sheet = route
   }
-  
+
   func dismiss() {
     sheet = nil
   }
-  
+
 }
 
 
