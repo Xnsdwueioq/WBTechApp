@@ -17,7 +17,7 @@ extension Product {
       imageUrl: self.image,
       rating: self.rating,
       reviewCount: "\(self.reviewCount)",
-      reviewCountWord: "отзывов(а)", // TODO: Склонения
+      reviewCountWord: PluralNoun.review.form(for: self.reviewCount),
       isFavorite: isFavorite
     )
   }
@@ -29,12 +29,14 @@ extension Product {
     price: "240",
     priceValue: 240,
     discount: "0",
-    priceSign: "$",
+    priceSign: "₽",
     imageUrl: URL(string: "https://example.com/"),
     rating: 4.6,
     reviewCount: "245",
-    reviewCountWord: "отзыва",
+    reviewCountWord: PluralNoun.review.form(for: 245),
     isFavorite: false
   )
   
 }
+
+

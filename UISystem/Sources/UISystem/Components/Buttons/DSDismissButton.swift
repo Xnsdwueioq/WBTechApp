@@ -31,5 +31,6 @@ public struct DSDismissButton: View {
         .frame(width: size.frameSize)
         .foregroundStyle(.gray)
     }
+    .accessibilityLabel("Закрыть")
   }
 }

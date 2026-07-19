@@ -47,10 +47,13 @@ public struct DSProductCardFooterView: View {
       VStack(alignment: .leading, spacing: Configuration.priceAndTitlesSpacing) {
         switch footerStyle {
         case .standart:
-          DSProductCardPrice(
-            price: config.price,
-            priceSign: config.priceSign
-          )
+          HStack {
+            DSProductCardPrice(
+              price: config.price,
+              priceSign: config.priceSign
+            )
+            Spacer()
+          }
         case .compact:
           EmptyView()
         }

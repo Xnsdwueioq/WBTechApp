@@ -21,5 +21,6 @@ struct ProductDetailedImage: View {
     DSAsyncImage(url: image, onError: { print($0.localizedDescription) })
       .aspectRatio(Configuration.imageRatio, contentMode: .fit)
       .clipShape(RoundedRectangle(cornerRadius: Configuration.imageRounded))
+      .accessibilityHidden(true)
   }
 }

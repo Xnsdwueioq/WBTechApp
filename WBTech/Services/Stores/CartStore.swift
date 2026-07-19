@@ -29,6 +29,12 @@ final class CartStore {
     }
   }
   
+  /// Есть ли что показывать в корзине. Считается по загруженной сводке, а не по
+  /// оптимистичным `quantities`, чтобы панель не появлялась раньше своих же цифр.
+  var hasItems: Bool {
+    (cartSummary?.totalItems ?? 0) > 0
+  }
+
   func quantity(for id: String) -> Int {
     quantities[id, default: 0]
   }
@@ -40,6 +46,7 @@ final class CartStore {
     quantities[id] = newQuantity
     do {
       _ = try await cartService.addToCart(id: id)
+      await load()
     } catch {
       Logger.cart.error("Unable to increase the quantity of the item in the cart: \(error.localizedDescription)")
       quantities[id] = previousQuantity
@@ -53,6 +60,7 @@ final class CartStore {
     quantities[id] = newQuantity
     do {
       _ = try await cartService.removeFromCart(id: id)
+      await load()
     } catch {
       Logger.cart.error("Unable to remove the item from the cart: \(error.localizedDescription)")
       quantities[id] = previousQuantity

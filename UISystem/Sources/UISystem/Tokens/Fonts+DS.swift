@@ -21,6 +21,21 @@ public extension Font {
   
 }
 
+// MARK: Cart
+public extension Font {
+
+  static let dsCartTitle = Font.system(size: 32).weight(.medium)
+  static let dsCartItemsListTitle = Font.system(size: 14).weight(.semibold)
+  static let dsCartInfoSecondary = Font.system(size: 14).weight(.regular)
+  static let dsCartInfoPrimary = Font.system(size: 17).weight(.semibold)
+
+  static let dsCartCheckoutPrice = Font.system(size: 18).weight(.semibold)
+  static let dsCartCheckoutPriceSign = Font.system(size: 14).weight(.semibold)
+  static let dsCartCheckoutItems = Font.system(size: 14).weight(.regular)
+  static let dsCartCheckoutTitle = Font.system(size: 20).weight(.medium)
+
+}
+
 // MARK: Rating & Review
 public extension Font {
   
