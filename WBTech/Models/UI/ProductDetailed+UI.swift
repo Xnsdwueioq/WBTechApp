@@ -17,7 +17,7 @@ extension ProductDetailed {
       imageUrl: self.image,
       rating: self.rating,
       reviewCount: "\(self.reviews.count)",
-      reviewCountWord: "отзывов(а)", // TODO: Склонения
+      reviewCountWord: PluralNoun.review.form(for: self.reviews.count),
       isFavorite: isFavorite
     )
   }

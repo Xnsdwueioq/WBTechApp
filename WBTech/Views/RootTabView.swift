@@ -24,6 +24,7 @@ struct RootTabView: View {
 
   var body: some View {
     TabView(selection: $selectedTab) {
+      Tab(value: AppTab.search, role: .search) { EmptyView() }
       // MARK: - Catalog
       Tab(value: AppTab.catalog) {
         CatalogTabView(catalogService: catalogService)
@@ -38,8 +39,8 @@ struct RootTabView: View {
         Label(AppTab.favourites.rawValue, systemImage: "heart")
       }
     }
-    .tabViewBottomAccessory {
-      CartAccessoryView()
+    .tabViewBottomAccessory(isEnabled: cartStore.hasItems) {
+      BottomAccessoryView()
     }
     .environment(cartStore)
     .environment(favoritesStore)

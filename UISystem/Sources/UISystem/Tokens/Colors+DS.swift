@@ -19,7 +19,10 @@ public extension Color {
   static let dsRatingNumberFontColor = Color.primary
   static let dsRatingActiveStarColor = Color.primary
   static let dsRatingIdleStarColor = Color.gray
-  
+
+  // Cart
+  static let dsCartCheckoutForeground = Color.white
+
 }
 
 // MARK: - Button Style

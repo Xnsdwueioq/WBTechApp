@@ -22,20 +22,20 @@ actor MockCatalogService: CatalogServiceProtocol {
       Product(
         id: "product1",
         image: URL(string: "https://damcdn.samokat.ru/dam-storage-ext-env-prod/2025/12/026c8f99-bbe3-40b4-9ef9-3c3759a857ff"),
-        name: "Огурец в тесте c соусом",
-        weight: 80,
-        price: 750,
+        name: "Энергетик Burn тропический микс",
+        weight: 459,
+        price: 149,
         rating: 3.8,
         reviewCount: 1356,
-        isFavorite: false,
+        isFavorite: true,
         discount: 0
       ),
       Product(
         id: "product2",
         image: URL(string: "https://damcdn.samokat.ru/dam-storage-ext-env-prod/2026/01/4d4df69d-8021-4bea-a5ed-25dc9ebfeb32"),
-        name: "Будер с колбасов",
-        weight: 100,
-        price: 900,
+        name: "Бульмени маленькие с оливковым маслом",
+        weight: 800,
+        price: 270,
         rating: 4.9,
         reviewCount: 45,
         isFavorite: false,
@@ -52,8 +52,8 @@ actor MockCatalogService: CatalogServiceProtocol {
       image: URL(string: "https://damcdn.samokat.ru/dam-storage-ext-env-prod/2025/12/026c8f99-bbe3-40b4-9ef9-3c3759a857ff"),
       name: "Энергетик Burn тропический микс",
       weight: 449.0,
-      price: 142,
-      rating: 4.3,
+      price: 149,
+      rating: 3.8,
       description: """
         Тропический микс — это самый экзотический напиток в семействе Burn. В основе его яркого и многогранного вкуса лежит бодрящая и заводная сладость маракуйи, которая с лёгкостью разожжет любую вечеринку. Неслучайно именно этот напиток мы называем своим самым свежим миксом.
         """,

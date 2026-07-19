@@ -17,7 +17,6 @@ public struct DSProductCardPrice: View {
         .font(.dsProductCardPrice)
       Text(priceSign)
         .font(.dsProductCardPriceSign)
-      Spacer()
     }
   }
 }
