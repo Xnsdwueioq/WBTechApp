@@ -19,7 +19,7 @@ struct ProductDetailedImage: View {
   
   var body: some View {
     DSAsyncImage(url: image, onError: { print($0.localizedDescription) })
-      .aspectRatio(Configuration.imageRatio, contentMode: .fit)
+      .aspectRatio(Configuration.imageRatio, contentMode: .fill)
       .clipShape(RoundedRectangle(cornerRadius: Configuration.imageRounded))
       .accessibilityHidden(true)
   }

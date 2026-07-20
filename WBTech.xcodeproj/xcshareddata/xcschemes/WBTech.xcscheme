@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Scheme
+   LastUpgradeVersion = "2700"
+   version = "1.7">
+   <BuildAction
+      parallelizeBuildables = "YES"
+      buildImplicitDependencies = "YES"
+      buildArchitectures = "Automatic">
+      <BuildActionEntries>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "B7C99CFD2FF14DA700FA2D9D"
+               BuildableName = "WBTech.app"
+               ReferencedContainer = "container:WBTech.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+      </BuildActionEntries>
+   </BuildAction>
+   <TestAction
+      buildConfiguration = "Debug"
+      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
+      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      shouldUseLaunchSchemeArgsEnv = "YES"
+      shouldAutocreateTestPlan = "YES">
+      <Testables>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "B7C99D0A2FF14DA900FA2D9D"
+               BuildableName = "WBTechTests.xctest"
+               ReferencedContainer = "container:WBTech.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "B7C99D142FF14DA900FA2D9D"
+               BuildableName = "WBTechUITests.xctest"
+               ReferencedContainer = "container:WBTech.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+      </Testables>
+   </TestAction>
+   <LaunchAction
+      buildConfiguration = "Debug"
+      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
+      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      launchStyle = "0"
+      useCustomWorkingDirectory = "NO"
+      ignoresPersistentStateOnLaunch = "NO"
+      debugDocumentVersioning = "YES"
+      debugServiceExtension = "internal"
+      allowLocationSimulation = "YES"
+      queueDebuggingEnabled = "No">
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "B7C99CFD2FF14DA700FA2D9D"
+            BuildableName = "WBTech.app"
+            ReferencedContainer = "container:WBTech.xcodeproj">
+         </BuildableReference>
+      </BuildableProductRunnable>
+      <EnvironmentVariables>
+         <EnvironmentVariable
+            key = "BEARER_TOKEN"
+            value = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJta29uZGFrb3ZhIiwiaWF0IjoxNzgyOTIyMDM0LCJqdGkiOiIxN2FiODg0NS05NWNlLTQ2MzQtOTE1Ny04NDQ5ODU1ZjRiZDciLCJuaWNrbmFtZSI6InNvbG92ZXkudmFsZXJpeSIsImlzVGVhY2hlciI6dHJ1ZX0.SA5wTP5mAsb8JLbiHObv25ruclWi00HkBSnjqAcgUOe86jVLUiUCpOgBYZ91aptBdn_-H7JbMGE1OTSbjZKLr2DUniNc1QlG3MfGEAUP7ibqTc0zRde_mWsPT0kphfpy0_dISIWdj5VuxvTX6ySOHHXiaVd79tTK-HfZBug8p5BcVgo3XUir-JnANYhle9xijaw6_Fzj7u_DuSbp8TXMWJAQbe1vP7Uds0HJFLebNJEipGroRvFChPdBGMvCX6CxRDtGliu2yyuz4HzLcwuWoRwfLgi-3M-s_Jlq7C0zwGJCcmC4oEUg2y2AT9-bLiB-SnFTeUKB-ff-R4zxR-n8uQ"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+      </EnvironmentVariables>
+   </LaunchAction>
+   <ProfileAction
+      buildConfiguration = "Release"
+      shouldUseLaunchSchemeArgsEnv = "YES"
+      savedToolIdentifier = ""
+      useCustomWorkingDirectory = "NO"
+      debugDocumentVersioning = "YES">
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "B7C99CFD2FF14DA700FA2D9D"
+            BuildableName = "WBTech.app"
+            ReferencedContainer = "container:WBTech.xcodeproj">
+         </BuildableReference>
+      </BuildableProductRunnable>
+   </ProfileAction>
+   <AnalyzeAction
+      buildConfiguration = "Debug">
+   </AnalyzeAction>
+   <ArchiveAction
+      buildConfiguration = "Release"
+      revealArchiveInOrganizer = "YES">
+   </ArchiveAction>
+</Scheme>
