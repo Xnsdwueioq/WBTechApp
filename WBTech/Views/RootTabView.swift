@@ -34,7 +34,7 @@ struct RootTabView: View {
 
       // MARK: - Favourites
       Tab(value: AppTab.favourites) {
-        FavoritesTabView()
+        FavoritesTabView(catalogService: catalogService)
       } label: {
         Label(AppTab.favourites.rawValue, systemImage: "heart")
       }

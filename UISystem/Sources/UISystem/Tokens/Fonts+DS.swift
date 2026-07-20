@@ -5,11 +5,13 @@ import SwiftUI
 // MARK: Tabs & Catalog & Categories
 public extension Font {
   
+  static let dsPrimaryTitle = Font.system(size: 32).weight(.medium)
   static let dsTabTitle = Font.system(size: 16).weight(.medium)
   static let dsCatalogCategoryTitle = Font.system(size: 14).weight(.medium)
-  static let dsCatalogGroupTitle = Font.system(size: 32).weight(.medium)
+  static let dsCatalogGroupTitle = Self.dsPrimaryTitle
   static let dsCategoryTitle = Font.system(size: 17).weight(.medium)
   static let dsCategoryGroupTitle = Font.system(size: 22).weight(.medium)
+  
 }
 
 // MARK: Product Detailed View
