@@ -24,21 +24,26 @@ struct FavoritesView: View {
           .font(.dsCatalogGroupTitle)
         Spacer()
       }
-      if !products.isEmpty {
+      switch (products.isEmpty, isLoading) {
+      case (false, false):
         ProductListView(
           products: products,
           isLoading: isLoading,
           productCardFooterStyle: .compact
         )
-        .task {
-          await loadProducts()
-        }
-      } else {
+        
+      case (true, false):
         ContentUnavailableView(
           "Избранное пусто",
           systemImage: "heart",
           description: Text("Добавляйте товары в избранное, и они появятся здесь")
         )
+        
+      case (_, true):
+        VStack {
+          ProgressView()
+          Spacer()
+        }
       }
     }
     .padding(.top, Configuration.topPadding)
@@ -51,15 +56,14 @@ struct FavoritesView: View {
   
   private func loadProducts() async {
     isLoading = true
+    defer { isLoading = false }
     do {
       let products = try await catalogService.fetchProducts(categoryId: nil)
       let favorites = products.filter { $0.isFavorite }
       self.products = favorites
     } catch {
       Logger.favorites.error("Error loading products: \(error.localizedDescription)")
-      isLoading = true
     }
-    isLoading = false
   }
 }
 

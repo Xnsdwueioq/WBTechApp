@@ -21,11 +21,11 @@ struct CategoryProductsView: View {
   
   private func loadProducts() async {
     isLoading = true
+    defer { isLoading = false }
     do {
       products = try await service.fetchProducts(categoryId: route.categoryId)
     } catch {
       Logger.catalog.error("Error loading products in the category with Id='\(route.categoryId)': \(error.localizedDescription)")
     }
-    isLoading = false
   }
 }

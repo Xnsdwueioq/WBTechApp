@@ -29,6 +29,8 @@ struct CategoryProductsHeaderView: View {
         Text(categoryTitle)
           .font(.dsCategoryTitle)
       }
+      .accessibilityElement(children: .combine)
+      .accessibilityAddTraits(.isHeader)
     }
     .padding(.top, Layout.topPadding)
     .padding(.horizontal, Layout.horizontalPadding)

@@ -49,6 +49,8 @@ public extension Color {
   
   // Signs +-
   static let dsSignsAccentColor = Color(hex: "BF22E1")
+  
+  static let dsSearchSuggestion = Color.primary
 
 }
 

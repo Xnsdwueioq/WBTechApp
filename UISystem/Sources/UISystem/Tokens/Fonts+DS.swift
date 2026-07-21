@@ -76,6 +76,13 @@ public extension Font {
   
 }
 
+// MARK: Search
+public extension Font {
+  
+  static let dsSearchSuggestion = Font.system(size: 18).weight(.medium)
+  
+}
+
 #Preview {
   HStack {
     Text("Для тебя")

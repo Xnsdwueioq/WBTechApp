@@ -14,25 +14,28 @@ struct CategoryProductsContentView: View {
     static let topPadding: CGFloat = 10
     static let horizontalPadding: CGFloat = 12
     static let bottomPadding: CGFloat = 12
+    static let headerBackground = Color(.systemBackground)
   }
   
   @Environment(CatalogRouter.self) private var router
   
   var body: some View {
-    VStack(spacing: Layout.headerListSpacing) {
+    ProductListView(
+      products: products,
+      isLoading: isLoading,
+      productCardFooterStyle: Layout.productCardFooterStyle
+    )
+    .contentMargins(.top, Layout.topPadding, for: .scrollContent)
+    .contentMargins(.horizontal, Layout.horizontalPadding, for: .scrollContent)
+    .contentMargins(.bottom, Layout.bottomPadding, for: .scrollContent)
+    .safeAreaInset(edge: .top, spacing: Layout.headerListSpacing) {
       CategoryProductsHeaderView(
         groupTitle: route.groupTitle,
         categoryTitle: route.categoryTitle,
         onTapBack: { router.pop() }
       )
-      ProductListView(
-        products: products,
-        isLoading: isLoading,
-        productCardFooterStyle: Layout.productCardFooterStyle
-      )
-      .padding(.top, Layout.topPadding)
-      .padding(.horizontal, Layout.horizontalPadding)
-      .padding(.bottom, Layout.bottomPadding)
+      .frame(maxWidth: .infinity)
+      .background(Layout.headerBackground)
     }
   }
 }
