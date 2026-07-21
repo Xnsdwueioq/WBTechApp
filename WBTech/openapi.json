@@ -1150,6 +1150,7 @@
     },
     "/addresses": {
       "get": {
+        "operationId": "getAddresses",
         "tags": [
           "О пользователе"
         ],

@@ -7,6 +7,8 @@ import UISystem
 
 struct CartOrderInfoView: View {
   let summary: CartSummary
+  let address: Address?
+  let isOrderEnabled: Bool
   let onOrder: () -> Void
 
   private enum Configuration {
@@ -15,7 +17,6 @@ struct CartOrderInfoView: View {
     static let bottomPadding: CGFloat = 24
     static let buttonContentSpacing: CGFloat = 28
     static let infoVerticalSpacing: CGFloat = 20
-    static let addressLinesSpacing: CGFloat = 0
     static let paymentLinesSpacing: CGFloat = 4
     static let paymentIconSpacing: CGFloat = 6
     static let totalsSpacing: CGFloat = 2
@@ -23,6 +24,7 @@ struct CartOrderInfoView: View {
     static let totalRowBottomPadding: CGFloat = 4
     static let priceSign = "₽"
     static let freeDeliveryTitle = "Бесплатно"
+    static let orderTitle = "Заказать"
   }
 
   private var totalPriceText: String {
@@ -42,16 +44,7 @@ struct CartOrderInfoView: View {
     VStack(alignment: .leading, spacing: Configuration.buttonContentSpacing) {
       VStack(alignment: .leading, spacing: Configuration.infoVerticalSpacing) {
         // MARK: Address
-        VStack(alignment: .leading, spacing: Configuration.addressLinesSpacing) {
-          HStack {
-            Text("Новая Басманная ул., 35 ст1, 59")
-            Image.dsChevron
-          }
-            .font(.dsCartInfoPrimary)
-          Text("3 этаж, 4 подъезд, код домофона 15809")
-        }
-        .accessibilityElement(children: .combine)
-        .accessibilityHint("Открывает выбор адреса")
+        CartOrderInfoAddress(address: address)
 
         // MARK: Payment
         VStack(alignment: .leading, spacing: Configuration.paymentLinesSpacing) {
@@ -96,10 +89,11 @@ struct CartOrderInfoView: View {
       }
 
       Button(action: onOrder) {
-        Text("Заказать")
+        Text(Configuration.orderTitle)
           .frame(maxWidth: .infinity)
       }
-      .buttonStyle(DSButtonStyle(size: .large, style: .accent))
+      .buttonStyle(DSButtonStyle(size: .large, style: isOrderEnabled ? .accent : .accentDisabled))
+      .disabled(!isOrderEnabled)
 
     }
     .font(.dsCartInfoSecondary)

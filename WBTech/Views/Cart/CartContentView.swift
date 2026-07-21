@@ -10,8 +10,11 @@ struct CartContentView: View {
   let availableItems: [CartLine]
   let unavailableItems: [CartLine]
   let quantity: (String) -> Int
+  let address: Address?
+  let isOrderEnabled: Bool
   let onIncrement: (String) -> Void
   let onDecrement: (String) -> Void
+  let onOrder: () -> Void
   let onUnavailableTap: (String) -> Void
   
   private enum Configuration {
@@ -46,7 +49,9 @@ struct CartContentView: View {
           // MARK: Order Info
           CartOrderInfoView(
             summary: summary,
-            onOrder: {}
+            address: address,
+            isOrderEnabled: isOrderEnabled,
+            onOrder: onOrder
           )
         }
       }

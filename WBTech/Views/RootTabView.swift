@@ -5,6 +5,7 @@ import UISystem
 
 struct RootTabView: View {
   private let catalogService: CatalogServiceProtocol
+  private let orderService: OrderServiceProtocol
 
   @State private var cartStore: CartStore
   @State private var favoritesStore: FavoritesStore
@@ -14,10 +15,12 @@ struct RootTabView: View {
 
   init(
     catalogService: CatalogServiceProtocol,
+    orderService: OrderServiceProtocol,
     cartStore: CartStore,
     favoritesStore: FavoritesStore
   ) {
     self.catalogService = catalogService
+    self.orderService = orderService
     self.cartStore = cartStore
     self.favoritesStore = favoritesStore
   }
@@ -62,7 +65,7 @@ struct RootTabView: View {
           .environment(cartStore)
           .environment(favoritesStore)
       case .cart:
-        CartView()
+        CartView(orderService: orderService)
           .environment(cartStore)
       }
     }
@@ -73,5 +76,5 @@ struct RootTabView: View {
 }
 
 #Preview {
-  RootTabView(catalogService: MockCatalogService(), cartStore: CartStore(cartService: MockCartService()), favoritesStore: FavoritesStore(favoritesService: MockFavoritesService()))
+  RootTabView(catalogService: MockCatalogService(), orderService: MockOrderService(), cartStore: CartStore(cartService: MockCartService()), favoritesStore: FavoritesStore(favoritesService: MockFavoritesService()))
 }
