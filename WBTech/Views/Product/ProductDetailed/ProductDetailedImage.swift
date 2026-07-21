@@ -18,8 +18,12 @@ struct ProductDetailedImage: View {
   }
   
   var body: some View {
-    DSAsyncImage(url: image, onError: { print($0.localizedDescription) })
-      .aspectRatio(Configuration.imageRatio, contentMode: .fill)
+    Color.dsImagePlaceholderColor
+      .overlay {
+        DSAsyncImage(url: image, onError: { _ in onError?() })
+      }
+      .clipped()
+      .aspectRatio(Configuration.imageRatio, contentMode: .fit)
       .clipShape(RoundedRectangle(cornerRadius: Configuration.imageRounded))
       .accessibilityHidden(true)
   }

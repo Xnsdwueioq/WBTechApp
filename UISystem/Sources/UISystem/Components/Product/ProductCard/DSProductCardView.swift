@@ -27,6 +27,10 @@ public struct DSProductCardView: View {
     static let imageInfoSpacing: CGFloat = 8
     static let favoriteIconPadding: CGFloat = 8
   }
+
+  private enum Configuration {
+    static let openDetailsAction = "Открыть карточку товара"
+  }
   
   public var body: some View {
     ZStack(alignment: .topTrailing) {
@@ -48,5 +52,8 @@ public struct DSProductCardView: View {
         .padding(Layout.favoriteIconPadding)
     }
     .onTapGesture(perform: onTap)
+    .accessibilityElement(children: .contain)
+    .accessibilityLabel(config.name)
+    .accessibilityAction(named: Configuration.openDetailsAction, onTap)
   }
 }
