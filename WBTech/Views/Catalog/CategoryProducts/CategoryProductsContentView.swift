@@ -22,9 +22,13 @@ struct CategoryProductsContentView: View {
   var body: some View {
     ProductListView(
       products: products,
-      isLoading: isLoading,
       productCardFooterStyle: Layout.productCardFooterStyle
     )
+    .overlay {
+      if isLoading {
+        ProgressView()
+      }
+    }
     .contentMargins(.top, Layout.topPadding, for: .scrollContent)
     .contentMargins(.horizontal, Layout.horizontalPadding, for: .scrollContent)
     .contentMargins(.bottom, Layout.bottomPadding, for: .scrollContent)
