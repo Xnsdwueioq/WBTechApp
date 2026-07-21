@@ -4,6 +4,8 @@ import Foundation
 
 actor CatalogService: CatalogServiceProtocol {
 
+  private static let pageSize = 100
+
   private let client: Client
 
   init(token: String) {
@@ -17,9 +19,21 @@ actor CatalogService: CatalogServiceProtocol {
   }
 
   func fetchProducts(categoryId: String? = nil) async throws -> [Product] {
-    let response = try await client.getProducts(.init(query: .init(category: categoryId)))
-    let payload = try response.ok.body.json
-    return payload.data.map(Self.product(from:))
+    var products: [Product] = []
+    var page = 1
+    var totalPages =  1
+
+    repeat {
+      let response = try await client.getProducts(
+        .init(query: .init(category: categoryId, page: page, pageSize: Self.pageSize))
+      )
+      let payload = try response.ok.body.json
+      products.append(contentsOf: payload.data.map(Self.product(from:)))
+      totalPages = payload.totalPages
+      page += 1
+    } while page <= totalPages
+
+    return products
   }
   
   func fetchProduct(id: String) async throws -> ProductDetailed {
