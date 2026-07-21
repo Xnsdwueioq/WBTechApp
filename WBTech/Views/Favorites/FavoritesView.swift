@@ -28,7 +28,6 @@ struct FavoritesView: View {
       case (false, false):
         ProductListView(
           products: products,
-          isLoading: isLoading,
           productCardFooterStyle: .compact
         )
         
@@ -40,10 +39,8 @@ struct FavoritesView: View {
         )
         
       case (_, true):
-        VStack {
-          ProgressView()
-          Spacer()
-        }
+        ProgressView()
+          .frame(maxWidth: .infinity, maxHeight: .infinity)
       }
     }
     .padding(.top, Configuration.topPadding)

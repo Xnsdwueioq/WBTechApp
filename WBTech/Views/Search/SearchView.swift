@@ -33,7 +33,6 @@ struct SearchView: View {
       case (false, false):
         ProductListView(
           products: filteredProducts,
-          isLoading: isLoading,
           productCardFooterStyle: .standart
         )
         .padding(.horizontal, Configuration.horizontalPadding)
@@ -47,6 +46,7 @@ struct SearchView: View {
         
       case (_, true):
         ProgressView()
+          .frame(maxWidth: .infinity, maxHeight: .infinity)
       }
     }
     .task {

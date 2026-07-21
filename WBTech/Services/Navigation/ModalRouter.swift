@@ -4,7 +4,7 @@
 
 import SwiftUI
 
-enum SheetRoute: Identifiable, Hashable, Equatable {
+enum SheetRoute: Identifiable, Hashable {
   case productDetailed(product: Product)
   case cart
 
@@ -18,14 +18,32 @@ enum SheetRoute: Identifiable, Hashable, Equatable {
 
 @Observable
 final class ModalRouter: ModalRouterProtocol {
-  
+
   var sheet: SheetRoute?
+
+  private(set) var pendingSheet: SheetRoute?
 
   func present(route: SheetRoute) {
     sheet = route
   }
 
+  func replace(with route: SheetRoute) {
+    guard sheet != nil else {
+      sheet = route
+      return
+    }
+    pendingSheet = route
+    sheet = nil
+  }
+
+  func presentPendingIfNeeded() {
+    guard let pendingSheet else { return }
+    self.pendingSheet = nil
+    sheet = pendingSheet
+  }
+
   func dismiss() {
+    pendingSheet = nil
     sheet = nil
   }
 

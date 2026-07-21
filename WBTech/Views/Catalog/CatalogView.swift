@@ -10,15 +10,18 @@ struct CatalogView: View {
   @State private var isLoading = true
   
   var body: some View {
-    ScrollView {
+    Group {
       switch isLoading {
       case true:
         ProgressView()
+          .frame(maxWidth: .infinity, maxHeight: .infinity)
       case false:
-        CatalogContentView(categories: categories)
+        ScrollView {
+          CatalogContentView(categories: categories)
+        }
+        .scrollIndicators(.hidden)
       }
     }
-    .scrollIndicators(.hidden)
     .task {
       await loadData()
     }

@@ -49,14 +49,14 @@ struct RootTabView: View {
     .environment(cartStore)
     .environment(favoritesStore)
     .environment(modalRouter)
-    .sheet(item: $modalRouter.sheet) { item in
+    .sheet(item: $modalRouter.sheet, onDismiss: { modalRouter.presentPendingIfNeeded() }) { item in
       switch item {
       case .productDetailed(let product):
         ProductDetailedView(
           catalogService: catalogService,
           id: product.id,
           product: product,
-          onOpenCart: { modalRouter.present(route: .cart) },
+          onOpenCart: { modalRouter.replace(with: .cart) },
           onError: nil
         )
           .environment(cartStore)

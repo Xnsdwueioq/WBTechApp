@@ -5,8 +5,6 @@
 import SwiftUI
 import UISystem
 
-/// Содержимое слота под таб-баром. Появлением управляет `isEnabled`
-/// у `tabViewBottomAccessory`, здесь остаётся только распаковка сводки.
 struct BottomAccessoryView: View {
   @Environment(CartStore.self) private var cartStore
   @Environment(ModalRouter.self) private var modalRouter
