@@ -64,5 +64,9 @@ actor MockCatalogService: CatalogServiceProtocol {
       ]
     )
   }
-  
+
+  func createReview(productId: String, rating: Int, content: String) async throws {
+    try await Task.sleep(for: .seconds(0.3))
+  }
+
 }

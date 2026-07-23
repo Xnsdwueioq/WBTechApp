@@ -57,6 +57,18 @@ public extension Font {
   static let dsReviewAuthor = Font.system(size: 14).weight(.medium)
 }
 
+// MARK: Review Creating
+public extension Font {
+
+  static let dsReviewSectionTitle = Font.system(size: 22).weight(.semibold)
+  static let dsReviewProductName = Font.system(size: 20).weight(.medium)
+  static let dsReviewProductDescription = Font.system(size: 16)
+  static let dsReviewFieldText = Font.system(size: 18)
+  static let dsReviewMediaText = Font.system(size: 16)
+  static let dsReviewAgreement = Font.system(size: 14)
+
+}
+
 
 // MARK: Product Card
 public extension Font {

@@ -12,16 +12,22 @@ struct ReviewsView: View {
   let reviews: [Review]
   let rating: Double
   let productId: String
+  let config: DSProductConfig
+  let description: String?
+  let catalogService: CatalogServiceProtocol
   let onReviewCreated: () -> Void
-  
+
   @State private var ratingDist: RatingDistributable
   @State private var isCreatingReview = false
-  
-  init(reviews: [Review], rating: Double, productId: String, onReviewCreated: @escaping () -> Void) {
+
+  init(reviews: [Review], rating: Double, productId: String, config: DSProductConfig, description: String?, catalogService: CatalogServiceProtocol, onReviewCreated: @escaping () -> Void) {
     self.reviews = reviews
     self.rating = rating
     self.ratingDist = RatingDistribution(reviews: reviews)
     self.productId = productId
+    self.config = config
+    self.description = description
+    self.catalogService = catalogService
     self.onReviewCreated = onReviewCreated
   }
   
@@ -60,7 +66,13 @@ struct ReviewsView: View {
       }
     }
     .sheet(isPresented: $isCreatingReview) {
-      ReviewCreatingView(productId: productId, onReviewCreated: onReviewCreated)
+      ReviewCreatingView(
+        config: config,
+        description: description,
+        productId: productId,
+        catalogService: catalogService,
+        onReviewCreated: onReviewCreated
+      )
     }
   }
 }
@@ -72,5 +84,18 @@ struct ReviewsView: View {
     .init(rating: 3, author: "author3", createdAt: Date(), content: "Some Conte ntdf isdf xcpxvvpvppa qkqkkm isd fos", images: []),
     .init(rating: 3, author: "author34", createdAt: Date(), content: "Some Conte ntdf isdf xcpxvvpvppa qkqkkm isd fos", images: []),
     .init(rating: 3, author: "author53", createdAt: Date(), content: "Some Conte ntdf isdf xcpxvvpvppa qkqkkm isd fos", images: [])
-  ], rating: 4.49, productId: "123132", onReviewCreated: {})
+  ], rating: 4.49, productId: "123132", config: DSProductConfig(
+    name: "Бутер с колбасой",
+    weight: "100",
+    weightSign: " г",
+    price: "100",
+    priceValue: 100,
+    discount: "0",
+    priceSign: "₽",
+    imageUrl: nil,
+    rating: 4.49,
+    reviewCount: "5",
+    reviewCountWord: "отзывов",
+    isFavorite: false
+  ), description: "Белый хлеб: мука пшеничная высшего сорта, вода очищенная.", catalogService: MockCatalogService(), onReviewCreated: {})
 }
