@@ -32,7 +32,7 @@ public enum DSButtonVariant: CaseIterable {
   case accent
   case accentDisabled
   case standart
-  case productCardVariant
+  case secondary
   case surface
   case outline
 }
@@ -44,7 +44,7 @@ public extension DSButtonVariant {
     case .accent: .dsAccentButtonForeground
     case .accentDisabled: .dsAccentDisabledButtonForeground
     case .standart: .dsStandartButtonForeground
-    case .productCardVariant: .dsProductCardButtonButtonForeground
+    case .secondary: .dsProductCardButtonButtonForeground
     case .surface: .dsSurfaceButtonForeground
     case .outline: .dsOutlineButtonForeground
     }
@@ -63,7 +63,7 @@ public extension DSButtonVariant {
       Color.dsAccentDisabledButtonBackground
     case .standart:
       Color.dsStandartButtonBackground
-    case .productCardVariant:
+    case .secondary:
       LinearGradient.dsProductCard
     case .surface:
       ZStack {

@@ -29,7 +29,7 @@ public struct DSProductCardButton: View {
     switch (quantity, footerStyle) {
     case (0, ProductCardFooterStyle.standart):
       Button(Configuration.buttonTitle, action: onIncrement)
-        .buttonStyle(DSButtonStyle(size: .small, style: .productCardVariant))
+        .buttonStyle(DSButtonStyle(size: .small, style: .secondary))
     case (0, ProductCardFooterStyle.compact):
       DSProductCardCompactButton(price: price, priceSign: priceSign, onIncrement: onIncrement)
     case (1..., _):

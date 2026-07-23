@@ -12,11 +12,13 @@ public enum DSRatingStyle {
 public enum DSRatingSize {
   case small
   case medium
+  case large
   
   var ratingNumberFont: Font {
     switch self {
     case .small: return .dsRatingNumberCard
     case .medium: return .dsRatingNumberDetailed
+    case .large: return .dsAverageRatingDetailedReview
     }
   }
   
@@ -24,6 +26,7 @@ public enum DSRatingSize {
     switch self {
     case .small: return .dsRatingStarCard
     case .medium: return .dsRatingStarDetailed
+    case .large: return .dsAverageRatingDetailedReview
     }
   }
 }
@@ -47,7 +50,7 @@ public struct DSRatingComponent: View {
   
   public var body: some View {
     let ratingNumberText = Text(String(format: "%.1f", rating))
-    let extendedStars = DSRatingStarsComponent(starsNumber: Layout.maxStarsNumber, activeStarsNumber: calculateActiveStars(), starFont: ratingSize.ratingStarFont)
+    let extendedStars = DSRatingStarsComponent(starsNumber: Layout.maxStarsNumber, activeStarsNumber: DSRatingConfig.getIntegerRating(from: rating), starFont: ratingSize.ratingStarFont)
     
     switch ratingStyle {
     case .compact:
@@ -68,16 +71,6 @@ public struct DSRatingComponent: View {
     case .onlyNumber:
       ratingNumberText
         .font(ratingSize.ratingNumberFont)
-    }
-  }
-  
-  private func calculateActiveStars() -> Int {
-    switch rating {
-    case 4...4.5: return 4
-    case 4.5...: return 5
-    case 3..<4: return 3
-    case 2..<3: return 2
-    default: return 1
     }
   }
 }

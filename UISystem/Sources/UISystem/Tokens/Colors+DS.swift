@@ -19,6 +19,7 @@ public extension Color {
   static let dsRatingNumberFontColor = Color.primary
   static let dsRatingActiveStarColor = Color.primary
   static let dsRatingIdleStarColor = Color.gray
+  static let dsRatingLine = Color(hex: "F0ECF4")
 
   // Cart
   static let dsCartCheckoutForeground = Color.white

@@ -12,6 +12,8 @@ public extension Font {
   static let dsCategoryTitle = Font.system(size: 17).weight(.medium)
   static let dsCategoryGroupTitle = Font.system(size: 22).weight(.medium)
   
+  static let dsModalTitle = Font.dsPrimaryTitle
+  
 }
 
 // MARK: Product Detailed View
@@ -26,7 +28,6 @@ public extension Font {
 // MARK: Cart
 public extension Font {
 
-  static let dsCartTitle = Font.system(size: 32).weight(.medium)
   static let dsCartItemsListTitle = Font.system(size: 14).weight(.semibold)
   static let dsCartInfoSecondary = Font.system(size: 14).weight(.regular)
   static let dsCartInfoPrimary = Font.system(size: 17).weight(.semibold)
@@ -48,8 +49,14 @@ public extension Font {
   static let dsRatingStarDetailed = Font.system(size: 16)
   static let dsRatingNumberDetailed = Font.system(size: 16)
   static let dsReviewsCountDetailed = Font.system(size: 16)
-
+  
+  static let dsReviewsGridGradeCount = Font.system(size: 14)
+  
+  static let dsAverageRatingDetailedReview = Font.system(size: 94).weight(.light)
+  static let dsReviewContent = Font.system(size: 16)
+  static let dsReviewAuthor = Font.system(size: 14).weight(.medium)
 }
+
 
 // MARK: Product Card
 public extension Font {
