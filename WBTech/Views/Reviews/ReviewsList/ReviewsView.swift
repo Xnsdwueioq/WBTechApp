@@ -17,18 +17,10 @@ struct ReviewsView: View {
   let catalogService: CatalogServiceProtocol
   let onReviewCreated: () -> Void
 
-  @State private var ratingDist: RatingDistributable
   @State private var isCreatingReview = false
 
-  init(reviews: [Review], rating: Double, productId: String, config: DSProductConfig, description: String?, catalogService: CatalogServiceProtocol, onReviewCreated: @escaping () -> Void) {
-    self.reviews = reviews
-    self.rating = rating
-    self.ratingDist = RatingDistribution(reviews: reviews)
-    self.productId = productId
-    self.config = config
-    self.description = description
-    self.catalogService = catalogService
-    self.onReviewCreated = onReviewCreated
+  private var ratingDist: RatingDistributable {
+    RatingDistribution(reviews: reviews)
   }
   
   private enum Configuration {

@@ -17,19 +17,21 @@ public enum DSDismissButtonSize {
 public struct DSDismissButton: View {
   let action: () -> Void
   let size: DSDismissButtonSize
-  
-  public init(action: @escaping () -> Void, size: DSDismissButtonSize) {
+  let tint: Color
+
+  public init(action: @escaping () -> Void, size: DSDismissButtonSize, tint: Color = .gray) {
     self.action = action
     self.size = size
+    self.tint = tint
   }
-  
+
   public var body: some View {
     Button(action: action){
       Image.dsXmark
         .resizable()
         .scaledToFit()
         .frame(width: size.frameSize)
-        .foregroundStyle(.gray)
+        .foregroundStyle(tint)
     }
     .accessibilityLabel("Закрыть")
   }

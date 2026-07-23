@@ -35,6 +35,7 @@ public enum DSButtonVariant: CaseIterable {
   case secondary
   case surface
   case outline
+  case inverted
 }
 
 public extension DSButtonVariant {
@@ -47,6 +48,7 @@ public extension DSButtonVariant {
     case .secondary: .dsProductCardButtonButtonForeground
     case .surface: .dsSurfaceButtonForeground
     case .outline: .dsOutlineButtonForeground
+    case .inverted: .dsInvertedButtonForeground
     }
   }
   
@@ -80,6 +82,8 @@ public extension DSButtonVariant {
           RoundedRectangle(cornerRadius: cornerRadius)
             .strokeBorder(LinearGradient.dsProductCard, lineWidth: 2)
         )
+    case .inverted:
+      Color.dsInvertedButtonBackground
     }
   }
   
