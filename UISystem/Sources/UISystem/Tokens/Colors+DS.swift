@@ -23,6 +23,9 @@ public extension Color {
 
   // Cart
   static let dsCartCheckoutForeground = Color.white
+  
+  // Progress Preview
+  static let dsProgressPreview = Color.white
 
 }
 
@@ -37,13 +40,15 @@ public extension Color {
   static let dsProductCardButtonButtonForeground = Color.primary
   static let dsSurfaceButtonForeground = Color.primary
   static let dsOutlineButtonForeground = Color.primary
-  
+  static let dsInvertedButtonForeground = Color.dsSignsAccentColor
+
   // Background
   static let dsAccentButtonBackground = Color.white
   static let dsAccentDisabledButtonBackground = Color(hex: "F0ECF4")
   static let dsStandartButtonBackground = Color.dsDefaultFill
   static let dsSurfaceButtonBackground = Color.dsDefaultFill
   static let dsOutlineButtonBackground = Color.clear
+  static let dsInvertedButtonBackground = Color.white
   
   // Border
   static let dsSurfaceButtonBorder = Color(hex: "9797AF").opacity(0.3)

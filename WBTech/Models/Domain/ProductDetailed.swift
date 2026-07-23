@@ -21,10 +21,13 @@ struct ProductDetailed: Identifiable, Hashable {
 }
 
 struct Review: Identifiable, Hashable {
-  let id = UUID() // TODO: REPLACE UUID WITH [?]
   let rating: Double
   let author: String
   let createdAt: Date
   let content: String
   let images: [URL?]
+
+  var id: String {
+    "\(author)-\(createdAt.timeIntervalSince1970)"
+  }
 }

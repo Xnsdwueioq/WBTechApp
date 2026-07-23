@@ -21,6 +21,7 @@ struct ReviewCreatingView: View {
   @State private var rating = 0
   @State private var comment = ""
   @State private var isSubmitting = false
+  @State private var isSubmitted = false
 
   private var isSubmitEnabled: Bool {
     rating > 0 && !isSubmitting
@@ -53,9 +54,27 @@ struct ReviewCreatingView: View {
     static let fieldCornerRadius: CGFloat = 16
     static let topPadding: CGFloat = 20
     static let horizontalPadding: CGFloat = 12
+    
+    static let previewTitle: String = "Отзыв отправлен"
+    static let previewSubtitle: String = "Спасибо!\nСкоро мы его опубликуем"
+    static let previewButtonName: String = "Закрыть"
   }
 
   var body: some View {
+    switch isSubmitted {
+    case true:
+      DSProgressPreview(
+        title: Configuration.previewTitle,
+        subtitle: Configuration.previewSubtitle,
+        buttonName: Configuration.previewButtonName,
+        onClose: { dismiss() }
+      )
+    case false:
+      formContent
+    }
+  }
+  
+  private var formContent: some View {
     ScrollView {
       VStack(alignment: .leading, spacing: Configuration.contentSpacing) {
         titleView
@@ -173,7 +192,7 @@ struct ReviewCreatingView: View {
     do {
       try await catalogService.createReview(productId: productId, rating: rating, content: comment)
       onReviewCreated()
-      dismiss()
+      isSubmitted = true
     } catch {
       Logger.catalog.error("Unable to create review for product id=\(productId): \(error.localizedDescription)")
     }

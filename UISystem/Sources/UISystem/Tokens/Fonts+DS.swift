@@ -57,6 +57,14 @@ public extension Font {
   static let dsReviewAuthor = Font.system(size: 14).weight(.medium)
 }
 
+// MARK: Progress Preview
+public extension Font {
+
+  static let dsProgressPreviewTitle = Font.system(size: 56).weight(.medium)
+  static let dsProgressPreviewSubtitle = Font.system(size: 22).weight(.medium)
+
+}
+
 // MARK: Review Creating
 public extension Font {
 
