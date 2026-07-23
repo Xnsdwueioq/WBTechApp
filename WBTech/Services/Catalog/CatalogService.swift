@@ -41,7 +41,17 @@ actor CatalogService: CatalogServiceProtocol {
     let payload = try response.ok.body.json
     return Self.productDetailed(from: payload)
   }
-  
+
+  func createReview(productId: String, rating: Int, content: String) async throws {
+    let response = try await client.createReview(
+      .init(
+        path: .init(id: productId),
+        body: .json(.init(rating: rating, content: content, images: []))
+      )
+    )
+    _ = try response.ok
+  }
+
 }
 
 private extension CatalogService {

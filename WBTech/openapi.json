@@ -810,6 +810,7 @@
     },
     "/products/{id}/reviews": {
       "post": {
+        "operationId": "createReview",
         "tags": [
           "Товары"
         ],

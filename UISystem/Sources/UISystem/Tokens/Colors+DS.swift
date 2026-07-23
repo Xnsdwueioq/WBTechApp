@@ -55,6 +55,19 @@ public extension Color {
 
 }
 
+// MARK: - Review Creating
+
+public extension Color {
+
+  static let dsReviewStarActive = Color.dsSignsAccentColor
+  static let dsReviewStarIdle = Color(hex: "E2E2E9")
+  static let dsReviewSecondaryText = Color(hex: "9797AF")
+  static let dsReviewMediaIcon = Color.dsSignsAccentColor
+  static let dsReviewMediaTile = Color.dsDefaultFill
+  static let dsReviewFieldBorder = Color.dsSurfaceButtonBorder
+
+}
+
 // MARK: - Gradient Colors
 
 // MARK: Violet

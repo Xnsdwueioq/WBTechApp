@@ -14,5 +14,8 @@ public extension Image {
   static let dsReviewChevron = Image(systemName: "chevron.right")
   static let dsXmark = Image(systemName: "xmark")
   static let dsSearch = Image(systemName: "magnifyingglass")
-  
+  static let dsPhotoReview = Image("iconPhotoReview", bundle: .module)
+  static let dsVideoReview = Image("iconVideoReview", bundle: .module)
+  static let dsReviewStar = Image("iconReviewStar", bundle: .module)
+
 }

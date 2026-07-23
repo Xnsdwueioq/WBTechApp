@@ -64,7 +64,10 @@ struct ProductDetailedView: View {
         reviews: productDetailed?.reviews ?? [],
         rating: productDetailed?.rating ?? 0,
         productId: id,
-        onReviewCreated: { Task { await loadProductDetailed() } } // TODO: Insert Action
+        config: config,
+        description: productDetailed?.description,
+        catalogService: catalogService,
+        onReviewCreated: { Task { await loadProductDetailed() } }
       )
     }
   }
