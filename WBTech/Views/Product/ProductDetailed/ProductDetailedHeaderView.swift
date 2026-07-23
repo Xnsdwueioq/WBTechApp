@@ -11,6 +11,7 @@ import UISystem
 struct ProductDetailedHeaderView: View {
   let config: DSProductConfig
   let onFavoriteTap: () -> Void
+  let onReviews: () -> Void
   
   private enum Configuration {
     static let contentVerticalSpacing: CGFloat = 0
@@ -40,6 +41,7 @@ struct ProductDetailedHeaderView: View {
         DSProductTitle(title: config.name, weight: config.weight, weightSign: config.weightSign, titleStyle: .detailed)
         DSProductRatingReviews(rating: config.rating, reviewCount: config.reviewCount, style: .extended(reviewNoun: config.reviewCountWord), size: .medium)
           .padding(.top, Configuration.ratingReviewsTopPadding)
+          .onTapGesture(perform: onReviews)
       }
       .accessibilityElement(children: .ignore)
       .accessibilityLabel(infoAccessibilityLabel)

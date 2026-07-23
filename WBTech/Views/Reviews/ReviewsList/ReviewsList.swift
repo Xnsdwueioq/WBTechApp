@@ -13,10 +13,11 @@ struct ReviewsList: View {
   
   private enum Configuration {
     static let reviewsSpacing: CGFloat = 2
+    static let horizontalPadding: CGFloat = 12
   }
   
   var body: some View {
-    VStack(spacing: Configuration.reviewsSpacing) {
+    LazyVStack(spacing: Configuration.reviewsSpacing) {
       ForEach(reviews) { review in
         DSDetailedReview(
           author: review.author,
@@ -27,5 +28,6 @@ struct ReviewsList: View {
         )
       }
     }
+    .padding(.horizontal, Configuration.horizontalPadding)
   }
 }
