@@ -14,6 +14,7 @@ struct ProductDetailedContentView: View {
   let onDecrement: () -> Void
   let onFavoriteTap: () -> Void
   let onOpenCart: () -> Void
+  let onReviews: () -> Void
   let onError: (() -> Void)?
   
   @Environment(\.dismiss) private var dismiss
@@ -33,7 +34,7 @@ struct ProductDetailedContentView: View {
   var body: some View {
     ScrollView {
       VStack(alignment: .leading, spacing: Configuration.imageContentSpacing) {
-        ZStack() {
+        ZStack {
           ProductDetailedImage(image: config.imageUrl, onError: onError)
           VStack {
             HStack {
@@ -45,7 +46,7 @@ struct ProductDetailedContentView: View {
           }
         }
         VStack(alignment: .leading, spacing: Configuration.contentSectionsSpacing) {
-          ProductDetailedHeaderView(config: config, onFavoriteTap: onFavoriteTap)
+          ProductDetailedHeaderView(config: config, onFavoriteTap: onFavoriteTap, onReviews: onReviews)
           ProductDetailedBody(description: description)
         }
         .padding(.top, Configuration.contentTopPadding)

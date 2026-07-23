@@ -20,6 +20,7 @@ struct ProductDetailedView: View {
   @Environment(CartStore.self) private var cartStore
   
   @State private var productDetailed: ProductDetailed?
+  @State private var isReviews = false
 
   private var isPlaceholder: Bool {
     productDetailed == nil && product == nil
@@ -51,11 +52,20 @@ struct ProductDetailedView: View {
       onDecrement: { Task { await cartStore.remove(id: id) } },
       onFavoriteTap: { Task { await favoritesStore.toggle(id: id, fallback: fallbackFavorite) } },
       onOpenCart: onOpenCart,
+      onReviews: { isReviews.toggle() },
       onError: onError
     )
     .redacted(reason: isPlaceholder ? .placeholder : [])
     .task {
       await loadProductDetailed()
+    }
+    .sheet(isPresented: $isReviews) {
+      ReviewsView(
+        reviews: productDetailed?.reviews ?? [],
+        rating: productDetailed?.rating ?? 0,
+        productId: id,
+        onReviewCreated: { Task { await loadProductDetailed() } } // TODO: Insert Action
+      )
     }
   }
 

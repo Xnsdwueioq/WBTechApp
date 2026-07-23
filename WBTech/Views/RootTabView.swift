@@ -6,13 +6,13 @@ import UISystem
 struct RootTabView: View {
   private let catalogService: CatalogServiceProtocol
   private let orderService: OrderServiceProtocol
-
+  
   @State private var cartStore: CartStore
   @State private var favoritesStore: FavoritesStore
-
+  
   @State private var modalRouter = ModalRouter()
   @State private var selectedTab: AppTab = .catalog
-
+  
   init(
     catalogService: CatalogServiceProtocol,
     orderService: OrderServiceProtocol,
@@ -24,7 +24,7 @@ struct RootTabView: View {
     self.cartStore = cartStore
     self.favoritesStore = favoritesStore
   }
-
+  
   var body: some View {
     TabView(selection: $selectedTab) {
       // MARK: - Catalog
@@ -33,7 +33,7 @@ struct RootTabView: View {
       } label: {
         Label(AppTab.catalog.rawValue, systemImage: "square.grid.2x2")
       }
-
+      
       // MARK: - Favourites
       Tab(value: AppTab.favourites) {
         FavoritesTabView(catalogService: catalogService)
@@ -62,8 +62,8 @@ struct RootTabView: View {
           onOpenCart: { modalRouter.replace(with: .cart) },
           onError: nil
         )
-          .environment(cartStore)
-          .environment(favoritesStore)
+        .environment(cartStore)
+        .environment(favoritesStore)
       case .cart:
         CartView(orderService: orderService)
           .environment(cartStore)
