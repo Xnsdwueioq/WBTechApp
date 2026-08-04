@@ -49,7 +49,7 @@ struct ProductDetailedView: View {
       reviews: productDetailed?.reviews ?? [],
       quantity: cartStore.quantity(for: id),
       onIncrement: { Task { await cartStore.increment(id: id) } },
-      onDecrement: { Task { await cartStore.remove(id: id) } },
+      onDecrement: { Task { await cartStore.decrement(id: id) } },
       onFavoriteTap: { Task { await favoritesStore.toggle(id: id, fallback: fallbackFavorite) } },
       onOpenCart: onOpenCart,
       onReviews: { isReviews.toggle() },

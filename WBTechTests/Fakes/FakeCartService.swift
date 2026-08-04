@@ -21,7 +21,7 @@ actor FakeCartService: CartServiceProtocol {
     )
   }
   private(set) var addCalls: [String] = []
-  private(set) var removeCalls: [String] = []
+  private(set) var decrementCalls: [String] = []
   
   init(shouldThrow: Bool = false) {
     self.shouldThrow = shouldThrow
@@ -42,8 +42,8 @@ actor FakeCartService: CartServiceProtocol {
     return 1
   }
   
-  func removeFromCart(id: String) async throws -> Int {
-    removeCalls.append(id)
+  func decrementCartItem(id: String) async throws -> Int {
+    decrementCalls.append(id)
     if shouldThrow {
       throw TestError.someError
     }

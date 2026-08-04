@@ -33,7 +33,7 @@ struct CartView: View {
       address: address,
       isOrderEnabled: !availableItems.isEmpty && address != nil && !isOrdering,
       onIncrement: { id in Task { await store.increment(id: id) } },
-      onDecrement: { id in Task { await store.remove(id: id) } },
+      onDecrement: { id in Task { await store.decrement(id: id) } },
       onOrder: { Task { await createOrder() } },
       onUnavailableTap: { _ in } // TODO: INSERT ACTION
     )

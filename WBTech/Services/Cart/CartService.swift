@@ -26,7 +26,7 @@ actor CartService: CartServiceProtocol {
     return payload.total
   }
   
-  func removeFromCart(id: String) async throws -> Int {
+  func decrementCartItem(id: String) async throws -> Int {
     let response = try await client.removeCartItem(.init(path: .init(id: id)))
     let payload = try response.ok.body.json
     
