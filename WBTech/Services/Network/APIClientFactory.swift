@@ -11,6 +11,7 @@ enum APIClientFactory {
 
     return Client(
       serverURL: serverURL,
+      configuration: .init(dateTranscoder: FlexibleISO8601DateTranscoder()),
       transport: URLSessionTransport(),
       middlewares: [BearerTokenMiddleware(token: token)]
     )
