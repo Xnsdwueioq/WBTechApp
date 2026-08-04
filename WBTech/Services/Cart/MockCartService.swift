@@ -35,12 +35,29 @@ actor MockCartService: CartServiceProtocol {
       weight: 800,
       price: 270,
       available: false
+    ),
+    CatalogEntry(
+      id: "product3",
+      image: "https://damcdn.samokat.ru/dam-storage-ext-env-prod/2025/10/5182d418-352d-481c-a6e5-cb479cfcfff3",
+      name: "Шоколад Алёнка молочный",
+      weight: 100,
+      price: 99,
+      available: true
+    ),
+    CatalogEntry(
+      id: "product4",
+      image: "https://damcdn.samokat.ru/dam-storage-ext-env-prod/2025/12/8328974e-b485-4eca-8b02-64a6811c1bbe",
+      name: "Чипсы картофельные Lay's с солью",
+      weight: 140,
+      price: 189,
+      available: true
     )
   ]
 
   private var quantities: [String: Int] = [
     "product1": 2,
-    "product2": 1
+    "product2": 1,
+    "product3": 1
   ]
 
   func fetchCart() async throws -> CartSummary {
@@ -61,7 +78,6 @@ actor MockCartService: CartServiceProtocol {
       )
     }
 
-    
     let filtered = items.filter { $0.available }
     let filteredId = filtered.map { $0.id }
     let totalItems = quantities.reduce(0) {
@@ -81,7 +97,7 @@ actor MockCartService: CartServiceProtocol {
       deliveryPrice: deliveryPrice,
       totalPrice: orderPrice + deliveryPrice,
       totalItems: totalItems,
-      items: filtered
+      items: items
     )
   }
 

@@ -7,6 +7,8 @@ import OSLog
 struct FavoritesView: View {
   let catalogService: CatalogServiceProtocol
   
+  @Environment(FavoritesStore.self) private var favoritesStore
+  
   @State private var isLoading = true
   @State private var products: [Product] = []
   
@@ -56,7 +58,7 @@ struct FavoritesView: View {
     defer { isLoading = false }
     do {
       let products = try await catalogService.fetchProducts(categoryId: nil)
-      let favorites = products.filter { $0.isFavorite }
+      let favorites = products.filter { favoritesStore.isFavorite(id: $0.id, fallback: $0.isFavorite) }
       self.products = favorites
     } catch {
       Logger.favorites.error("Error loading products: \(error.localizedDescription)")
