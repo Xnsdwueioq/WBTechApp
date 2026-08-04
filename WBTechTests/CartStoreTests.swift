@@ -27,23 +27,23 @@ struct CartStoreTests {
     #expect(store.quantity(for: id) == 3)
   }
   
-  @Test func removeSuccess() async throws {
+  @Test func decrementSuccess() async throws {
     let fake = FakeCartService()
     let id = "someID"
     let store = CartStore(quantities: [id: 2], cartService: fake)
-    await store.remove(id: id)
+    await store.decrement(id: id)
     
-    #expect(await fake.removeCalls.contains(id))
-    #expect(store.quantity(for: id) == 0)
+    #expect(await fake.decrementCalls.contains(id))
+    #expect(store.quantity(for: id) == 1)
   }
   
-  @Test func removeThrow() async throws {
+  @Test func decrementThrow() async throws {
     let fake = FakeCartService(shouldThrow: true)
     let id = "someID"
     let store = CartStore(quantities: [id: 2], cartService: fake)
-    await store.remove(id: id)
+    await store.decrement(id: id)
     
-    #expect(await fake.removeCalls.contains(id))
+    #expect(await fake.decrementCalls.contains(id))
     #expect(store.quantity(for: id) == 2)
   }
   

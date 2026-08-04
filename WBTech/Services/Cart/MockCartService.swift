@@ -92,9 +92,13 @@ actor MockCartService: CartServiceProtocol {
     return totalItems
   }
 
-  func removeFromCart(id: String) async throws -> Int {
+  func decrementCartItem(id: String) async throws -> Int {
     try await Task.sleep(for: Configuration.mutationDelay)
-    quantities[id] = nil
+    if let count = quantities[id], count > 1 {
+      quantities[id] = count - 1
+    } else {
+      quantities[id] = nil
+    }
 
     return totalItems
   }

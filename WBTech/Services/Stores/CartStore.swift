@@ -51,16 +51,22 @@ final class CartStore {
     }
   }
   
-  func remove(id: String) async {
+  func decrement(id: String) async {
     let previousQuantity = quantities[id, default: 0]
+    guard previousQuantity > 0 else { return }
     
-    let newQuantity = 0
-    quantities[id] = newQuantity
+    let newQuantity = previousQuantity - 1
+    if newQuantity == 0 {
+      quantities[id] = nil
+    } else {
+      quantities[id] = newQuantity
+    }
+    
     do {
-      _ = try await cartService.removeFromCart(id: id)
+      _ = try await cartService.decrementCartItem(id: id)
       await load()
     } catch {
-      Logger.cart.error("Unable to remove the item from the cart: \(error.localizedDescription)")
+      Logger.cart.error("Unable to decrease the quantity of the item in the cart: \(error.localizedDescription)")
       quantities[id] = previousQuantity
     }
   }

@@ -37,7 +37,7 @@ struct ProductListView: View {
             quantity: cartStore.quantity(for: id),
             onTap: { modalRouter.present(route: .productDetailed(product: product)) },
             onIncrement: { Task { await cartStore.increment(id: id) } },
-            onDecrement: { Task { await cartStore.remove(id: id) } },
+            onDecrement: { Task { await cartStore.decrement(id: id) } },
             onFavoriteTap: { Task { await favoritesStore.toggle(id: id, fallback: product.isFavorite) } },
             onError: nil
           )
