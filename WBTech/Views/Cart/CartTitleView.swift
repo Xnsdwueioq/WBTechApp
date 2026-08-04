@@ -7,8 +7,6 @@ import UISystem
 
 struct CartTitleView: View {
   let totalItems: Int?
-
-  @Environment(\.dismiss) private var dismiss
   
   private enum Configuration {
     static let horizontalSpacing: CGFloat = 10
@@ -36,8 +34,6 @@ struct CartTitleView: View {
       .accessibilityLabel(titleAccessibilityLabel)
       .accessibilityAddTraits(.isHeader)
       Spacer()
-      DSDismissButton(action: { dismiss() }, size: .medium)
-        .padding(.horizontal, Configuration.dismissButtonHorizontalPadding)
     }
     .font(.dsModalTitle)
     .padding(.top, Configuration.listTopPadding)

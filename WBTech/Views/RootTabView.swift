@@ -34,6 +34,11 @@ struct RootTabView: View {
         Label(AppTab.catalog.rawValue, systemImage: "square.grid.2x2")
       }
       
+      // MARK: - Search
+      Tab(value: AppTab.search, role: .search) {
+        SearchTabView(catalogService: catalogService)
+      }
+      
       // MARK: - Favourites
       Tab(value: AppTab.favourites) {
         FavoritesTabView(catalogService: catalogService)
@@ -41,13 +46,13 @@ struct RootTabView: View {
         Label(AppTab.favourites.rawValue, systemImage: "heart")
       }
       
-      // MARK: - Search
-      Tab(value: AppTab.search, role: .search) {
-        SearchTabView(catalogService: catalogService)
+      // MARK: - Cart
+      Tab(value: AppTab.cart) {
+        CartView(orderService: orderService)
+          .environment(cartStore)
+      } label: {
+        Label(AppTab.cart.rawValue, systemImage: "cart")
       }
-    }
-    .tabViewBottomAccessory(isEnabled: cartStore.hasItems) {
-      BottomAccessoryView()
     }
     .environment(cartStore)
     .environment(favoritesStore)
@@ -59,7 +64,10 @@ struct RootTabView: View {
           catalogService: catalogService,
           id: product.id,
           product: product,
-          onOpenCart: { modalRouter.replace(with: .cart) },
+          onOpenCart: { 
+            modalRouter.dismiss()
+            selectedTab = .cart 
+          },
           onError: nil
         )
         .environment(cartStore)
