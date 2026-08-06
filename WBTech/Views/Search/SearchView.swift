@@ -13,10 +13,9 @@ struct SearchView: View {
   let catalogService: CatalogServiceProtocol
   var query: String
   
-  @State private var isLoading = true
-  @State private var products: [Product] = []
+  @State private var viewState = ViewState<[Product]>.idle
   
-  private var filteredProducts: [Product] {
+  private func filteredProducts(from products: [Product]) -> [Product] {
     guard !query.isEmpty else { return [] }
     return products.filter {
       $0.name.localizedStandardContains(query)
@@ -29,24 +28,30 @@ struct SearchView: View {
   
   var body: some View {
     VStack {
-      switch (filteredProducts.isEmpty, isLoading) {
-      case (false, false):
-        ProductListView(
-          products: filteredProducts,
-          productCardFooterStyle: .standart
-        )
-        .padding(.horizontal, Configuration.horizontalPadding)
-        
-      case (true, false):
-        if query.isEmpty {
-          EmptyView()
-        } else {
-          ContentUnavailableView.search(text: query)
-        }
-        
-      case (_, true):
+      switch viewState {
+      case .idle, .loading:
         ProgressView()
           .frame(maxWidth: .infinity, maxHeight: .infinity)
+
+      case .loaded(let products):
+        let results = filteredProducts(from: products)
+        if query.isEmpty {
+          EmptyView()
+        } else if results.isEmpty {
+          ContentUnavailableView.search(text: query)
+        } else {
+          ProductListView(
+            products: results,
+            productCardFooterStyle: .standart
+          )
+          .padding(.horizontal, Configuration.horizontalPadding)
+        }
+
+      case .error(let errorMessage):
+        DSErrorView(
+          description: errorMessage,
+          onRetry: { Task { await loadProducts() } }
+        )
       }
     }
     .task {
@@ -55,13 +60,13 @@ struct SearchView: View {
   }
   
   private func loadProducts() async {
-    isLoading = true
-    defer { isLoading = false }
+    viewState = .loading
     do {
       let fetchedProducts = try await catalogService.fetchProducts(categoryId: nil)
-      products = fetchedProducts
+      viewState = .loaded(fetchedProducts)
     } catch {
       Logger.search.error("Unable to load the products: \(error.localizedDescription)")
+      viewState = .error("Не удалось загрузить товары для поиска")
     }
   }
 }

@@ -1,4 +1,7 @@
 //
+// FavoritesView.swift
+// WBTech
+//
 
 import SwiftUI
 import UISystem
@@ -9,8 +12,7 @@ struct FavoritesView: View {
   
   @Environment(FavoritesStore.self) private var favoritesStore
   
-  @State private var isLoading = true
-  @State private var products: [Product] = []
+  @State private var viewState = ViewState<[Product]>.idle
   
   private enum Configuration {
     static let verticalSpacing: CGFloat = 20
@@ -26,23 +28,30 @@ struct FavoritesView: View {
           .font(.dsCatalogGroupTitle)
         Spacer()
       }
-      switch (products.isEmpty, isLoading) {
-      case (false, false):
-        ProductListView(
-          products: products,
-          productCardFooterStyle: .compact
-        )
-        
-      case (true, false):
-        ContentUnavailableView(
-          "Избранное пусто",
-          systemImage: "heart",
-          description: Text("Добавляйте товары в избранное, и они появятся здесь")
-        )
-        
-      case (_, true):
+      switch viewState {
+      case .idle, .loading:
         ProgressView()
           .frame(maxWidth: .infinity, maxHeight: .infinity)
+
+      case .loaded(let products):
+        if products.isEmpty {
+          ContentUnavailableView(
+            "Избранное пусто",
+            systemImage: "heart",
+            description: Text("Добавляйте товары в избранное, и они появятся здесь")
+          )
+        } else {
+          ProductListView(
+            products: products,
+            productCardFooterStyle: .compact
+          )
+        }
+
+      case .error(let errorMessage):
+        DSErrorView(
+          description: errorMessage,
+          onRetry: { Task { await loadProducts() } }
+        )
       }
     }
     .padding(.top, Configuration.topPadding)
@@ -54,14 +63,14 @@ struct FavoritesView: View {
   }
   
   private func loadProducts() async {
-    isLoading = true
-    defer { isLoading = false }
+    viewState = .loading
     do {
       let products = try await catalogService.fetchProducts(categoryId: nil)
       let favorites = products.filter { favoritesStore.isFavorite(id: $0.id, fallback: $0.isFavorite) }
-      self.products = favorites
+      viewState = .loaded(favorites)
     } catch {
       Logger.favorites.error("Error loading products: \(error.localizedDescription)")
+      viewState = .error("Не удалось загрузить избранное")
     }
   }
 }

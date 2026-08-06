@@ -1,25 +1,35 @@
 //
+// CatalogView.swift
+// WBTech
+//
 
 import OSLog
 import SwiftUI
+import UISystem
 
 struct CatalogView: View {
   let catalogService: CatalogServiceProtocol
   
-  @State private var categories: [Category] = []
-  @State private var isLoading = true
+  @State private var viewState = ViewState<[Category]>.idle
   
   var body: some View {
     Group {
-      switch isLoading {
-      case true:
+      switch viewState {
+      case .idle, .loading:
         ProgressView()
           .frame(maxWidth: .infinity, maxHeight: .infinity)
-      case false:
+
+      case .loaded(let categories):
         ScrollView {
           CatalogContentView(categories: categories)
         }
         .scrollIndicators(.hidden)
+
+      case .error(let errorMessage):
+        DSErrorView(
+          description: errorMessage,
+          onRetry: { Task { await loadData() } }
+        )
       }
     }
     .task {
@@ -28,14 +38,13 @@ struct CatalogView: View {
   }
   
   private func loadData() async {
-    isLoading = true
-    
+    viewState = .loading
     do {
-      categories = try await catalogService.fetchCategories()
+      let categories = try await catalogService.fetchCategories()
+      viewState = .loaded(categories)
     } catch {
       Logger.catalog.error("Error loading categories: \(error.localizedDescription)")
+      viewState = .error("Не удалось загрузить категории")
     }
-    
-    isLoading = false
   }
 }
