@@ -31,7 +31,7 @@ struct ProductUIConfigTests {
     #expect(config.priceSign == "₽")
     #expect(config.rating == 4.56)
     #expect(config.reviewCount == "124")
-    #expect(config.reviewCountWord == "отзывов(а)")
+    #expect(config.reviewCountWord == "отзыва")
     #expect(config.isFavorite == true)
   }
   
