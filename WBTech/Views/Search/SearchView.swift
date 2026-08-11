@@ -36,7 +36,7 @@ struct SearchView: View {
       case .loaded(let products):
         let results = filteredProducts(from: products)
         if query.isEmpty {
-          EmptyView()
+          DSSuggestionToSearchView()
         } else if results.isEmpty {
           ContentUnavailableView.search(text: query)
         } else {

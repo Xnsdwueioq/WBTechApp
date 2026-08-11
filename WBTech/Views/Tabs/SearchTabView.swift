@@ -12,7 +12,7 @@ struct SearchTabView: View {
   let catalogService: CatalogServiceProtocol
   
   @State private var query = ""
-  @FocusState private var searchFocus: Bool
+  @State private var isSearchPresented: Bool = true
   
   private enum Configuration {
     static let prompt = "Название продукта"
@@ -22,7 +22,11 @@ struct SearchTabView: View {
     NavigationStack {
       SearchView(catalogService: catalogService, query: query)
     }
-    .searchable(text: $query, prompt: Configuration.prompt)
+    .searchable(
+      text: $query,
+      isPresented: $isSearchPresented,
+      prompt: Configuration.prompt
+    )
     .searchSuggestions {
       ForEach(SearchSuggestion.suggestionsList) { suggestion in
         DSSuggestionView(text: suggestion.text)
@@ -30,9 +34,8 @@ struct SearchTabView: View {
       }
       .listRowSeparator(.hidden)
     }
-    .searchFocused($searchFocus)
-    .onAppear {
-      searchFocus = true
+    .task {
+      isSearchPresented = true
     }
   }
 }
