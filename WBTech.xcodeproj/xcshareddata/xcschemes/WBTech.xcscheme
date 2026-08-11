@@ -17,7 +17,6 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "B7C99CFD2FF14DA700FA2D9D"
                BuildableName = "WBTech.app"
-               BlueprintName = "WBTech"
                ReferencedContainer = "container:WBTech.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -35,8 +34,8 @@
             parallelizable = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "B7C99D0A2FF14DA900FA2D9D"
-               BuildableName = "WBTechTests.xctest"
+               BlueprintIdentifier = "B7C99D142FF14DA900FA2D9D"
+               BuildableName = "WBTechUITests.xctest"
                ReferencedContainer = "container:WBTech.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -45,8 +44,8 @@
             parallelizable = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "B7C99D142FF14DA900FA2D9D"
-               BuildableName = "WBTechUITests.xctest"
+               BlueprintIdentifier = "B7C99D0A2FF14DA900FA2D9D"
+               BuildableName = "WBTechTests.xctest"
                ReferencedContainer = "container:WBTech.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -69,16 +68,9 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "B7C99CFD2FF14DA700FA2D9D"
             BuildableName = "WBTech.app"
-            BlueprintName = "WBTech"
             ReferencedContainer = "container:WBTech.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
-      <CommandLineArguments>
-         <CommandLineArgument
-            argument = "UITESTS"
-            isEnabled = "YES">
-         </CommandLineArgument>
-      </CommandLineArguments>
       <EnvironmentVariables>
          <EnvironmentVariable
             key = "BEARER_TOKEN"
@@ -99,7 +91,6 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "B7C99CFD2FF14DA700FA2D9D"
             BuildableName = "WBTech.app"
-            BlueprintName = "WBTech"
             ReferencedContainer = "container:WBTech.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
