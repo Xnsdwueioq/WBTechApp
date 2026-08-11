@@ -39,6 +39,16 @@ public extension LinearGradient {
     endPoint: .bottom
   )
 
+  static let dsBottomBarMaterialMask = LinearGradient(
+    stops: [
+      .init(color: .clear, location: 0),
+      .init(color: .black, location: 0.12),
+      .init(color: .black, location: 1)
+    ],
+    startPoint: .top,
+    endPoint: .bottom
+  )
+
   static let dsPreviewProgressiveBlurMask = LinearGradient(
     stops: [
       .init(color: .clear, location: 0.6),
