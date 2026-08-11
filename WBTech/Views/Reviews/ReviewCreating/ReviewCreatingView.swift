@@ -137,7 +137,11 @@ struct ReviewCreatingView: View {
     VStack(alignment: .leading, spacing: Configuration.sectionSpacing) {
       Text(Configuration.commentSectionTitle)
         .font(.dsReviewSectionTitle)
-      TextField(Configuration.commentPlaceholder, text: $comment, axis: .vertical)
+      TextField(
+        Configuration.commentPlaceholder,
+        text: $comment,
+        axis: .vertical
+      )
         .font(.dsReviewFieldText)
         .lineLimit(Configuration.commentLineLimit...Configuration.commentMaxLineLimit)
         .padding(Configuration.fieldPadding)
@@ -166,7 +170,10 @@ struct ReviewCreatingView: View {
   }
 
   private var bottomBar: some View {
-    VStack(alignment: .leading, spacing: Configuration.bottomBarSpacing) {
+    VStack(
+      alignment: .leading,
+      spacing: Configuration.bottomBarSpacing
+    ) {
       Text(Configuration.agreement)
         .font(.dsReviewAgreement)
         .foregroundStyle(Color.dsReviewSecondaryText)
@@ -174,12 +181,18 @@ struct ReviewCreatingView: View {
         Text(Configuration.submitTitle)
           .frame(maxWidth: .infinity)
       }
-      .buttonStyle(DSButtonStyle(size: .large, style: isSubmitEnabled ? .accent : .accentDisabled))
+      .buttonStyle(
+        DSButtonStyle(
+          size: .large,
+          style: isSubmitEnabled ? .accent : .accentDisabled
+        )
+      )
       .disabled(!isSubmitEnabled)
-    }
+    } 
     .padding(.horizontal, Configuration.horizontalPadding)
+    .padding(.top, Configuration.bottomBarSpacing)
     .padding(.bottom, Configuration.bottomBarSpacing)
-    .background(LinearGradient.dsBottomBarFade, ignoresSafeAreaEdges: .bottom)
+    .modifier(DSBottomBarBackgroundViewModifier())
   }
 
   private func submit() {
