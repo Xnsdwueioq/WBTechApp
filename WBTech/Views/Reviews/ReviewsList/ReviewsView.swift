@@ -18,6 +18,7 @@ struct ReviewsView: View {
   let onReviewCreated: () -> Void
 
   @State private var isCreatingReview = false
+  @State private var hasPendingReviewRefresh = false
 
   private var ratingDist: RatingDistributable {
     RatingDistribution(reviews: reviews)
@@ -57,15 +58,29 @@ struct ReviewsView: View {
         }
       }
     }
-    .sheet(isPresented: $isCreatingReview) {
+    .sheet(isPresented: $isCreatingReview, onDismiss: refreshAfterCreatedReview) {
       ReviewCreatingView(
         config: config,
         description: description,
         productId: productId,
         catalogService: catalogService,
-        onReviewCreated: onReviewCreated
+        onReviewCreated: handleReviewCreated
       )
     }
+  }
+
+  private func handleReviewCreated() {
+    hasPendingReviewRefresh = true
+
+    if !isCreatingReview {
+      refreshAfterCreatedReview()
+    }
+  }
+
+  private func refreshAfterCreatedReview() {
+    guard hasPendingReviewRefresh else { return }
+    hasPendingReviewRefresh = false
+    onReviewCreated()
   }
 }
 

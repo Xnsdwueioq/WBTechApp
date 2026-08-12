@@ -90,13 +90,22 @@ struct ProductDetailedView: View {
   }
 
   private func loadProductDetailed() async {
-    viewState = .loading
+    let cachedDetailed = loadedDetailed
+
+    if cachedDetailed == nil {
+      viewState = .loading
+    }
+
     do {
       let productDetailed = try await catalogService.fetchProduct(id: id)
       viewState = .loaded(productDetailed)
     } catch {
       Logger.catalog.error("Error loading detailed product info for item with id=\(id): \(error.localizedDescription)")
-      viewState = .error("Не удалось загрузить подробную информацию о товаре")
+      if let cachedDetailed {
+        viewState = .loaded(cachedDetailed)
+      } else {
+        viewState = .error("Не удалось загрузить подробную информацию о товаре")
+      }
     }
   }
 }
