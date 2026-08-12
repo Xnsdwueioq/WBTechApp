@@ -204,8 +204,8 @@ struct ReviewCreatingView: View {
     defer { isSubmitting = false }
     do {
       try await catalogService.createReview(productId: productId, rating: rating, content: comment)
-      onReviewCreated()
       isSubmitted = true
+      onReviewCreated()
     } catch {
       Logger.catalog.error("Unable to create review for product id=\(productId): \(error.localizedDescription)")
     }
