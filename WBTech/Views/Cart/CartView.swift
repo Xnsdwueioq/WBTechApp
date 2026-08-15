@@ -35,7 +35,14 @@ struct CartView: View {
       onIncrement: { id in Task { await store.increment(id: id) } },
       onDecrement: { id in Task { await store.decrement(id: id) } },
       onOrder: { Task { await createOrder() } },
-      onUnavailableTap: { _ in } // TODO: INSERT ACTION
+      onUnavailableTap: { _ in }, // TODO: INSERT ACTION
+      onAddressTap: {
+        if address == nil {
+          address = Address(id: "someIdAddress", addressLine: "г. Город, ул. Улица, д. 11", floor: "4", entrance: "3", intercomCode: "32")
+        } else {
+          address = nil
+        }
+      }
     )
     .task {
       await store.load()

@@ -10,6 +10,7 @@ struct CartOrderInfoView: View {
   let address: Address?
   let isOrderEnabled: Bool
   let onOrder: () -> Void
+  let onAddressTap: () -> Void
 
   private enum Configuration {
     static let topPadding: CGFloat = 16
@@ -44,7 +45,7 @@ struct CartOrderInfoView: View {
     VStack(alignment: .leading, spacing: Configuration.buttonContentSpacing) {
       VStack(alignment: .leading, spacing: Configuration.infoVerticalSpacing) {
         // MARK: Address
-        CartOrderInfoAddress(address: address)
+        CartOrderInfoAddress(address: address, onAddressTap: onAddressTap)
 
         // MARK: Payment
         VStack(alignment: .leading, spacing: Configuration.paymentLinesSpacing) {

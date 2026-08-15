@@ -16,6 +16,7 @@ struct CartContentView: View {
   let onDecrement: (String) -> Void
   let onOrder: () -> Void
   let onUnavailableTap: (String) -> Void
+  let onAddressTap: () -> Void
   
   private enum Configuration {
     static let contentVerticalSpacing: CGFloat = 0
@@ -51,7 +52,8 @@ struct CartContentView: View {
             summary: summary,
             address: address,
             isOrderEnabled: isOrderEnabled,
-            onOrder: onOrder
+            onOrder: onOrder,
+            onAddressTap: onAddressTap
           )
         }
       }

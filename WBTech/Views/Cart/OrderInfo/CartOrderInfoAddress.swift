@@ -10,6 +10,7 @@ import UISystem
 
 struct CartOrderInfoAddress: View {
   let address: Address?
+  let onAddressTap: () -> Void
   
   private enum Configuration {
     static let addressLinesSpacing: CGFloat = 0
@@ -38,16 +39,19 @@ struct CartOrderInfoAddress: View {
   }
 
   var body: some View {
-    VStack(alignment: .leading, spacing: Configuration.addressLinesSpacing) {
-      HStack {
-        Text(address?.addressLine ?? Configuration.addressPlaceholder)
-        Image.dsChevron
-      }
-      .font(.dsCartInfoPrimary)
-      if !additionalInfo.isEmpty {
-        Text(additionalInfo)
+    Button(action: onAddressTap) {
+      VStack(alignment: .leading, spacing: Configuration.addressLinesSpacing) {
+        HStack {
+          Text(address?.addressLine ?? Configuration.addressPlaceholder)
+          Image.dsChevron
+        }
+        .font(.dsCartInfoPrimary)
+        if !additionalInfo.isEmpty {
+          Text(additionalInfo)
+        }
       }
     }
+    .buttonStyle(DSStaticButtonStyle())
     .accessibilityElement(children: .combine)
     .accessibilityHint("Открывает выбор адреса")
   }
