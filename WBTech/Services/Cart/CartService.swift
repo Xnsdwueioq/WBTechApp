@@ -44,7 +44,7 @@ private extension CartService {
       deliveryPrice: dto.deliveryPrice,
       totalPrice: dto.totalPrice,
       totalItems: dto.totalItems,
-      items: dto.items.map(cartLine(from:))
+      items: dto.items.map(cartLine(from:)).sorted(by: {$0.name > $1.name})
     )
   }
   
