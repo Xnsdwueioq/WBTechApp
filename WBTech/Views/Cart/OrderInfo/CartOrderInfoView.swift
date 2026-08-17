@@ -9,8 +9,9 @@ struct CartOrderInfoView: View {
   let summary: CartSummary
   let address: Address?
   let isOrderEnabled: Bool
+  let onAddressTap: () -> Void
   let onOrder: () -> Void
-
+  
   private enum Configuration {
     static let topPadding: CGFloat = 16
     static let horizontalPadding: CGFloat = 12
@@ -26,26 +27,30 @@ struct CartOrderInfoView: View {
     static let freeDeliveryTitle = "Бесплатно"
     static let orderTitle = "Заказать"
   }
-
+  
   private var totalPriceText: String {
     "\(summary.totalPrice) \(Configuration.priceSign)"
   }
-
+  
   private var orderPriceText: String {
     "\(summary.orderPrice) \(Configuration.priceSign)"
   }
-
+  
   private var deliveryPriceText: String {
     guard summary.deliveryPrice > 0 else { return Configuration.freeDeliveryTitle }
     return "\(summary.deliveryPrice) \(Configuration.priceSign)"
   }
-
+  
   var body: some View {
     VStack(alignment: .leading, spacing: Configuration.buttonContentSpacing) {
       VStack(alignment: .leading, spacing: Configuration.infoVerticalSpacing) {
         // MARK: Address
-        CartOrderInfoAddress(address: address)
-
+        Button(action: onAddressTap) {
+          DSAddressView(address: address?.uiConfig(), withChevron: true, style: .cartInfo)
+        }
+        .buttonStyle(DSStaticButtonStyle())
+        .accessibilityHint("Открывает выбор адреса")
+        
         // MARK: Payment
         VStack(alignment: .leading, spacing: Configuration.paymentLinesSpacing) {
           HStack {
@@ -60,7 +65,7 @@ struct CartOrderInfoView: View {
         .font(.dsCartInfoPrimary)
         .accessibilityElement(children: .combine)
         .accessibilityHint("Открывает выбор способа оплаты")
-
+        
         // MARK: Totals
         VStack(alignment: .leading, spacing: Configuration.totalsSpacing) {
           HStack {
@@ -87,14 +92,14 @@ struct CartOrderInfoView: View {
           }
         }
       }
-
+      
       Button(action: onOrder) {
         Text(Configuration.orderTitle)
           .frame(maxWidth: .infinity)
       }
       .buttonStyle(DSButtonStyle(size: .large, style: isOrderEnabled ? .accent : .accentDisabled))
       .disabled(!isOrderEnabled)
-
+      
     }
     .font(.dsCartInfoSecondary)
     .padding(.top, Configuration.topPadding)

@@ -7,7 +7,7 @@ import Testing
 struct CartStoreTests {
   
   @Test func incrementSuccess() async throws {
-    let fake = FakeCartService()
+    let fake = FakeCartService(quantities: [:])
     let store = CartStore(cartService: fake)
     let id = "someID"
     await store.increment(id: id)
@@ -28,8 +28,8 @@ struct CartStoreTests {
   }
   
   @Test func decrementSuccess() async throws {
-    let fake = FakeCartService()
     let id = "someID"
+    let fake = FakeCartService(quantities: [id: 2])
     let store = CartStore(quantities: [id: 2], cartService: fake)
     await store.decrement(id: id)
     
@@ -67,6 +67,32 @@ struct CartStoreTests {
     #expect(existingQuantity == 2)
     #expect(notExistingQuantity == 0)
   }
+
+  @Test func cachedQuantitiesRemainAvailableWhenLoadingFails() async throws {
+    let persistence = InMemoryCartPersistence(quantities: ["cachedID": 4])
+    let store = CartStore(
+      cartService: FakeCartService(shouldThrow: true),
+      persistence: persistence
+    )
+
+    await store.load()
+
+    #expect(store.quantities == ["cachedID": 4])
+    #expect(store.cartSummary == nil)
+  }
+
+  @Test func serverCartReplacesAndUpdatesCachedQuantities() async throws {
+    let persistence = InMemoryCartPersistence(quantities: ["staleID": 5])
+    let store = CartStore(
+      cartService: FakeCartService(),
+      persistence: persistence
+    )
+
+    await store.load()
+
+    let expected = ["idproduct1": 2, "idproduct2": 1]
+    #expect(store.quantities == expected)
+    #expect(try persistence.loadQuantities() == expected)
+  }
   
 }
-

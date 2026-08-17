@@ -1,6 +1,7 @@
 //
 
 import SwiftUI
+import OSLog
 
 @main
 struct WBTechApp: App {
@@ -8,6 +9,7 @@ struct WBTechApp: App {
   let cartService: CartServiceProtocol
   let favoritesService: FavoritesServiceProtocol
   let orderService: OrderServiceProtocol
+  let cartPersistence: CartPersistenceProtocol
 
   init() {
     let isUITesting = ProcessInfo.processInfo.arguments.contains("UITESTS")
@@ -17,6 +19,7 @@ struct WBTechApp: App {
       self.cartService = MockCartService()
       self.favoritesService = MockFavoritesService()
       self.orderService = MockOrderService()
+      self.cartPersistence = InMemoryCartPersistence()
     } else {
       TokenBootstrap.run()
       let token = KeychainStore.read(account: TokenBootstrap.account) ?? ""
@@ -24,6 +27,12 @@ struct WBTechApp: App {
       self.cartService = CartService(token: token)
       self.favoritesService = FavoritesService(token: token)
       self.orderService = OrderService(token: token)
+      do {
+        self.cartPersistence = try SwiftDataCartPersistence()
+      } catch {
+        Logger.persistence.error("Unable to create the cart storage: \(error.localizedDescription)")
+        self.cartPersistence = InMemoryCartPersistence()
+      }
     }
   }
 
@@ -32,7 +41,10 @@ struct WBTechApp: App {
       RootTabView(
         catalogService: catalogService,
         orderService: orderService,
-        cartStore: CartStore(cartService: cartService),
+        cartStore: CartStore(
+          cartService: cartService,
+          persistence: cartPersistence
+        ),
         favoritesStore: FavoritesStore(favoritesService: favoritesService)
       )
     }

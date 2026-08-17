@@ -110,6 +110,15 @@ public extension Font {
   
 }
 
+// MARK: Address
+public extension Font {
+  
+  static let dsAddressPrimary = Font.system(size: 17).weight(.medium)
+  static let dsAddressSecondary = Font.system(size: 14).weight(.regular)
+  static let dsPlusAdd = Font.system(size: 32)
+  
+}
+
 #Preview {
   HStack {
     Text("Для тебя")
