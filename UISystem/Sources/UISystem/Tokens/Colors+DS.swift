@@ -27,6 +27,9 @@ public extension Color {
   // Progress Preview
   static let dsProgressPreview = Color.white
 
+  // Address
+  static let dsAddressPrimary = Color.primary
+  static let dsAddressSecondary = Color.gray
 }
 
 // MARK: - Button Style
@@ -58,6 +61,8 @@ public extension Color {
   
   static let dsSearchSuggestion = Color.primary
 
+  // Address
+  static let dsAddressEdit = Color.gray
 }
 
 // MARK: - Review Creating

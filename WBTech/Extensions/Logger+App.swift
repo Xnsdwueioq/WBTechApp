@@ -12,5 +12,8 @@ extension Logger {
   static let favorites = Logger(subsystem: subsystem, category: "Favorite")
   static let auth = Logger(subsystem: subsystem, category: "Auth")
   static let search = Logger(subsystem: subsystem, category: "Search")
+  static let review = Logger(subsystem: subsystem, category: "Review")
+  static let order = Logger(subsystem: subsystem, category: "Order")
+  static let persistence = Logger(subsystem: subsystem, category: "Persistence")
   
 }

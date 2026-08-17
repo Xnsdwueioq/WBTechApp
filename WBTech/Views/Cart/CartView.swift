@@ -12,7 +12,9 @@ struct CartView: View {
 
   @Environment(CartStore.self) private var store
 
+  @State private var presentAddresses = false
   @State private var address: Address?
+  
   @State private var isOrdering = false
 
   private enum Configuration {
@@ -34,6 +36,7 @@ struct CartView: View {
       isOrderEnabled: !availableItems.isEmpty && address != nil && !isOrdering,
       onIncrement: { id in Task { await store.increment(id: id) } },
       onDecrement: { id in Task { await store.decrement(id: id) } },
+      onAddressTap: { presentAddresses = true },
       onOrder: { Task { await createOrder() } },
       onUnavailableTap: { _ in } // TODO: INSERT ACTION
     )
@@ -42,6 +45,15 @@ struct CartView: View {
     }
     .task {
       await loadAddress()
+    }
+    .sheet(isPresented: $presentAddresses) {
+      AddressesListView(
+        pickedAddress: $address,
+        orderService: orderService,
+        onAddressPick: { address = $0 },
+        onAddressEdit: { _ in print("TODO") },
+        onCreateAddress: { print("TODO") } // TODO: insert action
+      )
     }
   }
 

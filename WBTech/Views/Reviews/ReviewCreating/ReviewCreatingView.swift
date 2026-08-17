@@ -207,7 +207,7 @@ struct ReviewCreatingView: View {
       isSubmitted = true
       onReviewCreated()
     } catch {
-      Logger.catalog.error("Unable to create review for product id=\(productId): \(error.localizedDescription)")
+      Logger.review.error("Unable to create review for product id=\(productId): \(error.localizedDescription)")
     }
   }
 }

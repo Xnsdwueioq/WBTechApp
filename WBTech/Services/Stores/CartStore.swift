@@ -10,20 +10,31 @@ final class CartStore {
   private(set) var quantities: [String: Int]
   private(set) var cartSummary: CartSummary?
   private let cartService: CartServiceProtocol
+  private let persistence: CartPersistenceProtocol
+  private var didRestoreCachedQuantities: Bool
   
-  init(quantities: [String : Int] = [:], cartService: CartServiceProtocol) {
+  init(
+    quantities: [String: Int] = [:],
+    cartService: CartServiceProtocol,
+    persistence: CartPersistenceProtocol = InMemoryCartPersistence()
+  ) {
     self.quantities = quantities
     self.cartSummary = nil
     self.cartService = cartService
+    self.persistence = persistence
+    self.didRestoreCachedQuantities = !quantities.isEmpty
   }
   
   func load() async {
+    restoreCachedQuantitiesIfNeeded()
+
     do {
       let summary = try await cartService.fetchCart()
-      summary.items.forEach { item in
-        quantities[item.id] = item.quantity
-      }
+      quantities = Dictionary(
+        uniqueKeysWithValues: summary.items.map { ($0.id, $0.quantity) }
+      )
       cartSummary = summary
+      saveCachedQuantities()
     } catch {
       Logger.cart.error("Unable to load the cart: \(error.localizedDescription)")
     }
@@ -38,12 +49,15 @@ final class CartStore {
   }
   
   func increment(id: String) async {
+    restoreCachedQuantitiesIfNeeded()
+
     let previousQuantity = quantities[id, default: 0]
     
     let newQuantity = previousQuantity + 1
     quantities[id] = newQuantity
     do {
       _ = try await cartService.addToCart(id: id)
+      saveCachedQuantities()
       await load()
     } catch {
       Logger.cart.error("Unable to increase the quantity of the item in the cart: \(error.localizedDescription)")
@@ -52,6 +66,8 @@ final class CartStore {
   }
   
   func decrement(id: String) async {
+    restoreCachedQuantitiesIfNeeded()
+
     let previousQuantity = quantities[id, default: 0]
     guard previousQuantity > 0 else { return }
     
@@ -64,10 +80,30 @@ final class CartStore {
     
     do {
       _ = try await cartService.decrementCartItem(id: id)
+      saveCachedQuantities()
       await load()
     } catch {
       Logger.cart.error("Unable to decrease the quantity of the item in the cart: \(error.localizedDescription)")
       quantities[id] = previousQuantity
+    }
+  }
+
+  private func restoreCachedQuantitiesIfNeeded() {
+    guard !didRestoreCachedQuantities else { return }
+    didRestoreCachedQuantities = true
+
+    do {
+      quantities = try persistence.loadQuantities()
+    } catch {
+      Logger.persistence.error("Unable to restore the cached cart: \(error.localizedDescription)")
+    }
+  }
+
+  private func saveCachedQuantities() {
+    do {
+      try persistence.saveQuantities(quantities)
+    } catch {
+      Logger.persistence.error("Unable to cache the cart: \(error.localizedDescription)")
     }
   }
 

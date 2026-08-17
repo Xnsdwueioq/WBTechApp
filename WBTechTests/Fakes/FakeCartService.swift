@@ -6,25 +6,42 @@ import Foundation
 actor FakeCartService: CartServiceProtocol {
   
   var shouldThrow = false
+  private var quantities: [String: Int]
   
   var cartToReturn: CartSummary {
-    CartSummary(
+    let items = quantities
+      .filter { $0.value > 0 }
+      .map { id, quantity in
+        CartLine(
+          id: id,
+          image: "\(id)-image",
+          name: id,
+          weight: 100,
+          price: 200,
+          quantity: quantity,
+          available: id != "idproduct2"
+        )
+      }
+      .sorted { $0.id < $1.id }
+
+    return CartSummary(
       deliveryTime: 15,
       orderPrice: 1000,
       deliveryPrice: 50,
       totalPrice: 1050,
-      totalItems: 2,
-      items: [
-        .init(id: "idproduct1", image: "productImage1", name: "product1", weight: 60, price: 200, quantity: 2, available: true),
-        .init(id: "idproduct2", image: "productImage2", name: "product2", weight: 1000, price: 600, quantity: 1, available: false)
-      ]
+      totalItems: quantities.values.reduce(0, +),
+      items: items
     )
   }
   private(set) var addCalls: [String] = []
   private(set) var decrementCalls: [String] = []
   
-  init(shouldThrow: Bool = false) {
+  init(
+    shouldThrow: Bool = false,
+    quantities: [String: Int] = ["idproduct1": 2, "idproduct2": 1]
+  ) {
     self.shouldThrow = shouldThrow
+    self.quantities = quantities
   }
   
   func fetchCart() async throws -> CartSummary {
@@ -39,7 +56,8 @@ actor FakeCartService: CartServiceProtocol {
     if shouldThrow {
       throw TestError.someError
     }
-    return 1
+    quantities[id, default: 0] += 1
+    return quantities.values.reduce(0, +)
   }
   
   func decrementCartItem(id: String) async throws -> Int {
@@ -47,7 +65,12 @@ actor FakeCartService: CartServiceProtocol {
     if shouldThrow {
       throw TestError.someError
     }
-    return 1
+    if quantities[id, default: 0] > 1 {
+      quantities[id, default: 0] -= 1
+    } else {
+      quantities[id] = nil
+    }
+    return quantities.values.reduce(0, +)
   }
   
 }

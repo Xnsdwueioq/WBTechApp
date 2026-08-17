@@ -1,18 +1,51 @@
 //
-//  CartOrderInfoAddress.swift
+//  DSAddressView.swift
 //  WBTech
 //
 //  Created by Eyhciurmrn Zmpodackrl on 7/21/26.
 //
 
 import SwiftUI
-import UISystem
 
-struct CartOrderInfoAddress: View {
-  let address: Address?
+public enum DSAddressStyle {
+  case cartInfo
+  case list
+  
+  public var lineFont: Font {
+    switch self {
+    case .cartInfo: .dsCartInfoPrimary
+    case .list: .dsAddressPrimary
+    }
+  }
+  
+  public var additionalInfoFont: Font {
+    switch self {
+    case .cartInfo: .dsCartInfoSecondary
+    case .list: .dsAddressSecondary
+    }
+  }
+  
+  public var additionalColor: Color {
+    switch self {
+    case .cartInfo: .dsAddressPrimary
+    case .list: .dsAddressSecondary
+    }
+  }
+}
+
+public struct DSAddressView: View {
+  public let address: DSAddressConfig?
+  public let withChevron: Bool
+  public let style: DSAddressStyle
+  
+  public init(address: DSAddressConfig?, withChevron: Bool, style: DSAddressStyle) {
+    self.address = address
+    self.withChevron = withChevron
+    self.style = style
+  }
   
   private enum Configuration {
-    static let addressLinesSpacing: CGFloat = 0
+    static let addressLinesSpacing: CGFloat = 4
     static let addressPlaceholder = "Адрес не выбран"
     static let floorTitle = "этаж"
     static let entranceTitle = "подъезд"
@@ -37,18 +70,21 @@ struct CartOrderInfoAddress: View {
     return components.joined(separator: Configuration.componentsSeparator)
   }
 
-  var body: some View {
+  public var body: some View {
     VStack(alignment: .leading, spacing: Configuration.addressLinesSpacing) {
       HStack {
         Text(address?.addressLine ?? Configuration.addressPlaceholder)
-        Image.dsChevron
+        if withChevron {
+          Image.dsChevron
+        }
       }
-      .font(.dsCartInfoPrimary)
+      .font(style.lineFont)
       if !additionalInfo.isEmpty {
         Text(additionalInfo)
+          .font(style.additionalInfoFont)
+          .foregroundStyle(style.additionalColor)
       }
     }
     .accessibilityElement(children: .combine)
-    .accessibilityHint("Открывает выбор адреса")
   }
 }
