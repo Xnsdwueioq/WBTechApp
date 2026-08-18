@@ -63,6 +63,13 @@ public extension Color {
 
   // Address
   static let dsAddressEdit = Color.gray
+
+  // Map
+  static let dsMapControlForeground = Color.black
+  static let dsMapControlSecondaryForeground = Color(hex: "9797AF")
+  static let dsMapControlDestructiveForeground = Color(hex: "F0114C")
+  static let dsMapControlBackground = Color.white
+  static let dsMapControlShadow = Color(hex: "28142D").opacity(0.2)
 }
 
 // MARK: - Review Creating
