@@ -50,6 +50,7 @@ struct CartOrderInfoView: View {
         }
         .buttonStyle(DSStaticButtonStyle())
         .accessibilityHint("Открывает выбор адреса")
+        .accessibilityIdentifier("cart.address")
         
         // MARK: Payment
         VStack(alignment: .leading, spacing: Configuration.paymentLinesSpacing) {

@@ -55,14 +55,21 @@ struct AddressesListContentView: View {
       ForEach(addresses) { address in
         addressRowView(address: address)
       }
-      HStack(alignment: .center, spacing: 6) {
-        Image.dsPlusRounded
-          .resizable()
-          .frame(width: 16, height: 16)
-        Text("Новый адрес")
-          .font(.dsAddressPrimary)
-      }
+
+      Button(action: {
+        onCreateAddress()
+      }) {
+        HStack(alignment: .center, spacing: 6) {
+          Image.dsPlusRounded
+            .resizable()
+            .frame(width: 16, height: 16)
+          Text("Новый адрес")
+            .font(.dsAddressPrimary)
+        }
         .padding(.top, 8)
+      }
+      .buttonStyle(DSStaticButtonStyle())
+      .accessibilityIdentifier("addresses.create")
     }
   }
   
@@ -91,9 +98,9 @@ struct AddressesListContentView: View {
         onAddressPick(address)
       }) {
         DSAddressView(
-        address: address.uiConfig(),
-        withChevron: false,
-        style: .list
+          address: address.uiConfig(),
+          withChevron: false,
+          style: .list
         )
       }
       Spacer()

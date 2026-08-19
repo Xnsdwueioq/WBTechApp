@@ -9,6 +9,7 @@ struct WBTechApp: App {
   let cartService: CartServiceProtocol
   let favoritesService: FavoritesServiceProtocol
   let orderService: OrderServiceProtocol
+  let addressSearchService: AddressSearchServiceProtocol
   let cartPersistence: CartPersistenceProtocol
 
   init() {
@@ -19,6 +20,7 @@ struct WBTechApp: App {
       self.cartService = MockCartService()
       self.favoritesService = MockFavoritesService()
       self.orderService = MockOrderService()
+      self.addressSearchService = MockAddressSearchService()
       self.cartPersistence = InMemoryCartPersistence()
     } else {
       TokenBootstrap.run()
@@ -27,6 +29,7 @@ struct WBTechApp: App {
       self.cartService = CartService(token: token)
       self.favoritesService = FavoritesService(token: token)
       self.orderService = OrderService(token: token)
+      self.addressSearchService = MapKitAddressSearchService()
       do {
         self.cartPersistence = try SwiftDataCartPersistence()
       } catch {
@@ -41,6 +44,7 @@ struct WBTechApp: App {
       RootTabView(
         catalogService: catalogService,
         orderService: orderService,
+        addressSearchService: addressSearchService,
         cartStore: CartStore(
           cartService: cartService,
           persistence: cartPersistence

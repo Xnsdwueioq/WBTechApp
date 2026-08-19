@@ -6,6 +6,7 @@ import UISystem
 struct RootTabView: View {
   private let catalogService: CatalogServiceProtocol
   private let orderService: OrderServiceProtocol
+  private let addressSearchService: AddressSearchServiceProtocol
   
   @State private var cartStore: CartStore
   @State private var favoritesStore: FavoritesStore
@@ -16,11 +17,13 @@ struct RootTabView: View {
   init(
     catalogService: CatalogServiceProtocol,
     orderService: OrderServiceProtocol,
+    addressSearchService: AddressSearchServiceProtocol,
     cartStore: CartStore,
     favoritesStore: FavoritesStore
   ) {
     self.catalogService = catalogService
     self.orderService = orderService
+    self.addressSearchService = addressSearchService
     self.cartStore = cartStore
     self.favoritesStore = favoritesStore
   }
@@ -48,7 +51,10 @@ struct RootTabView: View {
       
       // MARK: - Cart
       Tab(value: AppTab.cart) {
-        CartView(orderService: orderService)
+        CartView(
+          orderService: orderService,
+          addressSearchService: addressSearchService
+        )
           .environment(cartStore)
       } label: {
         Label(AppTab.cart.rawValue, systemImage: "cart")
@@ -73,7 +79,10 @@ struct RootTabView: View {
         .environment(cartStore)
         .environment(favoritesStore)
       case .cart:
-        CartView(orderService: orderService)
+        CartView(
+          orderService: orderService,
+          addressSearchService: addressSearchService
+        )
           .environment(cartStore)
       }
     }
@@ -84,5 +93,11 @@ struct RootTabView: View {
 }
 
 #Preview {
-  RootTabView(catalogService: MockCatalogService(), orderService: MockOrderService(), cartStore: CartStore(cartService: MockCartService()), favoritesStore: FavoritesStore(favoritesService: MockFavoritesService()))
+  RootTabView(
+    catalogService: MockCatalogService(),
+    orderService: MockOrderService(),
+    addressSearchService: MockAddressSearchService(),
+    cartStore: CartStore(cartService: MockCartService()),
+    favoritesStore: FavoritesStore(favoritesService: MockFavoritesService())
+  )
 }
