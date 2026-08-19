@@ -9,6 +9,7 @@ import OSLog
 struct CartView: View {
 
   let orderService: OrderServiceProtocol
+  let addressSearchService: AddressSearchServiceProtocol
 
   @Environment(CartStore.self) private var store
 
@@ -50,9 +51,8 @@ struct CartView: View {
       AddressesListView(
         pickedAddress: $address,
         orderService: orderService,
-        onAddressPick: { address = $0 },
-        onAddressEdit: { _ in print("TODO") },
-        onCreateAddress: { print("TODO") } // TODO: insert action
+        addressSearchService: addressSearchService,
+        onAddressPick: { address = $0 }
       )
     }
   }
@@ -84,6 +84,9 @@ struct CartView: View {
 }
 
 #Preview {
-  CartView(orderService: MockOrderService())
+  CartView(
+    orderService: MockOrderService(),
+    addressSearchService: MockAddressSearchService()
+  )
     .environment(CartStore(cartService: MockCartService()))
 }

@@ -30,6 +30,8 @@ public extension Color {
   // Address
   static let dsAddressPrimary = Color.primary
   static let dsAddressSecondary = Color.gray
+  static let dsAddressDetailsFieldLabel = Color(hex: "9797AF")
+  static let dsAddressDetailsFieldSeparator = Color(hex: "F0ECF4")
 }
 
 // MARK: - Button Style

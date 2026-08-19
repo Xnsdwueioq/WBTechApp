@@ -12,11 +12,11 @@ import OSLog
 struct AddressesListView: View {
   @Binding var pickedAddress: Address?
   let orderService: OrderServiceProtocol
+  let addressSearchService: AddressSearchServiceProtocol
   let onAddressPick: (Address) -> Void
-  let onAddressEdit: (Address) -> Void
-  let onCreateAddress: () -> Void
   
   @State private var viewState: ViewState<[Address]> = .idle
+  @State private var addressEditorMode: AddressEditorMode?
   
   var body: some View {
     Group {
@@ -26,8 +26,8 @@ struct AddressesListView: View {
           pickedAddress: pickedAddress,
           addresses: addresses,
           onAddressPick: onAddressPick,
-          onAddressEdit: onAddressEdit,
-          onCreateAddress: onCreateAddress
+          onAddressEdit: { addressEditorMode = .edit($0) },
+          onCreateAddress: { addressEditorMode = .create }
         )
 
       case .loading, .idle:
@@ -35,8 +35,8 @@ struct AddressesListView: View {
           pickedAddress: pickedAddress,
           addresses: [Address.default],
           onAddressPick: onAddressPick,
-          onAddressEdit: onAddressEdit,
-          onCreateAddress: onCreateAddress
+          onAddressEdit: { _ in },
+          onCreateAddress: { }
         )
         .redacted(reason: .placeholder)
         .allowsHitTesting(false)
@@ -45,6 +45,13 @@ struct AddressesListView: View {
         ContentUnavailableView(errorDescription, image: "xmark")
         // TODO: insert error handling
       }
+    }
+    .sheet(item: $addressEditorMode) { mode in
+      AddressEditorView(
+        mode: mode,
+        addressSearchService: addressSearchService,
+        onSave: { _ in }
+      )
     }
     .task {
       await loadAddresses()
@@ -64,5 +71,10 @@ struct AddressesListView: View {
 }
 
 #Preview {
-  AddressesListView(pickedAddress: .constant(Address.default), orderService: MockOrderService(), onAddressPick: { _ in print("") }, onAddressEdit: { _ in print("")}, onCreateAddress: {})
+  AddressesListView(
+    pickedAddress: .constant(Address.default),
+    orderService: MockOrderService(),
+    addressSearchService: MockAddressSearchService(),
+    onAddressPick: { _ in }
+  )
 }
