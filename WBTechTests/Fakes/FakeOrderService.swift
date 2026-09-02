@@ -18,6 +18,10 @@ actor FakeOrderService: OrderServiceProtocol {
     self.fetchResults = fetchResults
   }
 
+  func fetchOrders() async throws -> [Order] {
+    []
+  }
+
   func fetchAddresses() async throws -> [Address] {
     guard !fetchResults.isEmpty else { return [] }
     switch fetchResults.removeFirst() {
