@@ -25,6 +25,7 @@ struct CartStoreTests {
     
     #expect(await fake.addCalls.contains(id))
     #expect(store.quantity(for: id) == 3)
+    #expect(store.userError?.title == "Не удалось добавить товар")
   }
   
   @Test func decrementSuccess() async throws {
@@ -45,6 +46,7 @@ struct CartStoreTests {
     
     #expect(await fake.decrementCalls.contains(id))
     #expect(store.quantity(for: id) == 2)
+    #expect(store.userError?.title == "Не удалось изменить количество")
   }
   
   @Test func load() async throws {
@@ -79,6 +81,7 @@ struct CartStoreTests {
 
     #expect(store.quantities == ["cachedID": 4])
     #expect(store.cartSummary == nil)
+    #expect(store.userError?.title == "Не удалось загрузить корзину")
   }
 
   @Test func serverCartReplacesAndUpdatesCachedQuantities() async throws {

@@ -16,19 +16,39 @@ struct CartView: View {
 
   @State private var presentAddresses = false
   @State private var isOrdering = false
+  @State private var isOrderSubmitted = false
+  @State private var orderError: CartUserError?
 
   private enum Configuration {
     static let paymentMethod = "card"
+    static let successTitle = "Заказ оформлен"
+    static let successSubtitle = "Товары уже в процессе сборки, скоро привезём!"
+    static let successButtonName = "Закрыть"
+    static let orderErrorTitle = "Не удалось оформить заказ"
+    static let alertButtonTitle = "OK"
   }
 
   var body: some View {
+    cartContent
+      .fullScreenCover(isPresented: $isOrderSubmitted) {
+        DSProgressPreview(
+          title: Configuration.successTitle,
+          subtitle: Configuration.successSubtitle,
+          buttonName: Configuration.successButtonName,
+          onClose: { isOrderSubmitted = false }
+        )
+        .interactiveDismissDisabled()
+      }
+  }
+
+  private var cartContent: some View {
     let items = store.cartSummary?.items
     let availableItems = items?.filter { $0.available } ?? []
     let unavailableItems = items?.filter { !$0.available } ?? []
     let quantities = store.quantities
     let address = addressStore.selectedAddress
 
-    CartContentView(
+    return CartContentView(
       summary: store.cartSummary,
       availableItems: availableItems,
       unavailableItems: unavailableItems,
@@ -41,9 +61,6 @@ struct CartView: View {
       onOrder: { Task { await createOrder() } },
       onUnavailableTap: { _ in } // TODO: INSERT ACTION
     )
-    .task {
-      await store.load()
-    }
     .task { await addressStore.loadIfNeeded() }
     .sheet(isPresented: $presentAddresses) {
       AddressesListView(
@@ -51,6 +68,28 @@ struct CartView: View {
       )
       .environment(addressStore)
     }
+    .alert(item: presentedError) { error in
+      Alert(
+        title: Text(error.title),
+        message: Text(error.message),
+        dismissButton: .default(Text(Configuration.alertButtonTitle)) {
+          orderError = nil
+          store.dismissError()
+        }
+      )
+    }
+  }
+
+  private var presentedError: Binding<CartUserError?> {
+    Binding(
+      get: { orderError ?? store.userError },
+      set: { newValue in
+        if newValue == nil {
+          orderError = nil
+          store.dismissError()
+        }
+      }
+    )
   }
 
   private func createOrder() async {
@@ -64,9 +103,14 @@ struct CartView: View {
         paymentMethod: Configuration.paymentMethod,
         addressID: address.id
       )
+      isOrderSubmitted = true
       await store.load()
     } catch {
       Logger.cart.error("Unable to create the order: \(error.localizedDescription)")
+      orderError = CartUserError(
+        title: Configuration.orderErrorTitle,
+        message: error.localizedDescription
+      )
     }
   }
 }

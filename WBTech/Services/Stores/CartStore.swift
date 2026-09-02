@@ -3,12 +3,25 @@
 import Foundation
 import OSLog
 
+struct CartUserError: Identifiable, Equatable, Sendable {
+  let id = UUID()
+  let title: String
+  let message: String
+}
+
 @MainActor
 @Observable
 final class CartStore {
+
+  private enum Configuration {
+    static let loadErrorTitle = "Не удалось загрузить корзину"
+    static let incrementErrorTitle = "Не удалось добавить товар"
+    static let decrementErrorTitle = "Не удалось изменить количество"
+  }
   
   private(set) var quantities: [String: Int]
   private(set) var cartSummary: CartSummary?
+  private(set) var userError: CartUserError?
   private let cartService: CartServiceProtocol
   private let persistence: CartPersistenceProtocol
   private var didRestoreCachedQuantities: Bool
@@ -20,12 +33,14 @@ final class CartStore {
   ) {
     self.quantities = quantities
     self.cartSummary = nil
+    self.userError = nil
     self.cartService = cartService
     self.persistence = persistence
     self.didRestoreCachedQuantities = !quantities.isEmpty
   }
   
   func load() async {
+    userError = nil
     restoreCachedQuantitiesIfNeeded()
 
     do {
@@ -37,6 +52,7 @@ final class CartStore {
       saveCachedQuantities()
     } catch {
       Logger.cart.error("Unable to load the cart: \(error.localizedDescription)")
+      presentError(title: Configuration.loadErrorTitle, error: error)
     }
   }
   
@@ -49,6 +65,7 @@ final class CartStore {
   }
   
   func increment(id: String) async {
+    userError = nil
     restoreCachedQuantitiesIfNeeded()
 
     let previousQuantity = quantities[id, default: 0]
@@ -62,10 +79,12 @@ final class CartStore {
     } catch {
       Logger.cart.error("Unable to increase the quantity of the item in the cart: \(error.localizedDescription)")
       quantities[id] = previousQuantity
+      presentError(title: Configuration.incrementErrorTitle, error: error)
     }
   }
   
   func decrement(id: String) async {
+    userError = nil
     restoreCachedQuantitiesIfNeeded()
 
     let previousQuantity = quantities[id, default: 0]
@@ -85,7 +104,12 @@ final class CartStore {
     } catch {
       Logger.cart.error("Unable to decrease the quantity of the item in the cart: \(error.localizedDescription)")
       quantities[id] = previousQuantity
+      presentError(title: Configuration.decrementErrorTitle, error: error)
     }
+  }
+
+  func dismissError() {
+    userError = nil
   }
 
   private func restoreCachedQuantitiesIfNeeded() {
@@ -105,6 +129,13 @@ final class CartStore {
     } catch {
       Logger.persistence.error("Unable to cache the cart: \(error.localizedDescription)")
     }
+  }
+
+  private func presentError(title: String, error: Error) {
+    userError = CartUserError(
+      title: title,
+      message: error.localizedDescription
+    )
   }
 
 }
