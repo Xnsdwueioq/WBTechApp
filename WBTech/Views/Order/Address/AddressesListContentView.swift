@@ -69,7 +69,6 @@ struct AddressesListContentView: View {
         .padding(.top, 8)
       }
       .buttonStyle(DSStaticButtonStyle())
-      .accessibilityIdentifier("addresses.create")
     }
   }
   

@@ -35,7 +35,8 @@ final class MockAddressSearchService: AddressSearchServiceProtocol {
   }
 
   func resolveCity(
-    from suggestion: AddressSearchSuggestion
+    from suggestion: AddressSearchSuggestion,
+    locale: Locale
   ) async throws -> AddressSearchCity {
     if suggestion.title == chelyabinsk.name {
       return chelyabinsk
@@ -68,6 +69,13 @@ final class MockAddressSearchService: AddressSearchServiceProtocol {
     locale: Locale
   ) async throws -> AddressSearchCity? {
     chelyabinsk
+  }
+
+  func addressLine(
+    at coordinates: AddressCoordinates,
+    locale: Locale
+  ) async throws -> String {
+    "Челябинск, ул. Энгельса, д. 3"
   }
 
   func resolveAddress(

@@ -25,17 +25,19 @@ enum AddressSearchServiceError: LocalizedError, Equatable, Sendable {
 @MainActor
 final class MapKitAddressSearchService: AddressSearchServiceProtocol {
 
+  private let cityCompleter = LocalSearchCompleter(
+    addressFilter: MKAddressFilter(including: .locality)
+  )
+
   func citySuggestions(
     for query: String
   ) async throws -> [AddressSearchSuggestion] {
-    try await suggestions(
-      query: query,
-      addressFilter: MKAddressFilter(including: .locality)
-    )
+    try await cityCompleter.results(query: query)
   }
 
   func resolveCity(
-    from suggestion: AddressSearchSuggestion
+    from suggestion: AddressSearchSuggestion,
+    locale: Locale
   ) async throws -> AddressSearchCity {
     let request = MKLocalSearch.Request()
     request.naturalLanguageQuery = suggestion.searchText
@@ -46,14 +48,13 @@ final class MapKitAddressSearchService: AddressSearchServiceProtocol {
       throw AddressSearchServiceError.noResults
     }
 
-    let name = mapItem.addressRepresentations?.cityName ?? suggestion.title
-    let context = mapItem.addressRepresentations?.cityWithContext
-      ?? suggestion.subtitle
+    let coordinates = Self.coordinates(from: mapItem.location.coordinate)
+    let localizedCity = try await city(at: coordinates, locale: locale)
 
     return AddressSearchCity(
-      name: name,
-      context: context,
-      coordinates: Self.coordinates(from: mapItem.location.coordinate)
+      name: localizedCity?.name ?? suggestion.title,
+      context: localizedCity?.context ?? suggestion.subtitle,
+      coordinates: coordinates
     )
   }
 
@@ -61,17 +62,23 @@ final class MapKitAddressSearchService: AddressSearchServiceProtocol {
     for query: String,
     city: AddressSearchCity
   ) async throws -> [AddressSearchSuggestion] {
-    let suggestions = try await suggestions(
-      query: query,
-      region: Self.searchRegion(for: city.coordinates),
-      regionPriority: .required
+    let query = query.trimmingCharacters(in: .whitespacesAndNewlines)
+    guard !query.isEmpty else { return [] }
+
+    let searchText = query.lowercased().hasPrefix("ул")
+      ? query
+      : "улица \(query)"
+    let request = MKLocalSearch.Request(
+      naturalLanguageQuery: searchText,
+      region: Self.searchRegion(for: city.coordinates)
     )
+    request.regionPriority = .required
+    request.resultTypes = .address
+    let mapItems = try await MKLocalSearch(request: request).start().mapItems
 
     var seenTitles = Set<String>()
-    return suggestions.compactMap { suggestion in
-      let title = suggestion.title
-        .split(separator: ",", maxSplits: 1)
-        .first?
+    return mapItems.compactMap { mapItem in
+      let title = mapItem.name?
         .trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
       guard !title.isEmpty,
             seenTitles.insert(title).inserted else { return nil }
@@ -104,6 +111,35 @@ final class MapKitAddressSearchService: AddressSearchServiceProtocol {
       context: mapItem.addressRepresentations?.cityWithContext ?? name,
       coordinates: coordinates
     )
+  }
+
+  func addressLine(
+    at coordinates: AddressCoordinates,
+    locale: Locale
+  ) async throws -> String {
+    let location = CLLocation(
+      latitude: coordinates.latitude,
+      longitude: coordinates.longitude
+    )
+
+    guard let request = MKReverseGeocodingRequest(location: location) else {
+      throw AddressSearchServiceError.invalidRequest
+    }
+
+    request.preferredLocale = locale
+
+    guard let mapItem = try await request.mapItems.first,
+          let address = mapItem.address else {
+      throw AddressSearchServiceError.noResults
+    }
+
+    let addressLine = address.fullAddress
+      .trimmingCharacters(in: .whitespacesAndNewlines)
+    guard !addressLine.isEmpty else {
+      throw AddressSearchServiceError.noResults
+    }
+
+    return addressLine
   }
 
   func resolveAddress(
@@ -162,24 +198,6 @@ final class MapKitAddressSearchService: AddressSearchServiceProtocol {
     return components.joined(separator: ", ")
   }
 
-  private func suggestions(
-    query: String,
-    addressFilter: MKAddressFilter = .includingAll,
-    region: MKCoordinateRegion? = nil,
-    regionPriority: MKLocalSearchRegionPriority = .default
-  ) async throws -> [AddressSearchSuggestion] {
-    let query = query.trimmingCharacters(in: .whitespacesAndNewlines)
-    guard !query.isEmpty else { return [] }
-
-    let request = LocalSearchCompletionRequest(
-      query: query,
-      addressFilter: addressFilter,
-      region: region,
-      regionPriority: regionPriority
-    )
-    return try await request.results()
-  }
-
   private nonisolated static func searchRegion(
     for coordinates: AddressCoordinates
   ) -> MKCoordinateRegion {
@@ -203,37 +221,31 @@ final class MapKitAddressSearchService: AddressSearchServiceProtocol {
 }
 
 @MainActor
-private final class LocalSearchCompletionRequest:
+private final class LocalSearchCompleter:
   NSObject,
   @preconcurrency MKLocalSearchCompleterDelegate {
 
-  private let completer: MKLocalSearchCompleter
-  private let query: String
+  private let completer = MKLocalSearchCompleter()
   private var continuation: CheckedContinuation<[AddressSearchSuggestion], any Error>?
+  private var requestID: UUID?
 
   init(
-    query: String,
-    addressFilter: MKAddressFilter,
-    region: MKCoordinateRegion?,
-    regionPriority: MKLocalSearchRegionPriority
+    addressFilter: MKAddressFilter = .includingAll
   ) {
-    let completer = MKLocalSearchCompleter()
+    super.init()
     completer.resultTypes = .address
     completer.addressFilter = addressFilter
-    completer.regionPriority = regionPriority
-    if let region {
-      completer.region = region
-    }
-
-    self.completer = completer
-    self.query = query
-    super.init()
     completer.delegate = self
   }
 
-  func results() async throws -> [AddressSearchSuggestion] {
+  func results(query: String) async throws -> [AddressSearchSuggestion] {
+    let query = query.trimmingCharacters(in: .whitespacesAndNewlines)
+    guard !query.isEmpty else { return [] }
     guard !Task.isCancelled else { throw CancellationError() }
 
+    let requestID = UUID()
+    cancelCurrentRequest()
+    self.requestID = requestID
     return try await withTaskCancellationHandler {
       try await withCheckedThrowingContinuation { continuation in
         self.continuation = continuation
@@ -241,7 +253,7 @@ private final class LocalSearchCompletionRequest:
       }
     } onCancel: {
       Task { @MainActor [weak self] in
-        self?.cancel()
+        self?.cancel(requestID: requestID)
       }
     }
   }
@@ -268,7 +280,12 @@ private final class LocalSearchCompletionRequest:
     finish(with: .failure(error))
   }
 
-  private func cancel() {
+  private func cancel(requestID: UUID) {
+    guard self.requestID == requestID else { return }
+    cancelCurrentRequest()
+  }
+
+  private func cancelCurrentRequest() {
     completer.cancel()
     finish(with: .failure(CancellationError()))
   }
@@ -278,7 +295,7 @@ private final class LocalSearchCompletionRequest:
   ) {
     guard let continuation else { return }
     self.continuation = nil
-    completer.delegate = nil
+    requestID = nil
     continuation.resume(with: result)
   }
 }

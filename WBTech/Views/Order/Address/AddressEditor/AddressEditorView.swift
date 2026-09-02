@@ -7,30 +7,36 @@
 
 import SwiftUI
 import MapKit
+import CoreLocation
 import UISystem
 import OSLog
 
-enum AddressEditorMode: Identifiable {
+struct AddressEditorView: View {
 
-  enum ID: Hashable {
-    case create
-    case edit(String)
-  }
+  private enum Configuration {
+    static let initialCoordinates = AddressCoordinates(
+      longitude: 37.62381,
+      latitude: 55.73662
+    )
+    static let initialAddressLine = "г. Москва, ул. Большая Ордынка, д. 40"
+    static let initialRegion = region(for: initialCoordinates)
+    static let lookupDelay = Duration.milliseconds(350)
+    static let coordinateTolerance = 0.00001
+    static let minimumMapDelta: CLLocationDegrees = 0.0005
+    static let maximumMapDelta: CLLocationDegrees = 180
 
-  case create
-  case edit(Address)
-
-  var id: ID {
-    switch self {
-    case .create:
-      .create
-    case .edit(let address):
-      .edit(address.id)
+    static func region(
+      for coordinates: AddressCoordinates
+    ) -> MKCoordinateRegion {
+      MKCoordinateRegion(
+        center: .init(
+          latitude: coordinates.latitude,
+          longitude: coordinates.longitude
+        ),
+        span: .init(latitudeDelta: 0.005, longitudeDelta: 0.005)
+      )
     }
   }
-}
-
-struct AddressEditorView: View {
 
   private enum PresentedSheet: Hashable, Identifiable {
     case details
@@ -46,44 +52,25 @@ struct AddressEditorView: View {
   private let addressSearchService: AddressSearchServiceProtocol
   private let onSave: (AddressDraft) -> Void
 
-  @State private var draft: AddressDraft
-  @State private var position: MapCameraPosition
-  @State private var visibleRegion: MKCoordinateRegion
-  @State private var latestAddressRequestID = UUID()
+  @State private var locationManager = CLLocationManager()
+  @State private var draft = AddressDraft(
+    coordinates: Configuration.initialCoordinates,
+    addressLine: Configuration.initialAddressLine
+  )
+  @State private var position = MapCameraPosition.userLocation(
+    fallback: .region(Configuration.initialRegion)
+  )
+  @State private var visibleRegion = Configuration.initialRegion
+  @State private var coordinatesPendingLookup: AddressCoordinates?
+  @State private var preservedAddressCoordinates: AddressCoordinates?
   @State private var presentedSheet: PresentedSheet?
 
   init(
-    mode: AddressEditorMode = .create,
     addressSearchService: AddressSearchServiceProtocol,
     onSave: @escaping (AddressDraft) -> Void
   ) {
-    let draft: AddressDraft
-    let position: MapCameraPosition
-
-    switch mode {
-    case .create:
-      let coordinates = AddressCoordinates(
-        longitude: 37.62381,
-        latitude: 55.73662
-      )
-      draft = AddressDraft(
-        coordinates: coordinates,
-        addressLine: "г. Москва, ул. Большая Ордынка, д. 40"
-      )
-      position = .userLocation(
-        fallback: .region(Self.region(for: coordinates))
-      )
-
-    case .edit(let address):
-      draft = AddressDraft(address: address)
-      position = .region(Self.region(for: address.coordinates))
-    }
-
     self.addressSearchService = addressSearchService
     self.onSave = onSave
-    self.draft = draft
-    self.position = position
-    self.visibleRegion = Self.region(for: draft.coordinates)
   }
   
   var body: some View {
@@ -91,16 +78,16 @@ struct AddressEditorView: View {
       Map(position: $position, scope: mapScope) {
         UserAnnotation()
       }
-      .onMapCameraChange(frequency: .onEnd) { context in
-        let coordinate = context.region.center
-        let requestID = UUID()
-
+      .onMapCameraChange(frequency: .continuous) { context in
         visibleRegion = context.region
-        
-        latestAddressRequestID = requestID
-        
-        Task {
-          await updateDraft(with: coordinate, requestID: requestID)
+
+        let coordinates = Self.coordinates(from: context.region.center)
+        if let preservedCoordinates = preservedAddressCoordinates,
+           Self.areApproximatelyEqual(coordinates, preservedCoordinates) {
+          preservedAddressCoordinates = nil
+          coordinatesPendingLookup = nil
+        } else {
+          coordinatesPendingLookup = coordinates
         }
       }
       marker
@@ -121,6 +108,15 @@ struct AddressEditorView: View {
       .padding(12)
     }
     .mapScope(mapScope)
+    .task {
+      requestLocationAuthorizationIfNeeded()
+    }
+    .task(id: coordinatesPendingLookup) {
+      guard let coordinatesPendingLookup else { return }
+      try? await Task.sleep(for: Configuration.lookupDelay)
+      guard !Task.isCancelled else { return }
+      await updateDraft(at: coordinatesPendingLookup)
+    }
     .safeAreaInset(edge: .bottom, spacing: 0) {
       addressInfo
     }
@@ -147,7 +143,6 @@ struct AddressEditorView: View {
       Text(draft.addressLine)
         .lineLimit(1)
         .truncationMode(.middle)
-        .accessibilityIdentifier("addressEditor.addressLine")
         .font(
           .system(size: 20)
           .weight(.medium)
@@ -158,7 +153,6 @@ struct AddressEditorView: View {
           Text("Ввести другой")
         }
         .buttonStyle(DSButtonStyle(size: .large, style: .outline))
-        .accessibilityIdentifier("addressEditor.manualEntry")
         
         Button(action: { presentedSheet = .details }) {
           Text("Выбрать адрес")
@@ -205,42 +199,29 @@ struct AddressEditorView: View {
     .accessibilityLabel(accessibilityLabel)
   }
   
-  private func updateDraft(
-    with coordinate: CLLocationCoordinate2D,
-    requestID: UUID
-  ) async {
-    guard let newAddressLine = await getAddressLine(for: coordinate),
-          requestID == latestAddressRequestID else { return }
-    
-    let newCoordinates = AddressCoordinates(
-      longitude: coordinate.longitude,
-      latitude: coordinate.latitude
-    )
-    Logger.map.debug("updated from \(draft.coordinates.latitude), \(draft.coordinates.longitude) to \(coordinate.latitude), \(coordinate.longitude)")
-    draft.coordinates = newCoordinates
-    draft.addressLine = newAddressLine
-  }
-  
-  private func getAddressLine(for coordinate: CLLocationCoordinate2D) async -> String? {
-    let location = CLLocation(
-      latitude: coordinate.latitude,
-      longitude: coordinate.longitude
-    )
-    
-    guard let request = MKReverseGeocodingRequest(location: location) else {
-      Logger.map.error("Unable to create reverse geocoding request")
-      return nil
-    }
-    
-    request.preferredLocale = locale
-    
+  private func updateDraft(at coordinates: AddressCoordinates) async {
     do {
-      let mapItems = try await request.mapItems
-      return mapItems.first?.address?.shortAddress
+      let addressLine = try await addressSearchService.addressLine(
+        at: coordinates,
+        locale: locale
+      )
+      guard !Task.isCancelled,
+            coordinatesPendingLookup == coordinates else { return }
+
+      Logger.map.debug(
+        "Address updated from \(draft.coordinates.latitude), \(draft.coordinates.longitude) to \(coordinates.latitude), \(coordinates.longitude)"
+      )
+      draft.coordinates = coordinates
+      draft.addressLine = addressLine
     } catch {
       Logger.map.error("Reverse geocoding failed: \(error.localizedDescription)")
-      return nil
     }
+  }
+
+  private func requestLocationAuthorizationIfNeeded() {
+    guard locationManager.authorizationStatus == .notDetermined else { return }
+
+    locationManager.requestWhenInUseAuthorization()
   }
 
   private func saveDraft() {
@@ -249,51 +230,53 @@ struct AddressEditorView: View {
   }
 
   private func selectAddress(_ selection: AddressSearchSelection) {
-    latestAddressRequestID = UUID()
+    coordinatesPendingLookup = nil
+    preservedAddressCoordinates = selection.coordinates
     draft.coordinates = selection.coordinates
     draft.addressLine = selection.addressLine
-    visibleRegion = Self.region(for: selection.coordinates)
+    visibleRegion = Configuration.region(for: selection.coordinates)
     position = .region(visibleRegion)
     presentedSheet = nil
   }
 
   private func zoomMap(by factor: CLLocationDegrees) {
-    let minimumDelta: CLLocationDegrees = 0.0005
-    let maximumDelta: CLLocationDegrees = 180
-
     visibleRegion.span = MKCoordinateSpan(
-      latitudeDelta: min(
-        max(visibleRegion.span.latitudeDelta * factor, minimumDelta),
-        maximumDelta
-      ),
-      longitudeDelta: min(
-        max(visibleRegion.span.longitudeDelta * factor, minimumDelta),
-        maximumDelta
-      )
+      latitudeDelta: clampedMapDelta(visibleRegion.span.latitudeDelta * factor),
+      longitudeDelta: clampedMapDelta(visibleRegion.span.longitudeDelta * factor)
     )
     position = .region(visibleRegion)
   }
 
-  private static func region(
-    for coordinates: AddressCoordinates
-  ) -> MKCoordinateRegion {
-    MKCoordinateRegion(
-      center: .init(
-        latitude: coordinates.latitude,
-        longitude: coordinates.longitude
-      ),
-      span: .init(
-        latitudeDelta: 0.005,
-        longitudeDelta: 0.005
-      )
+  private func clampedMapDelta(
+    _ delta: CLLocationDegrees
+  ) -> CLLocationDegrees {
+    min(
+      max(delta, Configuration.minimumMapDelta),
+      Configuration.maximumMapDelta
     )
+  }
+
+  private static func coordinates(
+    from coordinate: CLLocationCoordinate2D
+  ) -> AddressCoordinates {
+    AddressCoordinates(
+      longitude: coordinate.longitude,
+      latitude: coordinate.latitude
+    )
+  }
+
+  private static func areApproximatelyEqual(
+    _ lhs: AddressCoordinates,
+    _ rhs: AddressCoordinates
+  ) -> Bool {
+    abs(lhs.latitude - rhs.latitude) < Configuration.coordinateTolerance
+      && abs(lhs.longitude - rhs.longitude) < Configuration.coordinateTolerance
   }
 
 }
 
 #Preview {
   AddressEditorView(
-    mode: .create,
     addressSearchService: MockAddressSearchService(),
     onSave: { _ in }
   )

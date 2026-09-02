@@ -37,7 +37,7 @@ struct AddressDetailsForm: View {
     self.onSave = onSave
   }
 
-  private enum Layout {
+  private enum Configuration {
     static let horizontalPadding: CGFloat = 12
     static let topPadding: CGFloat = 24
     static let contentBottomPadding: CGFloat = 24
@@ -52,14 +52,14 @@ struct AddressDetailsForm: View {
         .font(.dsAddressDetailsTitle)
         .lineLimit(2)
         .accessibilityAddTraits(.isHeader)
-        .padding(.top, Layout.topPadding)
-        .padding(.horizontal, Layout.horizontalPadding)
+        .padding(.top, Configuration.topPadding)
+        .padding(.horizontal, Configuration.horizontalPadding)
 
       ScrollView {
         fieldsView
-          .padding(.top, Layout.sectionSpacing)
-          .padding(.horizontal, Layout.horizontalPadding)
-          .padding(.bottom, Layout.contentBottomPadding)
+          .padding(.top, Configuration.sectionSpacing)
+          .padding(.horizontal, Configuration.horizontalPadding)
+          .padding(.bottom, Configuration.contentBottomPadding)
       }
       .scrollDismissesKeyboard(.interactively)
     }
@@ -69,7 +69,7 @@ struct AddressDetailsForm: View {
   }
 
   private var fieldsView: some View {
-    VStack(spacing: Layout.fieldSpacing) {
+    VStack(spacing: Configuration.fieldSpacing) {
       UnderlinedAddressField(
         title: "Квартира/офис",
         text: $draft.apartment
@@ -104,7 +104,8 @@ struct AddressDetailsForm: View {
 
       UnderlinedAddressField(
         title: "Комментарий",
-        text: $draft.comment
+        text: $draft.comment,
+        axis: .vertical
       )
       .focused($focusedField, equals: .comment)
       .submitLabel(.done)
@@ -131,15 +132,14 @@ struct AddressDetailsForm: View {
       )
     )
     .disabled(!canSave)
-    .padding(.horizontal, Layout.horizontalPadding)
-    .padding(.vertical, Layout.buttonVerticalPadding)
+    .padding(.horizontal, Configuration.horizontalPadding)
+    .padding(.vertical, Configuration.buttonVerticalPadding)
   }
 
   private var canSave: Bool {
     isSaveEnabled && !isSaving
   }
 }
-
 
 #Preview {
   @Previewable @State var draft = AddressDraft(

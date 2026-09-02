@@ -9,6 +9,64 @@ import SwiftUI
 import UISystem
 import OSLog
 
+private struct AddressSearchState {
+  var cityText = ""
+  var streetText = ""
+  var house = ""
+  var building = ""
+
+  var selectedCity: AddressSearchCity?
+  var selectedStreet: AddressSearchSuggestion?
+  var citySuggestions: [AddressSearchSuggestion] = []
+  var streetSuggestions: [AddressSearchSuggestion] = []
+
+  var citySuggestionsError: String?
+  var streetSuggestionsError: String?
+  var resolutionError: String?
+  var isResolvingCity = false
+  var isResolvingAddress = false
+
+  var canResolveAddress: Bool {
+    selectedCity != nil
+      && selectedStreet != nil
+      && !house.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+      && !isResolvingAddress
+  }
+
+  var canEditStreet: Bool {
+    selectedCity != nil
+      || !cityText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+  }
+
+  var canEditAddressDetails: Bool {
+    selectedStreet != nil
+      || (selectedCity != nil
+        && !streetText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+  }
+
+  mutating func updateCityText(_ value: String) {
+    cityText = value
+    selectedCity = nil
+    selectedStreet = nil
+    streetText = ""
+    house = ""
+    building = ""
+    citySuggestions = []
+    streetSuggestions = []
+    citySuggestionsError = nil
+    streetSuggestionsError = nil
+  }
+
+  mutating func updateStreetText(_ value: String) {
+    streetText = value
+    selectedStreet = nil
+    house = ""
+    building = ""
+    streetSuggestions = []
+    streetSuggestionsError = nil
+  }
+}
+
 struct AddressSearchForm: View {
 
   private enum Field: Hashable {
@@ -18,7 +76,7 @@ struct AddressSearchForm: View {
     case building
   }
 
-  private enum Layout {
+  private enum Configuration {
     static let horizontalPadding: CGFloat = 12
     static let topPadding: CGFloat = 28
     static let fieldSpacing: CGFloat = 24
@@ -31,88 +89,81 @@ struct AddressSearchForm: View {
     let query: String
   }
 
-  @Environment(\.locale) private var locale
-
   let initialCoordinates: AddressCoordinates
   let addressSearchService: AddressSearchServiceProtocol
   let onSelect: (AddressSearchSelection) -> Void
 
-  @State private var cityText = ""
-  @State private var streetText = ""
-  @State private var house = ""
-  @State private var building = ""
-
-  @State private var selectedCity: AddressSearchCity?
-  @State private var selectedStreet: AddressSearchSuggestion?
-  @State private var citySuggestions: [AddressSearchSuggestion] = []
-  @State private var streetSuggestions: [AddressSearchSuggestion] = []
-
-  @State private var citySuggestionsError: String?
-  @State private var streetSuggestionsError: String?
-  @State private var resolutionError: String?
-  @State private var isResolvingCity = false
-  @State private var isResolvingAddress = false
-  @State private var didLoadInitialCity = false
-
+  @State private var state = AddressSearchState()
   @FocusState private var focusedField: Field?
 
   var body: some View {
     ScrollView {
-      VStack(spacing: Layout.fieldSpacing) {
+      VStack(spacing: Configuration.fieldSpacing) {
         citySection
         streetSection
 
         UnderlinedAddressField(
           title: "Дом",
-          text: $house
+          text: $state.house
         )
         .focused($focusedField, equals: .house)
         .submitLabel(.next)
-        .disabled(selectedStreet == nil)
+        .disabled(!state.canEditAddressDetails)
         .onSubmit { focusedField = .building }
-        .accessibilityIdentifier("addressSearch.house")
 
         UnderlinedAddressField(
           title: "Корпус/строение",
-          text: $building
+          text: $state.building
         )
         .focused($focusedField, equals: .building)
         .submitLabel(.done)
-        .disabled(selectedStreet == nil)
+        .disabled(!state.canEditAddressDetails)
         .onSubmit {
           focusedField = nil
-          guard canResolveAddress else { return }
+          guard state.canResolveAddress else { return }
           Task { await showAddressOnMap() }
         }
-        .accessibilityIdentifier("addressSearch.building")
       }
-      .padding(.top, Layout.topPadding)
-      .padding(.horizontal, Layout.horizontalPadding)
-      .padding(.bottom, Layout.fieldSpacing)
+      .padding(.top, Configuration.topPadding)
+      .padding(.horizontal, Configuration.horizontalPadding)
+      .padding(.bottom, Configuration.fieldSpacing)
     }
     .scrollDismissesKeyboard(.interactively)
     .safeAreaInset(edge: .bottom, spacing: 0) {
       showOnMapButton
     }
     .task {
-      await loadInitialCityIfNeeded()
+      await loadInitialCity()
     }
-    .task(id: cityText) {
-      await loadCitySuggestions(for: cityText)
+    .task(id: state.cityText) {
+      await loadCitySuggestions(for: state.cityText)
     }
     .task(
       id: StreetSearchKey(
-        cityID: selectedCity?.id,
-        query: streetText
+        cityID: state.selectedCity?.id,
+        query: state.streetText
       )
     ) {
-      await loadStreetSuggestions(for: streetText)
+      await loadStreetSuggestions(for: state.streetText)
+    }
+    .onChange(of: focusedField) { oldField, newField in
+      if oldField == .city,
+         newField != .city,
+         state.selectedCity == nil {
+        Task { await submitCity() }
+      }
+
+      if oldField == .street,
+         newField != .street,
+         state.selectedStreet == nil {
+        submitStreet()
+      }
     }
     .alert(
       "Не удалось найти адрес",
       isPresented: Binding(
-        get: { resolutionError != nil },
-        set: { if !$0 { resolutionError = nil } }
+        get: { state.resolutionError != nil },
+        set: { if !$0 { state.resolutionError = nil } }
       )
     ) {
       Button("Повторить") {
@@ -120,7 +171,7 @@ struct AddressSearchForm: View {
       }
       Button("Отмена", role: .cancel) { }
     } message: {
-      Text(resolutionError ?? "Попробуйте ещё раз")
+      Text(state.resolutionError ?? "Попробуйте ещё раз")
     }
   }
 
@@ -130,13 +181,12 @@ struct AddressSearchForm: View {
         title: "Город",
         text: cityBinding,
         field: .city,
-        isEnabled: true,
-        accessibilityIdentifier: "addressSearch.city"
+        isEnabled: true
       )
 
-      if focusedField == .city {
-        suggestionError(citySuggestionsError)
-        suggestionsList(citySuggestions, showsSubtitle: true) { suggestion in
+      if state.selectedCity == nil {
+        suggestionError(state.citySuggestionsError)
+        suggestionsList(state.citySuggestions, showsSubtitle: true) { suggestion in
           Task { await selectCity(suggestion) }
         }
       }
@@ -149,13 +199,12 @@ struct AddressSearchForm: View {
         title: "Улица",
         text: streetBinding,
         field: .street,
-        isEnabled: selectedCity != nil,
-        accessibilityIdentifier: "addressSearch.street"
+        isEnabled: state.canEditStreet
       )
 
-      if focusedField == .street {
-        suggestionError(streetSuggestionsError)
-        suggestionsList(streetSuggestions, showsSubtitle: false) { suggestion in
+      if state.selectedCity != nil, state.selectedStreet == nil {
+        suggestionError(state.streetSuggestionsError)
+        suggestionsList(state.streetSuggestions, showsSubtitle: false) { suggestion in
           selectStreet(suggestion)
         }
       }
@@ -167,7 +216,7 @@ struct AddressSearchForm: View {
       Task { await showAddressOnMap() }
     } label: {
       Group {
-        if isResolvingAddress {
+        if state.isResolvingAddress {
           ProgressView()
             .tint(Color.dsAccentButtonForeground)
         } else {
@@ -179,55 +228,33 @@ struct AddressSearchForm: View {
     .buttonStyle(
       DSButtonStyle(
         size: .large,
-        style: canResolveAddress ? .accent : .accentDisabled
+        style: state.canResolveAddress ? .accent : .accentDisabled
       )
     )
-    .disabled(!canResolveAddress)
-    .padding(.horizontal, Layout.horizontalPadding)
-    .padding(.vertical, Layout.buttonVerticalPadding)
-    .accessibilityIdentifier("addressSearch.showOnMap")
+    .disabled(!state.canResolveAddress)
+    .padding(.horizontal, Configuration.horizontalPadding)
+    .padding(.vertical, Configuration.buttonVerticalPadding)
   }
 
   private var cityBinding: Binding<String> {
     Binding(
-      get: { cityText },
-      set: { newValue in
-        cityText = newValue
-        selectedCity = nil
-        selectedStreet = nil
-        streetText = ""
-        house = ""
-        building = ""
-        streetSuggestions = []
-      }
+      get: { state.cityText },
+      set: { state.updateCityText($0) }
     )
   }
 
   private var streetBinding: Binding<String> {
     Binding(
-      get: { streetText },
-      set: { newValue in
-        streetText = newValue
-        selectedStreet = nil
-        house = ""
-        building = ""
-      }
+      get: { state.streetText },
+      set: { state.updateStreetText($0) }
     )
-  }
-
-  private var canResolveAddress: Bool {
-    selectedCity != nil
-      && selectedStreet != nil
-      && !house.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-      && !isResolvingAddress
   }
 
   private func searchField(
     title: String,
     text: Binding<String>,
     field: Field,
-    isEnabled: Bool,
-    accessibilityIdentifier: String
+    isEnabled: Bool
   ) -> some View {
     UnderlinedAddressField(
       title: title,
@@ -251,14 +278,13 @@ struct AddressSearchForm: View {
     .onSubmit {
       switch field {
       case .city:
-        focusedField = selectedCity == nil ? .city : .street
+        Task { await submitCity() }
       case .street:
-        focusedField = selectedStreet == nil ? .street : .house
+        submitStreet()
       case .house, .building:
         break
       }
     }
-    .accessibilityIdentifier(accessibilityIdentifier)
   }
 
   @ViewBuilder
@@ -283,11 +309,10 @@ struct AddressSearchForm: View {
               }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.vertical, Layout.suggestionVerticalPadding)
+            .padding(.vertical, Configuration.suggestionVerticalPadding)
           }
           .buttonStyle(.plain)
-          .disabled(isResolvingCity)
-          .accessibilityIdentifier("addressSearch.suggestion.\(suggestion.id)")
+          .disabled(state.isResolvingCity)
         }
       }
     }
@@ -303,17 +328,15 @@ struct AddressSearchForm: View {
     }
   }
 
-  private func loadInitialCityIfNeeded() async {
-    guard !didLoadInitialCity else { return }
-    didLoadInitialCity = true
-
+  private func loadInitialCity() async {
     do {
       if let city = try await addressSearchService.city(
         at: initialCoordinates,
-        locale: locale
+        locale: Self.searchLocale
       ) {
-        selectedCity = city
-        cityText = city.name
+        guard state.cityText.isEmpty, state.selectedCity == nil else { return }
+        state.selectedCity = city
+        state.cityText = city.name
         focusedField = .street
       } else {
         focusedField = .city
@@ -326,111 +349,157 @@ struct AddressSearchForm: View {
 
   private func loadCitySuggestions(for query: String) async {
     let query = query.trimmingCharacters(in: .whitespacesAndNewlines)
-    guard selectedCity == nil, !query.isEmpty else {
-      citySuggestions = []
-      citySuggestionsError = nil
+    guard state.selectedCity == nil, !query.isEmpty else {
+      state.citySuggestions = []
+      state.citySuggestionsError = nil
       return
     }
 
     do {
-      try await Task.sleep(for: .milliseconds(250))
+      state.citySuggestions = []
+      state.citySuggestionsError = nil
       let suggestions = try await addressSearchService.citySuggestions(for: query)
       guard !Task.isCancelled,
-            selectedCity == nil,
-            cityText.trimmingCharacters(in: .whitespacesAndNewlines) == query else { return }
-      citySuggestions = suggestions
-      citySuggestionsError = nil
+            state.selectedCity == nil,
+            state.cityText.trimmingCharacters(in: .whitespacesAndNewlines) == query else { return }
+      state.citySuggestions = suggestions
+      state.citySuggestionsError = nil
     } catch is CancellationError {
       return
     } catch {
-      guard cityText.trimmingCharacters(in: .whitespacesAndNewlines) == query else { return }
-      citySuggestions = []
-      citySuggestionsError = "Не удалось загрузить города"
+      guard state.cityText.trimmingCharacters(in: .whitespacesAndNewlines) == query else { return }
+      state.citySuggestions = []
+      state.citySuggestionsError = "Не удалось загрузить города"
       Logger.map.error("City suggestions failed: \(error.localizedDescription)")
     }
   }
 
   private func loadStreetSuggestions(for query: String) async {
     let query = query.trimmingCharacters(in: .whitespacesAndNewlines)
-    guard let city = selectedCity,
-          selectedStreet == nil,
+    guard let city = state.selectedCity,
+          state.selectedStreet == nil,
           !query.isEmpty else {
-      streetSuggestions = []
-      streetSuggestionsError = nil
+      state.streetSuggestions = []
+      state.streetSuggestionsError = nil
       return
     }
 
     do {
-      try await Task.sleep(for: .milliseconds(250))
+      state.streetSuggestions = []
+      state.streetSuggestionsError = nil
       let suggestions = try await addressSearchService.streetSuggestions(
         for: query,
         city: city
       )
       guard !Task.isCancelled,
-            selectedCity?.id == city.id,
-            selectedStreet == nil,
-            streetText.trimmingCharacters(in: .whitespacesAndNewlines) == query else { return }
-      streetSuggestions = suggestions
-      streetSuggestionsError = nil
+            state.selectedCity?.id == city.id,
+            state.selectedStreet == nil,
+            state.streetText.trimmingCharacters(in: .whitespacesAndNewlines) == query else { return }
+      state.streetSuggestions = suggestions
+      state.streetSuggestionsError = nil
     } catch is CancellationError {
       return
     } catch {
-      guard selectedCity?.id == city.id,
-            streetText.trimmingCharacters(in: .whitespacesAndNewlines) == query else { return }
-      streetSuggestions = []
-      streetSuggestionsError = "Не удалось загрузить улицы"
+      guard state.selectedCity?.id == city.id,
+            state.streetText.trimmingCharacters(in: .whitespacesAndNewlines) == query else { return }
+      state.streetSuggestions = []
+      state.streetSuggestionsError = "Не удалось загрузить улицы"
       Logger.map.error("Street suggestions failed: \(error.localizedDescription)")
     }
   }
 
   private func selectCity(_ suggestion: AddressSearchSuggestion) async {
-    isResolvingCity = true
-    defer { isResolvingCity = false }
+    let enteredText = state.cityText
+      .trimmingCharacters(in: .whitespacesAndNewlines)
+    state.isResolvingCity = true
+    defer { state.isResolvingCity = false }
 
     do {
-      let city = try await addressSearchService.resolveCity(from: suggestion)
-      selectedCity = city
-      cityText = city.name
-      citySuggestions = []
-      citySuggestionsError = nil
+      let city = try await addressSearchService.resolveCity(
+        from: suggestion,
+        locale: Self.searchLocale
+      )
+      guard state.cityText.trimmingCharacters(in: .whitespacesAndNewlines) == enteredText else {
+        return
+      }
+      state.selectedCity = city
+      state.cityText = city.name
+      state.citySuggestions = []
+      state.citySuggestionsError = nil
       focusedField = .street
     } catch {
-      citySuggestionsError = "Не удалось выбрать город"
+      guard state.cityText.trimmingCharacters(in: .whitespacesAndNewlines) == enteredText else {
+        return
+      }
+      state.citySuggestionsError = "Не удалось выбрать город"
       Logger.map.error("City resolution failed: \(error.localizedDescription)")
     }
   }
 
   private func selectStreet(_ suggestion: AddressSearchSuggestion) {
-    selectedStreet = suggestion
-    streetText = suggestion.title
-    streetSuggestions = []
-    streetSuggestionsError = nil
+    state.selectedStreet = suggestion
+    state.streetText = suggestion.title
+    state.streetSuggestions = []
+    state.streetSuggestionsError = nil
     focusedField = .house
   }
 
+  private func submitCity() async {
+    if state.selectedCity != nil {
+      focusedField = .street
+      return
+    }
+
+    let enteredCity = state.cityText
+      .trimmingCharacters(in: .whitespacesAndNewlines)
+    guard !enteredCity.isEmpty else { return }
+
+    let suggestion = state.citySuggestions.first
+      ?? AddressSearchSuggestion(title: enteredCity, subtitle: "")
+    await selectCity(suggestion)
+  }
+
+  private func submitStreet() {
+    if state.selectedStreet != nil {
+      focusedField = .house
+      return
+    }
+
+    let enteredStreet = state.streetText
+      .trimmingCharacters(in: .whitespacesAndNewlines)
+    guard !enteredStreet.isEmpty else { return }
+
+    selectStreet(
+      state.streetSuggestions.first
+        ?? AddressSearchSuggestion(title: enteredStreet, subtitle: state.selectedCity?.name ?? "")
+    )
+  }
+
   private func showAddressOnMap() async {
-    guard let city = selectedCity,
-          let street = selectedStreet,
-          canResolveAddress else { return }
+    guard let city = state.selectedCity,
+          let street = state.selectedStreet,
+          state.canResolveAddress else { return }
 
     focusedField = nil
-    isResolvingAddress = true
-    defer { isResolvingAddress = false }
+    state.isResolvingAddress = true
+    defer { state.isResolvingAddress = false }
 
     do {
       let selection = try await addressSearchService.resolveAddress(
         city: city,
         street: street,
-        house: house,
-        building: building,
-        locale: locale
+        house: state.house,
+        building: state.building,
+        locale: Self.searchLocale
       )
       onSelect(selection)
     } catch {
-      resolutionError = error.localizedDescription
+      state.resolutionError = error.localizedDescription
       Logger.map.error("Address resolution failed: \(error.localizedDescription)")
     }
   }
+
+  private static let searchLocale = Locale(identifier: "ru_RU")
 }
 
 #Preview {
