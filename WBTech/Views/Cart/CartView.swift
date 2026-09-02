@@ -12,10 +12,9 @@ struct CartView: View {
   let addressSearchService: AddressSearchServiceProtocol
 
   @Environment(CartStore.self) private var store
+  @Environment(AddressStore.self) private var addressStore
 
   @State private var presentAddresses = false
-  @State private var address: Address?
-  
   @State private var isOrdering = false
 
   private enum Configuration {
@@ -27,6 +26,7 @@ struct CartView: View {
     let availableItems = items?.filter { $0.available } ?? []
     let unavailableItems = items?.filter { !$0.available } ?? []
     let quantities = store.quantities
+    let address = addressStore.selectedAddress
 
     CartContentView(
       summary: store.cartSummary,
@@ -44,29 +44,17 @@ struct CartView: View {
     .task {
       await store.load()
     }
-    .task {
-      await loadAddress()
-    }
+    .task { await addressStore.loadIfNeeded() }
     .sheet(isPresented: $presentAddresses) {
       AddressesListView(
-        pickedAddress: $address,
-        orderService: orderService,
-        addressSearchService: addressSearchService,
-        onAddressPick: { address = $0 }
+        addressSearchService: addressSearchService
       )
-    }
-  }
-
-  private func loadAddress() async {
-    do {
-      address = try await orderService.fetchAddresses().first
-    } catch {
-      Logger.cart.error("Unable to load addresses: \(error.localizedDescription)")
+      .environment(addressStore)
     }
   }
 
   private func createOrder() async {
-    guard let address else { return }
+    guard let address = addressStore.selectedAddress else { return }
 
     isOrdering = true
     defer { isOrdering = false }
@@ -89,4 +77,11 @@ struct CartView: View {
     addressSearchService: MockAddressSearchService()
   )
     .environment(CartStore(cartService: MockCartService()))
+    .environment(
+      AddressStore(
+        addresses: [.default],
+        selectedAddressID: Address.default.id,
+        orderService: MockOrderService()
+      )
+    )
 }

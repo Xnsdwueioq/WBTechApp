@@ -18,6 +18,30 @@ actor OrderService: OrderServiceProtocol {
     return payload.compactMap(Self.address(from:))
   }
 
+  func createAddress(_ draft: AddressDraft) async throws {
+    let response = try await client.createAddress(
+      .init(body: .json(Self.addressDTO(from: draft)))
+    )
+    _ = try response.ok
+  }
+
+  func updateAddress(id: String, draft: AddressDraft) async throws {
+    let response = try await client.updateAddress(
+      .init(
+        path: .init(id: id),
+        body: .json(Self.addressDTO(from: draft))
+      )
+    )
+    _ = try response.ok
+  }
+
+  func deleteAddress(id: String) async throws {
+    let response = try await client.deleteAddress(
+      .init(path: .init(id: id))
+    )
+    _ = try response.ok
+  }
+
   func createOrder(paymentMethod: String, addressID: String) async throws {
     let response = try await client.createOrder(
       .init(body: .json(.init(paymentMethod: paymentMethod, addressID: addressID)))
@@ -28,6 +52,22 @@ actor OrderService: OrderServiceProtocol {
 }
 
 private extension OrderService {
+
+  static func addressDTO(
+    from draft: AddressDraft
+  ) -> Components.Schemas.Address {
+    Components.Schemas.Address(
+      coordinates: [
+        draft.coordinates.longitude,
+        draft.coordinates.latitude
+      ],
+      addressLine: draft.addressLine.trimmingCharacters(in: .whitespacesAndNewlines),
+      floor: draft.floor.nilIfEmpty,
+      entrance: draft.entrance.nilIfEmpty,
+      intercomCode: draft.intercomCode.nilIfEmpty,
+      comment: draft.comment.nilIfEmpty
+    )
+  }
 
   static func address(from dto: AddressDTO) -> Address? {
     guard let id = dto.value2.id else { return nil }
@@ -48,4 +88,11 @@ private extension OrderService {
     )
   }
 
+}
+
+private extension String {
+  var nilIfEmpty: String? {
+    let normalized = trimmingCharacters(in: .whitespacesAndNewlines)
+    return normalized.isEmpty ? nil : normalized
+  }
 }

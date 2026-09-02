@@ -24,7 +24,6 @@ struct AddressDraftTests {
     let draft = AddressDraft(address: address)
 
     #expect(draft.addressLine == address.addressLine)
-    #expect(draft.apartment.isEmpty)
     #expect(draft.floor == "4")
     #expect(draft.entrance == "3")
     #expect(draft.intercomCode == "15809")
@@ -35,7 +34,6 @@ struct AddressDraftTests {
     let draft = AddressDraft(
       coordinates: .init(longitude: 37.62381, latitude: 55.73662),
       addressLine: "Новая Басманная ул., 35 ст1",
-      apartment: " 59 ",
       entrance: " ",
       floor: "4",
       intercomCode: "",
@@ -50,17 +48,5 @@ struct AddressDraftTests {
     #expect(address.floor == "4")
     #expect(address.intercomCode == nil)
     #expect(address.comment == "Позвонить заранее")
-  }
-
-  @Test func draftApartmentDoesNotAffectAddress() {
-    let draft = AddressDraft(
-      coordinates: .init(longitude: 37.62381, latitude: 55.73662),
-      addressLine: "г. Москва, ул. Большая Ордынка, д. 40",
-      apartment: "59"
-    )
-
-    let address = draft.makeAddress(id: "addressID")
-
-    #expect(address.addressLine == draft.addressLine)
   }
 }
