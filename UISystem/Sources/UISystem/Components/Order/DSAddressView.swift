@@ -57,17 +57,23 @@ public struct DSAddressView: View {
     guard let address else { return "" }
 
     var components: [String] = []
-    if let floor = address.floor {
+    if let floor = nonEmpty(address.floor) {
       components.append("\(floor) \(Configuration.floorTitle)")
     }
-    if let entrance = address.entrance {
+    if let entrance = nonEmpty(address.entrance) {
       components.append("\(entrance) \(Configuration.entranceTitle)")
     }
-    if let intercomCode = address.intercomCode {
+    if let intercomCode = nonEmpty(address.intercomCode) {
       components.append("\(Configuration.intercomCodeTitle) \(intercomCode)")
     }
 
     return components.joined(separator: Configuration.componentsSeparator)
+  }
+
+  private func nonEmpty(_ value: String?) -> String? {
+    guard let value else { return nil }
+    let trimmedValue = value.trimmingCharacters(in: .whitespacesAndNewlines)
+    return trimmedValue.isEmpty ? nil : trimmedValue
   }
 
   public var body: some View {
