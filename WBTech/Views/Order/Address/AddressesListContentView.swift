@@ -9,16 +9,17 @@ import SwiftUI
 import UISystem
 
 struct AddressesListContentView: View {
-  @Environment(\.dismiss) private var dismiss
-
-  let pickedAddress: Address?
+  let selectedAddressID: String?
   let addresses: [Address]
+  let canMutate: Bool
   let onAddressPick: (Address) -> Void
   let onAddressEdit: (Address) -> Void
   let onCreateAddress: () -> Void
+  let onDismiss: () -> Void
+  let onConfirm: () -> Void
 
   private var isSubmitEnabled: Bool {
-    !addresses.isEmpty
+    selectedAddressID != nil
   }
 
   private enum Configuration {
@@ -46,7 +47,7 @@ struct AddressesListContentView: View {
         .font(.dsModalTitle)
         .accessibilityAddTraits(.isHeader)
       Spacer()
-      DSDismissButton(action: { dismiss() }, size: .medium)
+      DSDismissButton(action: onDismiss, size: .medium)
     }
   }
   
@@ -69,11 +70,12 @@ struct AddressesListContentView: View {
         .padding(.top, 8)
       }
       .buttonStyle(DSStaticButtonStyle())
+      .disabled(!canMutate)
     }
   }
   
   private var bottomBar: some View {
-    Button(action: { dismiss() }) {
+    Button(action: onConfirm) {
       Text("Привезти сюда")
         .frame(maxWidth: .infinity)
     }
@@ -109,6 +111,7 @@ struct AddressesListContentView: View {
         Image.dsPencil
           .foregroundStyle(Color.dsAddressEdit)
       }
+      .disabled(!canMutate)
     }
     .padding(.top, 6)
     .padding(.horizontal, 8)
@@ -117,7 +120,7 @@ struct AddressesListContentView: View {
       RoundedRectangle(cornerRadius: 8)
         .foregroundStyle(
           LinearGradient.dsProductCard
-            .opacity(address.id == pickedAddress?.id ? 1 : 0)
+            .opacity(address.id == selectedAddressID ? 1 : 0)
         )
     }
     .buttonStyle(DSStaticButtonStyle())
@@ -125,5 +128,14 @@ struct AddressesListContentView: View {
 }
 
 #Preview {
-  AddressesListContentView(pickedAddress: Address.default, addresses: [Address.default], onAddressPick: { print($0.id) }, onAddressEdit: { print($0.id) }, onCreateAddress: { })
+  AddressesListContentView(
+    selectedAddressID: Address.default.id,
+    addresses: [Address.default],
+    canMutate: true,
+    onAddressPick: { print($0.id) },
+    onAddressEdit: { print($0.id) },
+    onCreateAddress: { },
+    onDismiss: { },
+    onConfirm: { }
+  )
 }

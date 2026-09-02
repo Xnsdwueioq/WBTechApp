@@ -50,7 +50,7 @@ struct AddressEditorView: View {
   @Namespace private var mapScope
 
   private let addressSearchService: AddressSearchServiceProtocol
-  private let onSave: (AddressDraft) -> Void
+  private let onSave: (AddressDraft) async throws -> Void
 
   @State private var locationManager = CLLocationManager()
   @State private var draft = AddressDraft(
@@ -64,10 +64,12 @@ struct AddressEditorView: View {
   @State private var coordinatesPendingLookup: AddressCoordinates?
   @State private var preservedAddressCoordinates: AddressCoordinates?
   @State private var presentedSheet: PresentedSheet?
+  @State private var isSaving = false
+  @State private var saveError: String?
 
   init(
     addressSearchService: AddressSearchServiceProtocol,
-    onSave: @escaping (AddressDraft) -> Void
+    onSave: @escaping (AddressDraft) async throws -> Void
   ) {
     self.addressSearchService = addressSearchService
     self.onSave = onSave
@@ -126,8 +128,14 @@ struct AddressEditorView: View {
         AddressDetailsForm(
           draft: $draft,
           isSaveEnabled: draft.isValid,
+          isSaving: isSaving,
           onSave: saveDraft
         )
+        .alert("Не удалось сохранить адрес", isPresented: saveErrorBinding) {
+          Button("OK", role: .cancel) { }
+        } message: {
+          Text(saveError ?? "Неизвестная ошибка")
+        }
       case .search:
         AddressSearchForm(
           initialCoordinates: draft.coordinates,
@@ -225,8 +233,26 @@ struct AddressEditorView: View {
   }
 
   private func saveDraft() {
-    presentedSheet = nil
-    onSave(draft)
+    guard !isSaving else { return }
+    isSaving = true
+
+    Task {
+      defer { isSaving = false }
+      do {
+        try await onSave(draft)
+        presentedSheet = nil
+        dismiss()
+      } catch {
+        saveError = error.localizedDescription
+      }
+    }
+  }
+
+  private var saveErrorBinding: Binding<Bool> {
+    Binding(
+      get: { saveError != nil },
+      set: { if !$0 { saveError = nil } }
+    )
   }
 
   private func selectAddress(_ selection: AddressSearchSelection) {

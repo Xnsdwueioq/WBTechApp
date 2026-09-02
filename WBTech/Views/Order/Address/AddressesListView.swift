@@ -1,13 +1,5 @@
-//
-//  AddressesListView.swift
-//  WBTech
-//
-//  Created by sye7qjm3ac on 13.08.2026.
-//
-
 import SwiftUI
 import UISystem
-import OSLog
 
 struct AddressesListView: View {
 
@@ -17,87 +9,138 @@ struct AddressesListView: View {
 
     var id: String {
       switch self {
-      case .create:
-        "create"
-      case .details(let address):
-        address.id
+      case .create: "create"
+      case .details(let address): address.id
       }
     }
   }
 
-  @Binding var pickedAddress: Address?
-  let orderService: OrderServiceProtocol
+  @Environment(\.dismiss) private var dismiss
+  @Environment(AddressStore.self) private var store
+
   let addressSearchService: AddressSearchServiceProtocol
-  let onAddressPick: (Address) -> Void
-  
-  @State private var viewState: ViewState<[Address]> = .idle
+
+  @State private var draftSelectedID: String?
   @State private var editor: Editor?
-  
+
   var body: some View {
-    Group {
-      switch viewState {
-      case .loaded(let addresses):
-        AddressesListContentView(
-          pickedAddress: pickedAddress,
-          addresses: addresses,
-          onAddressPick: onAddressPick,
-          onAddressEdit: { editor = .details($0) },
-          onCreateAddress: { editor = .create }
-        )
+    content
+      .sheet(item: $editor) { editor in
+        switch editor {
+        case .create:
+          AddressEditorView(
+            addressSearchService: addressSearchService,
+            onSave: createAddress
+          )
 
-      case .loading, .idle:
-        AddressesListContentView(
-          pickedAddress: pickedAddress,
-          addresses: [Address.default],
-          onAddressPick: onAddressPick,
-          onAddressEdit: { _ in },
-          onCreateAddress: { }
-        )
-        .redacted(reason: .placeholder)
-        .allowsHitTesting(false)
-
-      case .error(let errorDescription):
-        ContentUnavailableView(errorDescription, image: "xmark")
-        // TODO: insert error handling
+        case .details(let address):
+          AddressDetailsEditorView(
+            address: address,
+            onSave: { draft in
+              try await store.updateAddress(id: address.id, draft: draft)
+            },
+            onDelete: {
+              try await store.deleteAddress(id: address.id)
+              if draftSelectedID == address.id {
+                draftSelectedID = store.selectedAddressID
+              }
+            }
+          )
+        }
       }
-    }
-    .sheet(item: $editor) { editor in
-      switch editor {
-      case .create:
-        AddressEditorView(
-          addressSearchService: addressSearchService,
-          onSave: { _ in } // TODO: insert onSave action
-        )
-
-      case .details(let address):
-        AddressDetailsEditorView(
-          address: address,
-          onSave: { _ in } // TODO: insert onSave action
+      .onAppear {
+        if draftSelectedID == nil {
+          draftSelectedID = store.selectedAddressID
+        }
+      }
+      .onChange(of: store.addresses) { _, addresses in
+        guard let draftSelectedID,
+              addresses.contains(where: { $0.id == draftSelectedID }) else {
+          self.draftSelectedID = store.selectedAddressID
+          return
+        }
+      }
+      .alert(item: errorBinding) { error in
+        Alert(
+          title: Text(error.title),
+          message: Text(error.message),
+          dismissButton: .default(Text("OK")) { store.dismissError() }
         )
       }
-    }
-    .task {
-      await loadAddresses()
+  }
+
+  @ViewBuilder
+  private var content: some View {
+    switch store.loadState {
+    case .idle where store.addresses.isEmpty,
+         .loading where store.addresses.isEmpty:
+      placeholder
+
+    case .failed where store.addresses.isEmpty:
+      ContentUnavailableView {
+        Label("Адреса недоступны", systemImage: "wifi.exclamationmark")
+      } description: {
+        Text("Не удалось загрузить список адресов.")
+      } actions: {
+        Button("Повторить") { Task { await store.reload() } }
+      }
+
+    default:
+      AddressesListContentView(
+        selectedAddressID: draftSelectedID,
+        addresses: store.addresses,
+        canMutate: store.canMutate,
+        onAddressPick: { draftSelectedID = $0.id },
+        onAddressEdit: { editor = .details($0) },
+        onCreateAddress: { editor = .create },
+        onDismiss: { dismiss() },
+        onConfirm: confirmSelection
+      )
     }
   }
-  
-  func loadAddresses() async {
-    do {
-      viewState = .loading
-      let addresses = try await orderService.fetchAddresses()
-      viewState = .loaded(addresses)
-    } catch {
-      viewState = .error(error.localizedDescription)
-      Logger.order.error("Unable to load user's addresses: \(error.localizedDescription)")
+
+  private var placeholder: some View {
+    AddressesListContentView(
+      selectedAddressID: Address.default.id,
+      addresses: [.default],
+      canMutate: false,
+      onAddressPick: { _ in },
+      onAddressEdit: { _ in },
+      onCreateAddress: { },
+      onDismiss: { },
+      onConfirm: { }
+    )
+    .redacted(reason: .placeholder)
+    .allowsHitTesting(false)
+  }
+
+  private var errorBinding: Binding<AddressUserError?> {
+    Binding(
+      get: { store.userError },
+      set: { if $0 == nil { store.dismissError() } }
+    )
+  }
+
+  private func createAddress(_ draft: AddressDraft) async throws {
+    if let newAddressID = try await store.createAddress(draft) {
+      draftSelectedID = newAddressID
     }
+  }
+
+  private func confirmSelection() {
+    guard let draftSelectedID else { return }
+    store.confirmSelection(id: draftSelectedID)
+    dismiss()
   }
 }
 
 #Preview {
-  AddressesListView(
-    pickedAddress: .constant(Address.default),
-    orderService: MockOrderService(),
-    addressSearchService: MockAddressSearchService(),
-    onAddressPick: { _ in }
-  )
+  AddressesListView(addressSearchService: MockAddressSearchService())
+    .environment(
+      AddressStore(
+        addresses: [.default],
+        selectedAddressID: Address.default.id,
+        orderService: MockOrderService()
+      )
+    )
 }

@@ -9,6 +9,7 @@ struct RootTabView: View {
   private let addressSearchService: AddressSearchServiceProtocol
   
   @State private var cartStore: CartStore
+  @State private var addressStore: AddressStore
   @State private var favoritesStore: FavoritesStore
   
   @State private var modalRouter = ModalRouter()
@@ -25,6 +26,7 @@ struct RootTabView: View {
     self.orderService = orderService
     self.addressSearchService = addressSearchService
     self.cartStore = cartStore
+    self.addressStore = AddressStore(orderService: orderService)
     self.favoritesStore = favoritesStore
   }
   
@@ -56,11 +58,13 @@ struct RootTabView: View {
           addressSearchService: addressSearchService
         )
           .environment(cartStore)
+          .environment(addressStore)
       } label: {
         Label(AppTab.cart.rawValue, systemImage: "cart")
       }
     }
     .environment(cartStore)
+    .environment(addressStore)
     .environment(favoritesStore)
     .environment(modalRouter)
     .sheet(item: $modalRouter.sheet, onDismiss: { modalRouter.presentPendingIfNeeded() }) { item in
@@ -84,6 +88,7 @@ struct RootTabView: View {
           addressSearchService: addressSearchService
         )
           .environment(cartStore)
+          .environment(addressStore)
       }
     }
     .task {

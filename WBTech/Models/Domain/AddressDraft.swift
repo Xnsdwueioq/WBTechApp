@@ -10,7 +10,6 @@ import Foundation
 struct AddressDraft: Equatable, Sendable {
   var coordinates: AddressCoordinates
   var addressLine: String
-  var apartment: String
   var entrance: String
   var floor: String
   var intercomCode: String
@@ -19,7 +18,6 @@ struct AddressDraft: Equatable, Sendable {
   init(
     coordinates: AddressCoordinates,
     addressLine: String,
-    apartment: String = "",
     entrance: String = "",
     floor: String = "",
     intercomCode: String = "",
@@ -27,7 +25,6 @@ struct AddressDraft: Equatable, Sendable {
   ) {
     self.coordinates = coordinates
     self.addressLine = addressLine
-    self.apartment = apartment
     self.entrance = entrance
     self.floor = floor
     self.intercomCode = intercomCode
@@ -53,7 +50,7 @@ struct AddressDraft: Equatable, Sendable {
     Address(
       id: id,
       coordinates: coordinates,
-      addressLine: addressLine,
+      addressLine: addressLine.trimmingCharacters(in: .whitespacesAndNewlines),
       floor: AddressDraftConversion.optionalValue(floor),
       entrance: AddressDraftConversion.optionalValue(entrance),
       intercomCode: AddressDraftConversion.optionalValue(intercomCode),

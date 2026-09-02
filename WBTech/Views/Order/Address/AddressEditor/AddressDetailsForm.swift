@@ -11,7 +11,6 @@ import UISystem
 struct AddressDetailsForm: View {
 
   enum Field: Hashable {
-    case apartment
     case entrance
     case floor
     case intercomCode
@@ -22,6 +21,7 @@ struct AddressDetailsForm: View {
   let isSaveEnabled: Bool
   let isSaving: Bool
   let onSave: () -> Void
+  let onDelete: (() -> Void)?
 
   @FocusState private var focusedField: Field?
 
@@ -29,12 +29,14 @@ struct AddressDetailsForm: View {
     draft: Binding<AddressDraft>,
     isSaveEnabled: Bool = true,
     isSaving: Bool = false,
-    onSave: @escaping () -> Void
+    onSave: @escaping () -> Void,
+    onDelete: (() -> Void)? = nil
   ) {
     self._draft = draft
     self.isSaveEnabled = isSaveEnabled
     self.isSaving = isSaving
     self.onSave = onSave
+    self.onDelete = onDelete
   }
 
   private enum Configuration {
@@ -71,14 +73,6 @@ struct AddressDetailsForm: View {
   private var fieldsView: some View {
     VStack(spacing: Configuration.fieldSpacing) {
       UnderlinedAddressField(
-        title: "Квартира/офис",
-        text: $draft.apartment
-      )
-      .focused($focusedField, equals: .apartment)
-      .submitLabel(.next)
-      .onSubmit { focusedField = .entrance }
-
-      UnderlinedAddressField(
         title: "Подъезд",
         text: $draft.entrance
       )
@@ -114,24 +108,31 @@ struct AddressDetailsForm: View {
   }
 
   private var saveButton: some View {
-    Button(action: onSave) {
-      Group {
-        if isSaving {
-          ProgressView()
-            .tint(Color.dsAccentButtonForeground)
-        } else {
-          Text("Сохранить")
+    VStack(spacing: 8) {
+      Button(action: onSave) {
+        Group {
+          if isSaving {
+            ProgressView()
+              .tint(Color.dsAccentButtonForeground)
+          } else {
+            Text("Сохранить")
+          }
         }
+        .frame(maxWidth: .infinity)
       }
-      .frame(maxWidth: .infinity)
-    }
-    .buttonStyle(
-      DSButtonStyle(
-        size: .large,
-        style: canSave ? .accent : .accentDisabled
+      .buttonStyle(
+        DSButtonStyle(
+          size: .large,
+          style: canSave ? .accent : .accentDisabled
+        )
       )
-    )
-    .disabled(!canSave)
+      .disabled(!canSave)
+
+      if let onDelete {
+        Button("Удалить адрес", role: .destructive, action: onDelete)
+          .disabled(isSaving)
+      }
+    }
     .padding(.horizontal, Configuration.horizontalPadding)
     .padding(.vertical, Configuration.buttonVerticalPadding)
   }
@@ -145,7 +146,6 @@ struct AddressDetailsForm: View {
   @Previewable @State var draft = AddressDraft(
     coordinates: .init(longitude: 37.62381, latitude: 55.73662),
     addressLine: "Новая Басманная ул., 35 ст1",
-    apartment: "59",
     entrance: "3",
     floor: "4",
     intercomCode: "15809",
