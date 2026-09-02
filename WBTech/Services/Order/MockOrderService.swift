@@ -6,6 +6,12 @@ actor MockOrderService: OrderServiceProtocol {
 
   private var addresses = [Address.default]
 
+  func fetchOrders() async throws -> [Order] {
+    try await Task.sleep(for: .seconds(0.2))
+
+    return []
+  }
+
   func fetchAddresses() async throws -> [Address] {
     try await Task.sleep(for: .seconds(0.2))
 
