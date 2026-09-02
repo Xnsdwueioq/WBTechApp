@@ -5,18 +5,21 @@
 ![Xcode](https://img.shields.io/badge/Xcode-26-147EFB?logo=xcode&logoColor=white)
 ![Tests](https://img.shields.io/badge/Tests-Swift_Testing-34C759)
 
-Учебное приложение доставки продуктов на SwiftUI с каталогом, поиском, корзиной и отзывами.
+Учебное приложение доставки продуктов на SwiftUI
 
 ## Возможности
 
-- каталог товаров и выбор категорий;
-- поиск с подсказками и избранное;
-- корзина, расчёт заказа и оформление;
-- подробная карточка товара, рейтинги и отзывы.
+- каталог по категориям, поиск с подсказками и избранное;
+- подробная карточка товара, рейтинги, отзывы и отправка отзыва;
+- синхронизация корзины с API, расчёт стоимости и локальный SwiftData-кэш;
+- список адресов с добавлением, редактированием и удалением;
+- поиск адреса и выбор точки доставки на карте через MapKit;
+- оформление заказа с выбранным адресом;
+- пользовательские алерты при ошибках API.
 
 ## Стек
 
-SwiftUI · Observation · Swift Concurrency · Swift Testing · OpenAPI Generator · Keychain
+SwiftUI · Observation · Swift Concurrency · MapKit · SwiftData · Swift Testing · Keychain · OpenAPI Generator
 
 ## Запуск
 

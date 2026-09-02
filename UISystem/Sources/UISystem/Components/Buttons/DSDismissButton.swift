@@ -19,6 +19,11 @@ public struct DSDismissButton: View {
   let size: DSDismissButtonSize
   let tint: Color
 
+  private enum Configuration {
+    static let accessibilityLabel = "Закрыть"
+    static let accessibilityHint = "Закрывает экран"
+  }
+
   public init(action: @escaping () -> Void, size: DSDismissButtonSize, tint: Color = .gray) {
     self.action = action
     self.size = size
@@ -26,10 +31,11 @@ public struct DSDismissButton: View {
   }
 
   public var body: some View {
-    Button(action: action){
+    Button(action: action) {
       DSDismissButtonLabel(size: size, tint: tint)
     }
-    .accessibilityLabel("Закрыть")
+    .accessibilityLabel(Configuration.accessibilityLabel)
+    .accessibilityHint(Configuration.accessibilityHint)
   }
 }
 
@@ -43,5 +49,6 @@ struct DSDismissButtonLabel: View {
       .scaledToFit()
       .frame(width: size.frameSize)
       .foregroundStyle(tint)
+      .accessibilityHidden(true)
   }
 }
