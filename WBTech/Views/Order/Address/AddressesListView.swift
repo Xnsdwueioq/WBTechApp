@@ -10,13 +10,28 @@ import UISystem
 import OSLog
 
 struct AddressesListView: View {
+
+  private enum Editor: Identifiable {
+    case create
+    case details(Address)
+
+    var id: String {
+      switch self {
+      case .create:
+        "create"
+      case .details(let address):
+        address.id
+      }
+    }
+  }
+
   @Binding var pickedAddress: Address?
   let orderService: OrderServiceProtocol
   let addressSearchService: AddressSearchServiceProtocol
   let onAddressPick: (Address) -> Void
   
   @State private var viewState: ViewState<[Address]> = .idle
-  @State private var addressEditorMode: AddressEditorMode?
+  @State private var editor: Editor?
   
   var body: some View {
     Group {
@@ -26,8 +41,8 @@ struct AddressesListView: View {
           pickedAddress: pickedAddress,
           addresses: addresses,
           onAddressPick: onAddressPick,
-          onAddressEdit: { addressEditorMode = .edit($0) },
-          onCreateAddress: { addressEditorMode = .create }
+          onAddressEdit: { editor = .details($0) },
+          onCreateAddress: { editor = .create }
         )
 
       case .loading, .idle:
@@ -46,12 +61,20 @@ struct AddressesListView: View {
         // TODO: insert error handling
       }
     }
-    .sheet(item: $addressEditorMode) { mode in
-      AddressEditorView(
-        mode: mode,
-        addressSearchService: addressSearchService,
-        onSave: { _ in }
-      )
+    .sheet(item: $editor) { editor in
+      switch editor {
+      case .create:
+        AddressEditorView(
+          addressSearchService: addressSearchService,
+          onSave: { _ in } // TODO: insert onSave action
+        )
+
+      case .details(let address):
+        AddressDetailsEditorView(
+          address: address,
+          onSave: { _ in } // TODO: insert onSave action
+        )
+      }
     }
     .task {
       await loadAddresses()

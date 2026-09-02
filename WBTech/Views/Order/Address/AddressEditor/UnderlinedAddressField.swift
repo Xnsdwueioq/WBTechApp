@@ -9,24 +9,11 @@ import SwiftUI
 import UISystem
 
 struct UnderlinedAddressField: View {
-  var title: String?
-  var placeholder: String
+  let title: String
   @Binding var text: String
-  var axis: Axis
-
-  init(
-    title: String? = nil,
-    placeholder: String? = nil,
-    text: Binding<String>,
-    axis: Axis = .horizontal
-  ) {
-    self.title = title
-    self.placeholder = placeholder ?? title ?? ""
-    self._text = text
-    self.axis = axis
-  }
+  var axis: Axis = .horizontal
   
-  private enum Layout {
+  private enum Configuration {
     static let spacing: CGFloat = 2
     static let separatorHeight: CGFloat = 1
     static let singleLineLimit = 1...1
@@ -34,39 +21,31 @@ struct UnderlinedAddressField: View {
   }
 
   var body: some View {
-    VStack(alignment: .leading, spacing: Layout.spacing) {
-      label
+    VStack(alignment: .leading, spacing: Configuration.spacing) {
+      Text(title)
+        .font(.dsAddressDetailsFieldLabel)
+        .foregroundStyle(Color.dsAddressDetailsFieldLabel)
         .opacity(!text.isEmpty ? 1 : 0)
         .animation(.easeInOut, value: text.isEmpty)
 
       TextField(
         "",
         text: $text,
-        prompt: Text(placeholder)
+        prompt: Text(title)
           .foregroundStyle(Color.dsAddressDetailsFieldLabel),
         axis: axis
       )
       .font(.dsAddressDetailsFieldValue)
-      .lineLimit(axis == .vertical ? Layout.commentLineLimit : Layout.singleLineLimit)
-      .accessibilityLabel(title ?? placeholder)
+      .lineLimit(
+        axis == .vertical
+          ? Configuration.commentLineLimit
+          : Configuration.singleLineLimit
+      )
+      .accessibilityLabel(title)
 
       Rectangle()
         .fill(Color.dsAddressDetailsFieldSeparator)
-        .frame(height: Layout.separatorHeight)
-    }
-  }
-
-  @ViewBuilder
-  private var label: some View {
-    if let title {
-      Text(title)
-        .font(.dsAddressDetailsFieldLabel)
-        .foregroundStyle(Color.dsAddressDetailsFieldLabel)
-    } else {
-      Text(placeholder)
-        .font(.dsAddressDetailsFieldLabel)
-        .hidden()
-        .accessibilityHidden(true)
+        .frame(height: Configuration.separatorHeight)
     }
   }
 }

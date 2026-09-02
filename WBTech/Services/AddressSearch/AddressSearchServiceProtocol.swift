@@ -38,14 +38,15 @@ struct AddressSearchSelection: Equatable, Sendable {
 }
 
 @MainActor
-protocol AddressSearchServiceProtocol: AnyObject {
+protocol AddressSearchServiceProtocol {
 
   func citySuggestions(
     for query: String
   ) async throws -> [AddressSearchSuggestion]
 
   func resolveCity(
-    from suggestion: AddressSearchSuggestion
+    from suggestion: AddressSearchSuggestion,
+    locale: Locale
   ) async throws -> AddressSearchCity
 
   func streetSuggestions(
@@ -57,6 +58,11 @@ protocol AddressSearchServiceProtocol: AnyObject {
     at coordinates: AddressCoordinates,
     locale: Locale
   ) async throws -> AddressSearchCity?
+
+  func addressLine(
+    at coordinates: AddressCoordinates,
+    locale: Locale
+  ) async throws -> String
 
   func resolveAddress(
     city: AddressSearchCity,
