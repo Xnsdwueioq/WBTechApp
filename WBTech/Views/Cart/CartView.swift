@@ -13,10 +13,12 @@ struct CartView: View {
 
   @Environment(CartStore.self) private var store
   @Environment(AddressStore.self) private var addressStore
+  @Environment(ModalRouter.self) private var modalRouter
 
   @State private var presentAddresses = false
   @State private var isOrdering = false
   @State private var isOrderSubmitted = false
+  @State private var shouldPresentLatestOrder = false
   @State private var orderError: CartUserError?
 
   private enum Configuration {
@@ -30,12 +32,18 @@ struct CartView: View {
 
   var body: some View {
     cartContent
-      .fullScreenCover(isPresented: $isOrderSubmitted) {
+      .fullScreenCover(
+        isPresented: $isOrderSubmitted,
+        onDismiss: presentLatestOrderIfNeeded
+      ) {
         DSProgressPreview(
           title: Configuration.successTitle,
           subtitle: Configuration.successSubtitle,
           buttonName: Configuration.successButtonName,
-          onClose: { isOrderSubmitted = false }
+          onClose: {
+            shouldPresentLatestOrder = true
+            isOrderSubmitted = false
+          }
         )
         .interactiveDismissDisabled()
       }
@@ -113,6 +121,12 @@ struct CartView: View {
       )
     }
   }
+
+  private func presentLatestOrderIfNeeded() {
+    guard shouldPresentLatestOrder else { return }
+    shouldPresentLatestOrder = false
+    modalRouter.replace(with: .latestActiveOrder)
+  }
 }
 
 #Preview {
@@ -121,6 +135,7 @@ struct CartView: View {
     addressSearchService: MockAddressSearchService()
   )
     .environment(CartStore(cartService: MockCartService()))
+    .environment(ModalRouter())
     .environment(
       AddressStore(
         addresses: [.default],

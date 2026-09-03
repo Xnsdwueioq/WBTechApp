@@ -6,6 +6,7 @@ import Foundation
 actor FakeCartService: CartServiceProtocol {
   
   var shouldThrow = false
+  private let failAddAtCall: Int?
   private var quantities: [String: Int]
   
   var cartToReturn: CartSummary {
@@ -38,9 +39,11 @@ actor FakeCartService: CartServiceProtocol {
   
   init(
     shouldThrow: Bool = false,
+    failAddAtCall: Int? = nil,
     quantities: [String: Int] = ["idproduct1": 2, "idproduct2": 1]
   ) {
     self.shouldThrow = shouldThrow
+    self.failAddAtCall = failAddAtCall
     self.quantities = quantities
   }
   
@@ -53,7 +56,7 @@ actor FakeCartService: CartServiceProtocol {
   
   func addToCart(id: String) async throws -> Int {
     addCalls.append(id)
-    if shouldThrow {
+    if shouldThrow || addCalls.count == failAddAtCall {
       throw TestError.someError
     }
     quantities[id, default: 0] += 1

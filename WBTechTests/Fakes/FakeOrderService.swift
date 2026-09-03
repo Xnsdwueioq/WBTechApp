@@ -6,20 +6,37 @@ enum FakeAddressFetchResult: Sendable {
   case failure
 }
 
+enum FakeOrderFetchResult: Sendable {
+  case success([Order])
+  case failure
+}
+
 actor FakeOrderService: OrderServiceProtocol {
 
   private var fetchResults: [FakeAddressFetchResult]
+  private var orderFetchResults: [FakeOrderFetchResult]
 
   private(set) var createdDrafts: [AddressDraft] = []
   private(set) var updatedDrafts: [(id: String, draft: AddressDraft)] = []
   private(set) var deletedIDs: [String] = []
+  private(set) var orderFetchCallCount = 0
 
-  init(fetchResults: [FakeAddressFetchResult]) {
+  init(
+    fetchResults: [FakeAddressFetchResult],
+    orderFetchResults: [FakeOrderFetchResult] = [.success([])]
+  ) {
     self.fetchResults = fetchResults
+    self.orderFetchResults = orderFetchResults
   }
 
   func fetchOrders() async throws -> [Order] {
-    []
+    orderFetchCallCount += 1
+    guard !orderFetchResults.isEmpty else { return [] }
+
+    switch orderFetchResults.removeFirst() {
+    case .success(let orders): return orders
+    case .failure: throw TestError.someError
+    }
   }
 
   func fetchAddresses() async throws -> [Address] {

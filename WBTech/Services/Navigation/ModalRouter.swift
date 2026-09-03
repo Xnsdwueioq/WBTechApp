@@ -7,11 +7,15 @@ import SwiftUI
 enum SheetRoute: Identifiable, Hashable {
   case productDetailed(product: Product)
   case cart
+  case orderDetails(id: String)
+  case latestActiveOrder
 
   var id: String {
     switch self {
     case .productDetailed(let product): product.id
     case .cart: "cart"
+    case .orderDetails(let id): "order-details-\(id)"
+    case .latestActiveOrder: "latest-active-order"
     }
   }
 }
@@ -48,6 +52,5 @@ final class ModalRouter: ModalRouterProtocol {
   }
 
 }
-
 
 
