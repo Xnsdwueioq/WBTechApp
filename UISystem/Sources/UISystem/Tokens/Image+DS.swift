@@ -18,5 +18,8 @@ public extension Image {
   static let dsVideoReview = Image("iconVideoReview", bundle: .module)
   static let dsReviewStar = Image("iconReviewStar", bundle: .module)
   static let dsCheckmark = Image("iconCheckmark", bundle: .module)
-
+  static let dsPencil = Image("iconPencil", bundle: .module)
+  static let dsLeftArrow = Image("iconLeftArrow", bundle: .module)
+  static let dsTrash = Image("iconTrash", bundle: .module)
+  
 }

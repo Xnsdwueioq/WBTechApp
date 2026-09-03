@@ -12,6 +12,8 @@ public struct DSProgressPreview: View {
   let subtitle: String
   let buttonName: String
   let onClose: () -> Void
+
+  @AccessibilityFocusState private var isTitleFocused: Bool
   
   public init(title: String, subtitle: String, buttonName: String, onClose: @escaping () -> Void) {
     self.title = title
@@ -21,7 +23,7 @@ public struct DSProgressPreview: View {
   }
   
   private enum Configuration {
-    static let iconframeSize: CGFloat = 155
+    static let iconFrameSize: CGFloat = 155
     static let contentSpacing: CGFloat = 16
     static let titleSpacing: CGFloat = 8
     static let topPadding: CGFloat = 20
@@ -29,6 +31,7 @@ public struct DSProgressPreview: View {
     static let buttonBottomPadding: CGFloat = 8
     static let subtitleOpacity: CGFloat = 0.7
     static let titlesBottomPadding: CGFloat = 20
+    static let closeAccessibilityHint = "Закрывает экран"
   }
 
   public var body: some View {
@@ -46,14 +49,17 @@ public struct DSProgressPreview: View {
         .resizable()
         .scaledToFit()
         .frame(
-          width: Configuration.iconframeSize,
-          height: Configuration.iconframeSize
+          width: Configuration.iconFrameSize,
+          height: Configuration.iconFrameSize
         )
         .padding(.bottom, Configuration.contentSpacing)
+        .accessibilityHidden(true)
 
       VStack(alignment: .leading, spacing: Configuration.titleSpacing) {
         Text(title)
           .font(.dsProgressPreviewTitle)
+          .accessibilityAddTraits(.isHeader)
+          .accessibilityFocused($isTitleFocused)
         Text(subtitle)
           .font(.dsProgressPreviewSubtitle)
           .opacity(Configuration.subtitleOpacity)
@@ -71,9 +77,11 @@ public struct DSProgressPreview: View {
           .frame(maxWidth: .infinity)
       }
       .buttonStyle(DSButtonStyle(size: .large, style: .inverted))
+      .accessibilityHint(Configuration.closeAccessibilityHint)
       .padding(.horizontal, Configuration.horizontalPadding)
       .padding(.bottom, Configuration.buttonBottomPadding)
     }
+    .onAppear { isTitleFocused = true }
   }
 }
 

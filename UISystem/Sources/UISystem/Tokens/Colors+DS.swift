@@ -27,6 +27,11 @@ public extension Color {
   // Progress Preview
   static let dsProgressPreview = Color.white
 
+  // Address
+  static let dsAddressPrimary = Color.primary
+  static let dsAddressSecondary = Color.gray
+  static let dsAddressDetailsFieldLabel = Color(hex: "9797AF")
+  static let dsAddressDetailsFieldSeparator = Color(hex: "F0ECF4")
 }
 
 // MARK: - Button Style
@@ -58,6 +63,15 @@ public extension Color {
   
   static let dsSearchSuggestion = Color.primary
 
+  // Address
+  static let dsAddressEdit = Color.gray
+
+  // Map
+  static let dsMapControlForeground = Color.black
+  static let dsMapControlSecondaryForeground = Color(hex: "9797AF")
+  static let dsMapControlDestructiveForeground = Color(hex: "F0114C")
+  static let dsMapControlBackground = Color.white
+  static let dsMapControlShadow = Color(hex: "28142D").opacity(0.2)
 }
 
 // MARK: - Review Creating

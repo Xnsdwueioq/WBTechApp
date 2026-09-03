@@ -1197,6 +1197,7 @@
         }
       },
       "post": {
+        "operationId": "createAddress",
         "tags": [
           "О пользователе"
         ],
@@ -1229,6 +1230,7 @@
     },
     "/addresses/{id}": {
       "put": {
+        "operationId": "updateAddress",
         "tags": [
           "О пользователе"
         ],
@@ -1272,6 +1274,7 @@
         }
       },
       "delete": {
+        "operationId": "deleteAddress",
         "tags": [
           "О пользователе"
         ],
