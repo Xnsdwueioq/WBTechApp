@@ -17,6 +17,7 @@ final class CartStore {
     static let loadErrorTitle = "Не удалось загрузить корзину"
     static let incrementErrorTitle = "Не удалось добавить товар"
     static let decrementErrorTitle = "Не удалось изменить количество"
+    static let repeatOrderErrorTitle = "Не удалось повторить заказ"
   }
   
   private(set) var quantities: [String: Int]
@@ -105,6 +106,27 @@ final class CartStore {
       Logger.cart.error("Unable to decrease the quantity of the item in the cart: \(error.localizedDescription)")
       quantities[id] = previousQuantity
       presentError(title: Configuration.decrementErrorTitle, error: error)
+    }
+  }
+
+  func repeatOrder(items: [OrderItem]) async -> Bool {
+    userError = nil
+    restoreCachedQuantitiesIfNeeded()
+
+    do {
+      for item in items where item.quantity > 0 {
+        for _ in 0..<item.quantity {
+          _ = try await cartService.addToCart(id: item.id)
+        }
+      }
+
+      await load()
+      return userError == nil
+    } catch {
+      Logger.cart.error("Unable to repeat the order: \(error.localizedDescription)")
+      await load()
+      presentError(title: Configuration.repeatOrderErrorTitle, error: error)
+      return false
     }
   }
 

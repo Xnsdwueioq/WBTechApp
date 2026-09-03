@@ -97,5 +97,51 @@ struct CartStoreTests {
     #expect(store.quantities == expected)
     #expect(try persistence.loadQuantities() == expected)
   }
+
+  @Test func repeatOrderAddsItemsToExistingCart() async throws {
+    let fake = FakeCartService(quantities: ["existing": 1])
+    let store = CartStore(cartService: fake)
+    let items = [
+      makeOrderItem(id: "product1", quantity: 2),
+      makeOrderItem(id: "product2", quantity: 1)
+    ]
+
+    let result = await store.repeatOrder(items: items)
+
+    #expect(result)
+    #expect(await fake.addCalls == ["product1", "product1", "product2"])
+    #expect(store.quantity(for: "existing") == 1)
+    #expect(store.quantity(for: "product1") == 2)
+    #expect(store.quantity(for: "product2") == 1)
+  }
+
+  @Test func repeatOrderReconcilesPartialFailure() async throws {
+    let fake = FakeCartService(
+      failAddAtCall: 2,
+      quantities: ["existing": 1]
+    )
+    let store = CartStore(cartService: fake)
+
+    let result = await store.repeatOrder(
+      items: [makeOrderItem(id: "product1", quantity: 2)]
+    )
+
+    #expect(!result)
+    #expect(await fake.addCalls == ["product1", "product1"])
+    #expect(store.quantity(for: "existing") == 1)
+    #expect(store.quantity(for: "product1") == 1)
+    #expect(store.userError?.title == "Не удалось повторить заказ")
+  }
+
+  private func makeOrderItem(id: String, quantity: Int) -> OrderItem {
+    OrderItem(
+      id: id,
+      image: "https://example.com/\(id).png",
+      name: id,
+      weight: 100,
+      price: 200,
+      quantity: quantity
+    )
+  }
   
 }

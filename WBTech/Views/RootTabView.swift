@@ -10,10 +10,15 @@ struct RootTabView: View {
   
   @State private var cartStore: CartStore
   @State private var addressStore: AddressStore
+  @State private var ordersStore: OrdersStore
   @State private var favoritesStore: FavoritesStore
   
   @State private var modalRouter = ModalRouter()
   @State private var selectedTab: AppTab = .catalog
+
+  private enum Configuration {
+    static let orderDetailsCornerRadius: CGFloat = 20
+  }
   
   init(
     catalogService: CatalogServiceProtocol,
@@ -27,6 +32,7 @@ struct RootTabView: View {
     self.addressSearchService = addressSearchService
     self.cartStore = cartStore
     self.addressStore = AddressStore(orderService: orderService)
+    self.ordersStore = OrdersStore(orderService: orderService)
     self.favoritesStore = favoritesStore
   }
   
@@ -65,6 +71,7 @@ struct RootTabView: View {
     }
     .environment(cartStore)
     .environment(addressStore)
+    .environment(ordersStore)
     .environment(favoritesStore)
     .environment(modalRouter)
     .sheet(item: $modalRouter.sheet, onDismiss: { modalRouter.presentPendingIfNeeded() }) { item in
@@ -89,11 +96,34 @@ struct RootTabView: View {
         )
           .environment(cartStore)
           .environment(addressStore)
+          .environment(modalRouter)
+      case .orderDetails(let id):
+        orderDetailsView(selection: .id(id))
+      case .latestActiveOrder:
+        orderDetailsView(selection: .latestActive)
       }
     }
     .task {
       await cartStore.load()
     }
+  }
+
+  private func orderDetailsView(
+    selection: OrderDetailsSelection
+  ) -> some View {
+    OrderDetailsContainerView(
+      selection: selection,
+      ordersStore: ordersStore,
+      cartStore: cartStore,
+      onClose: { modalRouter.dismiss() },
+      onOpenCart: {
+        modalRouter.dismiss()
+        selectedTab = .cart
+      }
+    )
+    .presentationDetents([.large])
+    .presentationDragIndicator(.hidden)
+    .presentationCornerRadius(Configuration.orderDetailsCornerRadius)
   }
 }
 
