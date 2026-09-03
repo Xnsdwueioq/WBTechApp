@@ -23,6 +23,7 @@ final class CartStore {
   private(set) var quantities: [String: Int]
   private(set) var cartSummary: CartSummary?
   private(set) var userError: CartUserError?
+  private(set) var isLoading = false
   private let cartService: CartServiceProtocol
   private let persistence: CartPersistenceProtocol
   private var didRestoreCachedQuantities: Bool
@@ -41,6 +42,11 @@ final class CartStore {
   }
   
   func load() async {
+    guard !isLoading else { return }
+
+    isLoading = true
+    defer { isLoading = false }
+
     userError = nil
     restoreCachedQuantitiesIfNeeded()
 

@@ -31,7 +31,14 @@ struct CartView: View {
   }
 
   var body: some View {
-    cartContent
+    Group {
+      if store.isLoading && store.cartSummary == nil {
+        ProgressView()
+          .frame(maxWidth: .infinity, maxHeight: .infinity)
+      } else {
+        cartContent
+      }
+    }
       .fullScreenCover(
         isPresented: $isOrderSubmitted,
         onDismiss: presentLatestOrderIfNeeded
@@ -63,6 +70,7 @@ struct CartView: View {
       quantity: { quantities[$0, default: 0] },
       address: address,
       isOrderEnabled: !availableItems.isEmpty && address != nil && !isOrdering,
+      isOrdering: isOrdering,
       onIncrement: { id in Task { await store.increment(id: id) } },
       onDecrement: { id in Task { await store.decrement(id: id) } },
       onAddressTap: { presentAddresses = true },

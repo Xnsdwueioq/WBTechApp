@@ -12,6 +12,7 @@ struct CartContentView: View {
   let quantity: (String) -> Int
   let address: Address?
   let isOrderEnabled: Bool
+  let isOrdering: Bool
   let onIncrement: (String) -> Void
   let onDecrement: (String) -> Void
   let onAddressTap: () -> Void
@@ -52,6 +53,7 @@ struct CartContentView: View {
             summary: summary,
             address: address,
             isOrderEnabled: isOrderEnabled,
+            isOrdering: isOrdering,
             onAddressTap: onAddressTap,
             onOrder: onOrder
           )
