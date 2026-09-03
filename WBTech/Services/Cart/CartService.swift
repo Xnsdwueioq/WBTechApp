@@ -49,14 +49,18 @@ private extension CartService {
   }
   
   private static func cartLine(from dto: CartItemDTO) -> CartLine {
-    .init(
-      id: dto.value1.id,
-      image: dto.value1.image,
-      name: dto.value1.name,
-      weight: dto.value1.weight,
-      price: dto.value1.price,
-      quantity: dto.value1.quantity,
-      available: dto.value2.available
+    // нейминг value1, value2 автоматом генерится openapi generator
+    let item = dto.value1
+    let availability = dto.value2
+
+    return .init(
+      id: item.id,
+      image: item.image,
+      name: item.name,
+      weight: item.weight,
+      price: item.price,
+      quantity: item.quantity,
+      available: availability.available
     )
   }
     
