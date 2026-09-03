@@ -20,7 +20,11 @@ struct ProductDetailedImage: View {
   var body: some View {
     Color.dsImagePlaceholderColor
       .overlay {
-        DSAsyncImage(url: image, onError: { _ in onError?() })
+        DSAsyncImage(
+          url: image,
+          size: .detailed,
+          onError: { _ in onError?() }
+        )
       }
       .clipped()
       .aspectRatio(Configuration.imageRatio, contentMode: .fit)

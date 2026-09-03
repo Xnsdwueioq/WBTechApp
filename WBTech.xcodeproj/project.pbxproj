@@ -216,6 +216,7 @@
 				B7C99D6E2FF1568300FA2D9D /* XCRemoteSwiftPackageReference "swift-openapi-generator" */,
 				B7C99D6F2FF156DC00FA2D9D /* XCRemoteSwiftPackageReference "swift-openapi-runtime" */,
 				B7C99D702FF156F300FA2D9D /* XCRemoteSwiftPackageReference "swift-openapi-urlsession" */,
+				B793DCCF30494F4C00B905ED /* XCRemoteSwiftPackageReference "Nuke" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = B7C99CFF2FF14DA700FA2D9D /* Products */;
@@ -602,6 +603,14 @@
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		B793DCCF30494F4C00B905ED /* XCRemoteSwiftPackageReference "Nuke" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kean/Nuke";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 13.2.0;
+			};
+		};
 		B7C99D6E2FF1568300FA2D9D /* XCRemoteSwiftPackageReference "swift-openapi-generator" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/apple/swift-openapi-generator";
