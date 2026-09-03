@@ -92,9 +92,7 @@ private extension OrderService {
   static func orderAddress(
     from dto: Components.Schemas.Address
   ) -> OrderAddress? {
-    guard dto.coordinates.count == 2 else { return nil }
-
-    return OrderAddress(
+    OrderAddress(
       coordinates: .init(
         longitude: dto.coordinates[0],
         latitude: dto.coordinates[1]

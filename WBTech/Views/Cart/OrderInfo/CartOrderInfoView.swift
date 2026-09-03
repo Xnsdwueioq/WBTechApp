@@ -12,7 +12,7 @@ struct CartOrderInfoView: View {
   let isOrdering: Bool
   let onAddressTap: () -> Void
   let onOrder: () -> Void
-  
+
   private enum Configuration {
     static let topPadding: CGFloat = 16
     static let horizontalPadding: CGFloat = 12

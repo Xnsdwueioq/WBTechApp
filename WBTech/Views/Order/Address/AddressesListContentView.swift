@@ -108,8 +108,7 @@ struct AddressesListContentView: View {
       Button(action: {
         onAddressEdit(address)
       }) {
-        Image.dsPencil
-          .foregroundStyle(Color.dsAddressEdit)
+        DSAddressEditButton()
       }
       .disabled(!canMutate)
     }
