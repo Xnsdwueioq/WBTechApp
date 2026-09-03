@@ -137,21 +137,25 @@ private extension OrderService {
   }
 
   static func address(from dto: AddressDTO) -> Address? {
-    guard let id = dto.value2.id else { return nil }
-    guard dto.value1.coordinates.count == 2 else { return nil }
-    let longitude = dto.value1.coordinates[0]
-    let latitude = dto.value1.coordinates[1]
+    // нейминг value1, value2 автоматом генерится openapi generator
+    let address = dto.value1
+    let metadata = dto.value2
+
+    guard let id = metadata.id else { return nil }
+    guard address.coordinates.count == 2 else { return nil }
+    let longitude = address.coordinates[0]
+    let latitude = address.coordinates[1]
     return Address(
       id: id,
       coordinates: .init(
         longitude: longitude,
         latitude: latitude
       ),
-      addressLine: dto.value1.addressLine,
-      floor: dto.value1.floor,
-      entrance: dto.value1.entrance,
-      intercomCode: dto.value1.intercomCode,
-      comment: dto.value1.comment
+      addressLine: address.addressLine,
+      floor: address.floor,
+      entrance: address.entrance,
+      intercomCode: address.intercomCode,
+      comment: address.comment
     )
   }
 
