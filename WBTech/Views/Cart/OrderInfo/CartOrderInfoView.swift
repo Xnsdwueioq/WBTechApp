@@ -9,6 +9,7 @@ struct CartOrderInfoView: View {
   let summary: CartSummary
   let address: Address?
   let isOrderEnabled: Bool
+  let isOrdering: Bool
   let onAddressTap: () -> Void
   let onOrder: () -> Void
   
@@ -94,11 +95,25 @@ struct CartOrderInfoView: View {
       }
       
       Button(action: onOrder) {
-        Text(Configuration.orderTitle)
-          .frame(maxWidth: .infinity)
+        ZStack {
+          Text(Configuration.orderTitle)
+            .opacity(isOrdering ? 0 : 1)
+
+          if isOrdering {
+            ProgressView()
+              .tint(.white)
+          }
+        }
+        .frame(maxWidth: .infinity)
       }
-      .buttonStyle(DSButtonStyle(size: .large, style: isOrderEnabled ? .accent : .accentDisabled))
-      .disabled(!isOrderEnabled)
+      .buttonStyle(
+        DSButtonStyle(
+          size: .large,
+          style: isOrderEnabled || isOrdering ? .accent : .accentDisabled
+        )
+      )
+      .disabled(!isOrderEnabled || isOrdering)
+      .accessibilityLabel(isOrdering ? "Оформляем заказ" : Configuration.orderTitle)
       
     }
     .font(.dsCartInfoSecondary)

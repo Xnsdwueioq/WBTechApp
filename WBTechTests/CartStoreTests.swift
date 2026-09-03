@@ -56,6 +56,7 @@ struct CartStoreTests {
     await store.load()
     
     #expect(store.quantities == ["idproduct1": 2, "idproduct2": 1])
+    #expect(!store.isLoading)
   }
   
   @Test func quantityCheck() async throws {
