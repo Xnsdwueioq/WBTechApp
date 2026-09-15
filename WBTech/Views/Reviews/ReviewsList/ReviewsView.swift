@@ -19,6 +19,7 @@ struct ReviewsView: View {
 
   @State private var isCreatingReview = false
   @State private var hasPendingReviewRefresh = false
+  @State private var sortOption = ReviewSortOption.newest
 
   private var ratingDist: RatingDistributable {
     RatingDistribution(reviews: reviews)
@@ -56,7 +57,27 @@ struct ReviewsView: View {
           }
           .padding(.horizontal, Configuration.horizontalPadding)
           .buttonStyle(DSButtonStyle(size: .large, style: .secondary))
-          ReviewsList(reviews: reviews)
+          Menu {
+            ForEach(ReviewSortOption.allCases, id: \.self) { option in
+              Button {
+                sortOption = option
+              } label: {
+                if option == sortOption {
+                  Label(option.title, systemImage: "checkmark")
+                } else {
+                  Text(option.title)
+                }
+              }
+            }
+          } label: {
+            Label(sortOption.title, systemImage: "arrow.up.arrow.down")
+              .frame(maxWidth: .infinity, alignment: .leading)
+          }
+          .padding(.horizontal, Configuration.horizontalPadding)
+          .buttonStyle(DSButtonStyle(size: .small, style: .surface))
+          .accessibilityLabel("Сортировка отзывов")
+          .accessibilityValue(sortOption.title)
+          ReviewsList(reviews: sortOption.sort(reviews))
         }
       }
     }
