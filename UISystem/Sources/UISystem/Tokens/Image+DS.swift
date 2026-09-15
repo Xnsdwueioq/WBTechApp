@@ -3,7 +3,7 @@
 import SwiftUI
 
 public extension Image {
-  
+
   static let dsBack = Image("iconBack", bundle: .module)
   static let dsReview = Image("iconReview", bundle: .module)
   static let dsIdleFavorite = Image("iconIdleFavourite", bundle: .module)
@@ -21,5 +21,5 @@ public extension Image {
   static let dsPencil = Image("iconPencil", bundle: .module)
   static let dsLeftArrow = Image("iconLeftArrow", bundle: .module)
   static let dsTrash = Image("iconTrash", bundle: .module)
-  
+
 }

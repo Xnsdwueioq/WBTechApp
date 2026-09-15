@@ -9,9 +9,9 @@ import SwiftUI
 
 struct CatalogTabView: View {
   let catalogService: CatalogServiceProtocol
-  
+
   @State private var router = CatalogRouter()
-  
+
   var body: some View {
     NavigationStack(path: $router.path) {
       CatalogView(catalogService: catalogService)

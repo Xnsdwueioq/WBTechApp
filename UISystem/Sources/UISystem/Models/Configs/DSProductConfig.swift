@@ -15,8 +15,21 @@ public struct DSProductConfig: Equatable, Hashable, Sendable {
   public let reviewCount: String
   public let reviewCountWord: String
   public let isFavorite: Bool
-  
-  public init(name: String, weight: String, weightSign: String, price: String, priceValue: Int, discount: String, priceSign: String, imageUrl: URL?, rating: Double, reviewCount: String, reviewCountWord: String, isFavorite: Bool) {
+
+  public init(
+    name: String,
+    weight: String,
+    weightSign: String,
+    price: String,
+    priceValue: Int,
+    discount: String,
+    priceSign: String,
+    imageUrl: URL?,
+    rating: Double,
+    reviewCount: String,
+    reviewCountWord: String,
+    isFavorite: Bool
+  ) {
     self.name = name
     self.weight = weight
     self.weightSign = weightSign

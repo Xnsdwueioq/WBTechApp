@@ -19,7 +19,7 @@ final class CartStore {
     static let decrementErrorTitle = "Не удалось изменить количество"
     static let repeatOrderErrorTitle = "Не удалось повторить заказ"
   }
-  
+
   private(set) var quantities: [String: Int]
   private(set) var cartSummary: CartSummary?
   private(set) var userError: CartUserError?
@@ -27,7 +27,7 @@ final class CartStore {
   private let cartService: CartServiceProtocol
   private let persistence: CartPersistenceProtocol
   private var didRestoreCachedQuantities: Bool
-  
+
   init(
     quantities: [String: Int] = [:],
     cartService: CartServiceProtocol,
@@ -40,7 +40,7 @@ final class CartStore {
     self.persistence = persistence
     self.didRestoreCachedQuantities = !quantities.isEmpty
   }
-  
+
   func load() async {
     guard !isLoading else { return }
 
@@ -62,7 +62,7 @@ final class CartStore {
       presentError(title: Configuration.loadErrorTitle, error: error)
     }
   }
-  
+
   var hasItems: Bool {
     (cartSummary?.totalItems ?? 0) > 0
   }
@@ -70,13 +70,13 @@ final class CartStore {
   func quantity(for id: String) -> Int {
     quantities[id, default: 0]
   }
-  
+
   func increment(id: String) async {
     userError = nil
     restoreCachedQuantitiesIfNeeded()
 
     let previousQuantity = quantities[id, default: 0]
-    
+
     let newQuantity = previousQuantity + 1
     quantities[id] = newQuantity
     do {
@@ -89,21 +89,21 @@ final class CartStore {
       presentError(title: Configuration.incrementErrorTitle, error: error)
     }
   }
-  
+
   func decrement(id: String) async {
     userError = nil
     restoreCachedQuantitiesIfNeeded()
 
     let previousQuantity = quantities[id, default: 0]
     guard previousQuantity > 0 else { return }
-    
+
     let newQuantity = previousQuantity - 1
     if newQuantity == 0 {
       quantities[id] = nil
     } else {
       quantities[id] = newQuantity
     }
-    
+
     do {
       _ = try await cartService.decrementCartItem(id: id)
       saveCachedQuantities()

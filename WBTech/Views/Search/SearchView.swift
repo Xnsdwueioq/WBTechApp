@@ -12,20 +12,20 @@ import OSLog
 struct SearchView: View {
   let catalogService: CatalogServiceProtocol
   var query: String
-  
+
   @State private var viewState = ViewState<[Product]>.idle
-  
+
   private func filteredProducts(from products: [Product]) -> [Product] {
     guard !query.isEmpty else { return [] }
     return products.filter {
       $0.name.localizedStandardContains(query)
     }
   }
-  
+
   private enum Configuration {
     static let horizontalPadding: CGFloat = 12
   }
-  
+
   var body: some View {
     VStack {
       switch viewState {
@@ -58,7 +58,7 @@ struct SearchView: View {
       await loadProducts()
     }
   }
-  
+
   private func loadProducts() async {
     viewState = .loading
     do {

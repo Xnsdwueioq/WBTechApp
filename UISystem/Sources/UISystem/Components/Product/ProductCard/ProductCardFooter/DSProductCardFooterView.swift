@@ -13,15 +13,21 @@ public struct DSProductCardFooterView: View {
   let quantity: Int
   let onIncrement: () -> Void
   let onDecrement: () -> Void
-  
-  public init(config: DSProductConfig, footerStyle: ProductCardFooterStyle, quantity: Int, onIncrement: @escaping () -> Void, onDecrement: @escaping () -> Void) {
+
+  public init(
+    config: DSProductConfig,
+    footerStyle: ProductCardFooterStyle,
+    quantity: Int,
+    onIncrement: @escaping () -> Void,
+    onDecrement: @escaping () -> Void
+  ) {
     self.config = config
     self.footerStyle = footerStyle
     self.quantity = quantity
     self.onIncrement = onIncrement
     self.onDecrement = onDecrement
   }
-  
+
   private enum Configuration {
     static let infoAndButtonSpacing: CGFloat = 12
     static let priceAndTitlesSpacing: CGFloat = 4

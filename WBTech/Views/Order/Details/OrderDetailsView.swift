@@ -124,7 +124,8 @@ struct OrderDetailsView: View {
     }
     .accessibilityElement(children: .ignore)
     .accessibilityLabel(
-      "\(item.name), \(item.weight) \(Configuration.weightSign), \(item.price) \(Configuration.priceSign), \(item.quantity) \(Configuration.quantitySign)"
+      "\(item.name), \(item.weight) \(Configuration.weightSign), " +
+        "\(item.price) \(Configuration.priceSign), \(item.quantity) \(Configuration.quantitySign)"
     )
   }
 

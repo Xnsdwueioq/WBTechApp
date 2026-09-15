@@ -23,7 +23,7 @@ struct ReviewsView: View {
   private var ratingDist: RatingDistributable {
     RatingDistribution(reviews: reviews)
   }
-  
+
   private enum Configuration {
     static let titleTopPadding: CGFloat = 15
     static let verticalSpacing: CGFloat = 16
@@ -31,7 +31,7 @@ struct ReviewsView: View {
     static let contentSpacing: CGFloat = 24
     static let headerSpacing: CGFloat = 2
   }
-  
+
   var body: some View {
     ScrollView {
       VStack(spacing: Configuration.verticalSpacing) {
@@ -45,7 +45,9 @@ struct ReviewsView: View {
         }
         .padding(.horizontal, Configuration.horizontalPadding)
         VStack(alignment: .leading, spacing: Configuration.contentSpacing) {
-          Button(action: { isCreatingReview.toggle() }) {
+          Button {
+            isCreatingReview.toggle()
+          } label: {
             HStack {
               Spacer()
               Text("Написать отзыв")
@@ -58,7 +60,7 @@ struct ReviewsView: View {
         }
       }
     }
-    .sheet(isPresented: $isCreatingReview, onDismiss: refreshAfterCreatedReview) {
+    .sheet(isPresented: $isCreatingReview, onDismiss: refreshAfterCreatedReview, content: {
       ReviewCreatingView(
         config: config,
         description: description,
@@ -66,7 +68,7 @@ struct ReviewsView: View {
         catalogService: catalogService,
         onReviewCreated: handleReviewCreated
       )
-    }
+    })
   }
 
   private func handleReviewCreated() {
@@ -86,11 +88,44 @@ struct ReviewsView: View {
 
 #Preview {
   ReviewsView(reviews: [
-    .init(rating: 5, author: "author1", createdAt: Date(), content: "Some Conte ntdf isdf isd fos", images: [URL(string: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUxaV7VjrC33xPiIETJJP2H0SfT6EvAeNfhQ_NcRmfN51KNFJpPC7SZ98&s=10")]),
-    .init(rating: 4, author: "author2", createdAt: Date(), content: "Some Sicusdufdyf c,cvobobbpbbp Conte ntdf isdf isd fos", images: []),
-    .init(rating: 3, author: "author3", createdAt: Date(), content: "Some Conte ntdf isdf xcpxvvpvppa qkqkkm isd fos", images: []),
-    .init(rating: 3, author: "author34", createdAt: Date(), content: "Some Conte ntdf isdf xcpxvvpvppa qkqkkm isd fos", images: []),
-    .init(rating: 3, author: "author53", createdAt: Date(), content: "Some Conte ntdf isdf xcpxvvpvppa qkqkkm isd fos", images: [])
+    .init(
+      rating: 5,
+      author: "author1",
+      createdAt: Date(),
+      content: "Some Conte ntdf isdf isd fos",
+      images: [URL(
+        string: "https://encrypted-tbn0.gstatic.com/" +
+          "images?q=tbn:ANd9GcRUxaV7VjrC33xPiIETJJP2H0SfT6EvAeNfhQ_NcRmfN51KNFJpPC7SZ98&s=10"
+      )]
+    ),
+    .init(
+      rating: 4,
+      author: "author2",
+      createdAt: Date(),
+      content: "Some Sicusdufdyf c,cvobobbpbbp Conte ntdf isdf isd fos",
+      images: []
+    ),
+    .init(
+      rating: 3,
+      author: "author3",
+      createdAt: Date(),
+      content: "Some Conte ntdf isdf xcpxvvpvppa qkqkkm isd fos",
+      images: []
+    ),
+    .init(
+      rating: 3,
+      author: "author34",
+      createdAt: Date(),
+      content: "Some Conte ntdf isdf xcpxvvpvppa qkqkkm isd fos",
+      images: []
+    ),
+    .init(
+      rating: 3,
+      author: "author53",
+      createdAt: Date(),
+      content: "Some Conte ntdf isdf xcpxvvpvppa qkqkkm isd fos",
+      images: []
+    )
   ], rating: 4.49, productId: "123132", config: DSProductConfig(
     name: "Бутер с колбасой",
     weight: "100",
@@ -104,5 +139,8 @@ struct ReviewsView: View {
     reviewCount: "5",
     reviewCountWord: "отзывов",
     isFavorite: false
-  ), description: "Белый хлеб: мука пшеничная высшего сорта, вода очищенная.", catalogService: MockCatalogService(), onReviewCreated: {})
+  ),
+  description: "Белый хлеб: мука пшеничная высшего сорта, вода очищенная.",
+  catalogService: MockCatalogService(),
+  onReviewCreated: {})
 }

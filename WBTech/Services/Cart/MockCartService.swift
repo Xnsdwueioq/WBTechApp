@@ -87,10 +87,10 @@ actor MockCartService: CartServiceProtocol {
         return $0
       }
     }
-    
+
     let orderPrice = filtered.reduce(0) { $0 + $1.price * $1.quantity }
     let deliveryPrice = orderPrice >= Configuration.freeDeliveryThreshold ? 0 : Configuration.deliveryPrice
-    
+
     return CartSummary(
       deliveryTime: Configuration.deliveryTime,
       orderPrice: orderPrice,

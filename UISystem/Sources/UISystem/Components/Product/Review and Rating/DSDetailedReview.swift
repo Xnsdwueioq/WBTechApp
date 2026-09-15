@@ -13,7 +13,7 @@ public struct DSDetailedReview: View {
   let rating: Double
   let content: String
   let images: [URL?]
-  
+
   public init(author: String, createdAt: Date, rating: Double, content: String, images: [URL?]) {
     self.author = author
     self.createdAt = createdAt
@@ -21,7 +21,7 @@ public struct DSDetailedReview: View {
     self.content = content
     self.images = images
   }
-  
+
   private enum Configuration {
     static let headerContentSpacing: CGFloat = 12
     static let headerHorizontalSpacing: CGFloat = 6
@@ -29,14 +29,14 @@ public struct DSDetailedReview: View {
     static let horizontalPadding: CGFloat = 14
     static let bottomPadding: CGFloat = 16
     static let cornerRadius: CGFloat = 20
-    
+
     // MARK: Image
     static let imageCornerRadius: CGFloat = 12
     static let imagesSpacing: CGFloat = 4
     static let imageRatio: CGFloat = 1
     static let imageFrameSize: CGFloat = 70
   }
-  
+
   public var body: some View {
     VStack(alignment: .leading, spacing: Configuration.headerContentSpacing) {
       // MARK: - Header
@@ -49,11 +49,11 @@ public struct DSDetailedReview: View {
         .font(.dsReviewAuthor)
         Spacer()
       }
-      
+
       // MARK: - Content
       Text(content)
         .font(.dsReviewContent)
-      
+
       // MARK: - Images
       HStack(spacing: Configuration.imagesSpacing) {
         ForEach(images, id: \.self) { image in
@@ -82,8 +82,18 @@ public struct DSDetailedReview: View {
 }
 
 #Preview {
-  DSDetailedReview(author: "Author", createdAt: Date(), rating: 4.49, content: "DSDetailedReview DSDetailedReview DSDetailedReviewDSDetailedReviewDSDetailedReview DSDetailedReviewDSDetailedReviewDSDetailedReview DSDetailedReviewDSDetailedReview", images: [
+  DSDetailedReview(
+    author: "Author",
+    createdAt: Date(),
+    rating: 4.49,
+    content: "DSDetailedReview DSDetailedReview DSDetailedReviewDSDetailedReviewDSDetailedReview " +
+      "DSDetailedReviewDSDetailedReviewDSDetailedReview DSDetailedReviewDSDetailedReview",
+    images: [
     .init(string: "https://damcdn.samokat.ru/dam-storage-ext-env-prod/2025/12/c98d9645-2f32-475e-b804-f6cbde9bdb3a"),
-    .init(string: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLZ8PldWCaqBQ7o6RD_ZNl3VYsZYJnDNKxYOM1HGuN8g&s=10")
-  ])
+    .init(
+      string: "https://encrypted-tbn0.gstatic.com/images?q=" +
+        "tbn:ANd9GcTLZ8PldWCaqBQ7o6RD_ZNl3VYsZYJnDNKxYOM1HGuN8g&s=10"
+    )
+    ]
+  )
 }

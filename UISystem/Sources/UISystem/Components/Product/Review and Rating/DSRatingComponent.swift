@@ -13,7 +13,7 @@ public enum DSRatingSize {
   case small
   case medium
   case large
-  
+
   var ratingNumberFont: Font {
     switch self {
     case .small: return .dsRatingNumberCard
@@ -21,7 +21,7 @@ public enum DSRatingSize {
     case .large: return .dsAverageRatingDetailedReview
     }
   }
-  
+
   var ratingStarFont: Font {
     switch self {
     case .small: return .dsRatingStarCard
@@ -34,24 +34,28 @@ public enum DSRatingSize {
 public struct DSRatingComponent: View {
   let rating: Double
   let ratingStyle: DSRatingStyle
-  let ratingSize:DSRatingSize
-  
+  let ratingSize: DSRatingSize
+
   public init(rating: Double, ratingStyle: DSRatingStyle, ratingSize: DSRatingSize) {
     self.rating = rating
     self.ratingStyle = ratingStyle
     self.ratingSize = ratingSize
   }
-  
+
   private enum Layout {
     static let maxStarsNumber: Int = 5
     static let compactSpacing: CGFloat = 3
     static let extendedSpacing: CGFloat = 3
   }
-  
+
   public var body: some View {
     let ratingNumberText = Text(String(format: "%.1f", rating))
-    let extendedStars = DSRatingStarsComponent(starsNumber: Layout.maxStarsNumber, activeStarsNumber: DSRatingConfig.getIntegerRating(from: rating), starFont: ratingSize.ratingStarFont)
-    
+    let extendedStars = DSRatingStarsComponent(
+      starsNumber: Layout.maxStarsNumber,
+      activeStarsNumber: DSRatingConfig.getIntegerRating(from: rating),
+      starFont: ratingSize.ratingStarFont
+    )
+
     switch ratingStyle {
     case .compact:
       HStack(spacing: Layout.compactSpacing) {

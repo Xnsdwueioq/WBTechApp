@@ -3,10 +3,11 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 77;
+	objectVersion = 110;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B7B68C98305848D8006D5756 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = B7B68C97305848D8006D5756 /* .swiftlint.yml */; };
 		B7C99D292FF1509700FA2D9D /* UISystem in Frameworks */ = {isa = PBXBuildFile; productRef = B7C99D282FF1509700FA2D9D /* UISystem */; };
 		B7C99D602FF1518A00FA2D9D /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = B7C99D5F2FF1518A00FA2D9D /* .gitignore */; };
 		B7C99D7B2FF15A0500FA2D9D /* OpenAPIRuntime in Frameworks */ = {isa = PBXBuildFile; productRef = B7C99D7A2FF15A0500FA2D9D /* OpenAPIRuntime */; };
@@ -31,6 +32,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B7B68C97305848D8006D5756 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		B7C99CFE2FF14DA700FA2D9D /* WBTech.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WBTech.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B7C99D0B2FF14DA900FA2D9D /* WBTechTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WBTechTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B7C99D152FF14DA900FA2D9D /* WBTechUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WBTechUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -81,6 +83,7 @@
 		B7C99CF52FF14DA700FA2D9D = {
 			isa = PBXGroup;
 			children = (
+				B7B68C97305848D8006D5756 /* .swiftlint.yml */,
 				B7C99D5F2FF1518A00FA2D9D /* .gitignore */,
 				B7C99D262FF1502D00FA2D9D /* UISystem */,
 				B7C99D002FF14DA700FA2D9D /* WBTech */,
@@ -122,6 +125,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				B7B68C9630584845006D5756 /* PBXTargetDependency */,
 				B7C99D722FF1570900FA2D9D /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
@@ -217,6 +221,7 @@
 				B7C99D6F2FF156DC00FA2D9D /* XCRemoteSwiftPackageReference "swift-openapi-runtime" */,
 				B7C99D702FF156F300FA2D9D /* XCRemoteSwiftPackageReference "swift-openapi-urlsession" */,
 				B793DCCF30494F4C00B905ED /* XCRemoteSwiftPackageReference "Nuke" */,
+				B7B68C9230584837006D5756 /* XCRemoteSwiftPackageReference "SwiftLint" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = B7C99CFF2FF14DA700FA2D9D /* Products */;
@@ -235,6 +240,7 @@
 			isa = PBXResourcesBuildPhase;
 			files = (
 				B7C99D602FF1518A00FA2D9D /* .gitignore in Resources */,
+				B7B68C98305848D8006D5756 /* .swiftlint.yml in Resources */,
 			);
 		};
 		B7C99D092FF14DA900FA2D9D /* Resources */ = {
@@ -268,6 +274,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		B7B68C9630584845006D5756 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = B7B68C9530584845006D5756 /* SwiftLintBuildToolPlugin */;
+		};
 		B7C99D0D2FF14DA900FA2D9D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = B7C99CFD2FF14DA700FA2D9D /* WBTech */;
@@ -416,13 +426,15 @@
 				DEVELOPMENT_TEAM = HYBW48Y72N;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.food-and-drink";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Используем геопозицию, чтобы показать ваш текущий адрес на карте.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 26.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -450,13 +462,15 @@
 				DEVELOPMENT_TEAM = HYBW48Y72N;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.food-and-drink";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Используем геопозицию, чтобы показать ваш текущий адрес на карте.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 26.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -611,6 +625,14 @@
 				minimumVersion = 13.2.0;
 			};
 		};
+		B7B68C9230584837006D5756 /* XCRemoteSwiftPackageReference "SwiftLint" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/SwiftLint";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.65.1;
+			};
+		};
 		B7C99D6E2FF1568300FA2D9D /* XCRemoteSwiftPackageReference "swift-openapi-generator" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/apple/swift-openapi-generator";
@@ -638,6 +660,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		B7B68C9530584845006D5756 /* SwiftLintBuildToolPlugin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B7B68C9230584837006D5756 /* XCRemoteSwiftPackageReference "SwiftLint" */;
+			productName = "plugin:SwiftLintBuildToolPlugin";
+		};
 		B7C99D282FF1509700FA2D9D /* UISystem */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = UISystem;

@@ -10,14 +10,14 @@ import UISystem
 
 struct SearchTabView: View {
   let catalogService: CatalogServiceProtocol
-  
+
   @State private var query = ""
   @State private var isSearchPresented: Bool = true
-  
+
   private enum Configuration {
     static let prompt = "Название продукта"
   }
-  
+
   var body: some View {
     NavigationStack {
       SearchView(catalogService: catalogService, query: query)
@@ -39,7 +39,6 @@ struct SearchTabView: View {
     }
   }
 }
-
 
 #Preview {
   SearchTabView(catalogService: MockCatalogService())

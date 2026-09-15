@@ -4,9 +4,9 @@ import Foundation
 import OSLog
 
 extension Logger {
-  
+
   private static let subsystem = Bundle.main.bundleIdentifier ?? "ru.t02.WBTech"
-  
+
   static let catalog = Logger(subsystem: subsystem, category: "Catalog")
   static let cart = Logger(subsystem: subsystem, category: "Cart")
   static let favorites = Logger(subsystem: subsystem, category: "Favorite")
@@ -16,5 +16,5 @@ extension Logger {
   static let order = Logger(subsystem: subsystem, category: "Order")
   static let persistence = Logger(subsystem: subsystem, category: "Persistence")
   static let map = Logger(subsystem: subsystem, category: "Map")
-  
+
 }

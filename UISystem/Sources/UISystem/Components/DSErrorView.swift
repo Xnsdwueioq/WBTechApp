@@ -12,7 +12,7 @@ public struct DSErrorView: View {
   let buttonTitle: String
   let buttonStyle: DSButtonVariant
   let onRetry: (() -> Void)?
-  
+
   public init(
     title: String = "Не удалось загрузить данные",
     description: String? = "Проверьте подключение к интернету и попробуйте снова",
@@ -28,26 +28,26 @@ public struct DSErrorView: View {
     self.buttonStyle = buttonStyle
     self.onRetry = onRetry
   }
-  
+
   private enum Layout {
     static let verticalSpacing: CGFloat = 16
     static let iconSize: CGFloat = 44
     static let maxContentWidth: CGFloat = 300
     static let buttonPaddingTop: CGFloat = 8
   }
-  
+
   public var body: some View {
     VStack(spacing: Layout.verticalSpacing) {
       Image(systemName: systemImage)
         .font(.system(size: Layout.iconSize, weight: .regular))
         .foregroundStyle(.secondary)
-      
+
       VStack(spacing: 6) {
         Text(title)
           .font(.dsCatalogGroupTitle)
           .multilineTextAlignment(.center)
           .foregroundStyle(.primary)
-        
+
         if let description {
           Text(description)
             .font(.dsSmallStandart)
@@ -56,7 +56,7 @@ public struct DSErrorView: View {
         }
       }
       .frame(maxWidth: Layout.maxContentWidth)
-      
+
       if let onRetry {
         Button(action: onRetry) {
           Text(buttonTitle)

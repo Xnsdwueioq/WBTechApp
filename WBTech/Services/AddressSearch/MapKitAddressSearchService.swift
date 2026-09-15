@@ -260,7 +260,7 @@ private final class LocalSearchCompleter:
 
   func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
     var seenIDs = Set<String>()
-    let suggestions: [AddressSearchSuggestion] = completer.results.compactMap { completion -> AddressSearchSuggestion? in
+    let suggestions: [AddressSearchSuggestion] = completer.results.compactMap { completion in
       let suggestion = AddressSearchSuggestion(
         title: completion.title.trimmingCharacters(in: .whitespacesAndNewlines),
         subtitle: completion.subtitle.trimmingCharacters(in: .whitespacesAndNewlines)

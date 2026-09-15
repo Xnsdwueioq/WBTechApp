@@ -14,14 +14,14 @@ public struct DSProgressPreview: View {
   let onClose: () -> Void
 
   @AccessibilityFocusState private var isTitleFocused: Bool
-  
+
   public init(title: String, subtitle: String, buttonName: String, onClose: @escaping () -> Void) {
     self.title = title
     self.subtitle = subtitle
     self.buttonName = buttonName
     self.onClose = onClose
   }
-  
+
   private enum Configuration {
     static let iconFrameSize: CGFloat = 155
     static let contentSpacing: CGFloat = 16

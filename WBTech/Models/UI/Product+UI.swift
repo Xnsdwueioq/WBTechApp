@@ -4,7 +4,7 @@ import Foundation
 import UISystem
 
 extension Product {
-  
+
   func uiConfig(isFavorite: Bool) -> DSProductConfig {
     DSProductConfig(
       name: self.name,
@@ -21,7 +21,7 @@ extension Product {
       isFavorite: isFavorite
     )
   }
-  
+
   static let uiConfigDefault = DSProductConfig(
     name: "Какой-то товар",
     weight: "500",
@@ -36,7 +36,5 @@ extension Product {
     reviewCountWord: PluralNoun.review.form(for: 245),
     isFavorite: false
   )
-  
+
 }
-
-

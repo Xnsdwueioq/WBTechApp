@@ -7,7 +7,7 @@ struct CategoryProductsContentView: View {
   let route: CategoryRoute
   let products: [Product]
   let isLoading: Bool
-  
+
   private enum Layout {
     static let productCardFooterStyle = ProductCardFooterStyle.standart
     static let headerListSpacing: CGFloat = 0
@@ -16,9 +16,9 @@ struct CategoryProductsContentView: View {
     static let bottomPadding: CGFloat = 12
     static let headerBackground = Color(.systemBackground)
   }
-  
+
   @Environment(CatalogRouter.self) private var router
-  
+
   var body: some View {
     ProductListView(
       products: products,

@@ -6,7 +6,7 @@ import UISystem
 @testable import WBTech
 
 struct ProductUIConfigTests {
-  
+
   @Test func productUIConfig() {
     let product = Product(
       id: "someID",
@@ -19,7 +19,7 @@ struct ProductUIConfigTests {
       isFavorite: false,
       discount: 50
     )
-  
+
     let config = product.uiConfig(isFavorite: true)
 
     #expect(config.name == "someName")
@@ -34,5 +34,5 @@ struct ProductUIConfigTests {
     #expect(config.reviewCountWord == "отзыва")
     #expect(config.isFavorite == true)
   }
-  
+
 }

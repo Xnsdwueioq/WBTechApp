@@ -16,9 +16,9 @@ struct ProductDetailedContentView: View {
   let onOpenCart: () -> Void
   let onReviews: () -> Void
   let onError: (() -> Void)?
-  
+
   @Environment(\.dismiss) private var dismiss
-  
+
   private enum Configuration {
     static let imageContentSpacing: CGFloat = 0
     static let dismissButtonPaddings: CGFloat = 20
@@ -30,7 +30,7 @@ struct ProductDetailedContentView: View {
     static let buttonTopPadding: CGFloat = 12
     static let buttonBottomPadding: CGFloat = 16
   }
-  
+
   var body: some View {
     ScrollView {
       VStack(alignment: .leading, spacing: Configuration.imageContentSpacing) {

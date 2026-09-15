@@ -8,7 +8,7 @@
 import UISystem
 
 extension Address {
-  
+
   func uiConfig() -> DSAddressConfig {
     return .init(
       addressLine: self.addressLine,
@@ -18,7 +18,7 @@ extension Address {
       comment: self.comment
     )
   }
-  
+
   static func uiConfigDefault() -> DSAddressConfig {
     return .init(
       addressLine: "Новая Басманная ул., 35 ст1, 59",
@@ -28,5 +28,5 @@ extension Address {
       comment: "Какой-то комментарий"
     )
   }
-  
+
 }

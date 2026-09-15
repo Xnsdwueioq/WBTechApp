@@ -11,12 +11,16 @@ let package = Package(
     .library(
       name: "UISystem",
       targets: ["UISystem"]
-    ),
+    )
   ],
   dependencies: [
     .package(
       url: "https://github.com/kean/Nuke.git",
       from: "13.2.0"
+    ),
+    .package(
+      url: "https://github.com/realm/SwiftLint",
+      from: "0.65.1"
     )
   ],
   targets: [
@@ -32,16 +36,22 @@ let package = Package(
         .process("DSAssets.xcassets")
       ],
       swiftSettings: [
-        .enableUpcomingFeature("ApproachableConcurrency"),
+        .enableUpcomingFeature("ApproachableConcurrency")
+      ],
+      plugins: [
+        .plugin(
+          name: "SwiftLintBuildToolPlugin",
+          package: "SwiftLint"
+        )
       ]
     ),
     .testTarget(
       name: "UISystemTests",
       dependencies: ["UISystem"],
       swiftSettings: [
-        .enableUpcomingFeature("ApproachableConcurrency"),
+        .enableUpcomingFeature("ApproachableConcurrency")
       ]
-    ),
+    )
   ],
   swiftLanguageModes: [.v6]
 )

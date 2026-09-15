@@ -18,7 +18,7 @@ struct ProductDetailedView: View {
 
   @Environment(FavoritesStore.self) private var favoritesStore
   @Environment(CartStore.self) private var cartStore
-  
+
   @State private var viewState = ViewState<ProductDetailed>.idle
   @State private var isReviews = false
 
@@ -116,7 +116,10 @@ struct ProductDetailedView: View {
     id: "product1",
     product: Product(
       id: "product1",
-      image: URL(string: "https://damcdn.samokat.ru/dam-storage-ext-env-prod/2025/12/026c8f99-bbe3-40b4-9ef9-3c3759a857ff"),
+      image: URL(
+        string: "https://damcdn.samokat.ru/dam-storage-ext-env-prod/2025/12/" +
+          "026c8f99-bbe3-40b4-9ef9-3c3759a857ff"
+      ),
       name: "Огурец в тесте c соусом",
       weight: 80,
       price: 750,

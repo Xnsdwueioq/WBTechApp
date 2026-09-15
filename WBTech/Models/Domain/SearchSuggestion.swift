@@ -11,7 +11,7 @@ struct SearchSuggestion: Identifiable {
 }
 
 extension SearchSuggestion {
-  
+
   static let suggestionsList: [SearchSuggestion] = [
     .init(text: "Хлеб"),
     .init(text: "Сыр"),
@@ -19,5 +19,5 @@ extension SearchSuggestion {
     .init(text: "Вода"),
     .init(text: "Омар")
   ]
-  
+
 }

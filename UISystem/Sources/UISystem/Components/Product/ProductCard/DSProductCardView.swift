@@ -11,8 +11,17 @@ public struct DSProductCardView: View {
   let onDecrement: () -> Void
   let onFavoriteTap: () -> Void
   let onError: ((Error) -> Void)?
-  
-  public init(config: DSProductConfig, footerStyle: ProductCardFooterStyle, quantity: Int, onTap: @escaping () -> Void, onIncrement: @escaping () -> Void, onDecrement: @escaping () -> Void, onFavoriteTap: @escaping () -> Void, onError: ((Error) -> Void)? = nil) {
+
+  public init(
+    config: DSProductConfig,
+    footerStyle: ProductCardFooterStyle,
+    quantity: Int,
+    onTap: @escaping () -> Void,
+    onIncrement: @escaping () -> Void,
+    onDecrement: @escaping () -> Void,
+    onFavoriteTap: @escaping () -> Void,
+    onError: ((Error) -> Void)? = nil
+  ) {
     self.config = config
     self.footerStyle = footerStyle
     self.quantity = quantity
@@ -22,7 +31,7 @@ public struct DSProductCardView: View {
     self.onFavoriteTap = onFavoriteTap
     self.onError = onError
   }
-  
+
   private enum Layout {
     static let imageInfoSpacing: CGFloat = 8
     static let favoriteIconPadding: CGFloat = 8
@@ -31,7 +40,7 @@ public struct DSProductCardView: View {
   private enum Configuration {
     static let openDetailsAction = "Открыть карточку товара"
   }
-  
+
   public var body: some View {
     ZStack(alignment: .topTrailing) {
       VStack(spacing: Layout.imageInfoSpacing) {

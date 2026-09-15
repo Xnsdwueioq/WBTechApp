@@ -12,7 +12,7 @@ struct UnderlinedAddressField: View {
   let title: String
   @Binding var text: String
   var axis: Axis = .horizontal
-  
+
   private enum Configuration {
     static let spacing: CGFloat = 2
     static let separatorHeight: CGFloat = 1

@@ -11,32 +11,32 @@ import CoreLocation
 import UISystem
 import OSLog
 
-struct AddressEditorView: View {
+private enum AddressEditorConfiguration {
+  static let initialCoordinates = AddressCoordinates(
+    longitude: 37.62381,
+    latitude: 55.73662
+  )
+  static let initialAddressLine = "г. Москва, ул. Большая Ордынка, д. 40"
+  static let initialRegion = region(for: initialCoordinates)
+  static let lookupDelay = Duration.milliseconds(350)
+  static let coordinateTolerance = 0.00001
+  static let minimumMapDelta: CLLocationDegrees = 0.0005
+  static let maximumMapDelta: CLLocationDegrees = 180
 
-  private enum Configuration {
-    static let initialCoordinates = AddressCoordinates(
-      longitude: 37.62381,
-      latitude: 55.73662
+  static func region(
+    for coordinates: AddressCoordinates
+  ) -> MKCoordinateRegion {
+    MKCoordinateRegion(
+      center: .init(
+        latitude: coordinates.latitude,
+        longitude: coordinates.longitude
+      ),
+      span: .init(latitudeDelta: 0.005, longitudeDelta: 0.005)
     )
-    static let initialAddressLine = "г. Москва, ул. Большая Ордынка, д. 40"
-    static let initialRegion = region(for: initialCoordinates)
-    static let lookupDelay = Duration.milliseconds(350)
-    static let coordinateTolerance = 0.00001
-    static let minimumMapDelta: CLLocationDegrees = 0.0005
-    static let maximumMapDelta: CLLocationDegrees = 180
-
-    static func region(
-      for coordinates: AddressCoordinates
-    ) -> MKCoordinateRegion {
-      MKCoordinateRegion(
-        center: .init(
-          latitude: coordinates.latitude,
-          longitude: coordinates.longitude
-        ),
-        span: .init(latitudeDelta: 0.005, longitudeDelta: 0.005)
-      )
-    }
   }
+}
+
+struct AddressEditorView: View {
 
   private enum PresentedSheet: Hashable, Identifiable {
     case details
@@ -54,13 +54,13 @@ struct AddressEditorView: View {
 
   @State private var locationManager = CLLocationManager()
   @State private var draft = AddressDraft(
-    coordinates: Configuration.initialCoordinates,
-    addressLine: Configuration.initialAddressLine
+    coordinates: AddressEditorConfiguration.initialCoordinates,
+    addressLine: AddressEditorConfiguration.initialAddressLine
   )
   @State private var position = MapCameraPosition.userLocation(
-    fallback: .region(Configuration.initialRegion)
+    fallback: .region(AddressEditorConfiguration.initialRegion)
   )
-  @State private var visibleRegion = Configuration.initialRegion
+  @State private var visibleRegion = AddressEditorConfiguration.initialRegion
   @State private var coordinatesPendingLookup: AddressCoordinates?
   @State private var preservedAddressCoordinates: AddressCoordinates?
   @State private var presentedSheet: PresentedSheet?
@@ -74,7 +74,7 @@ struct AddressEditorView: View {
     self.addressSearchService = addressSearchService
     self.onSave = onSave
   }
-  
+
   var body: some View {
     ZStack {
       Map(position: $position, scope: mapScope) {
@@ -115,7 +115,7 @@ struct AddressEditorView: View {
     }
     .task(id: coordinatesPendingLookup) {
       guard let coordinatesPendingLookup else { return }
-      try? await Task.sleep(for: Configuration.lookupDelay)
+      try? await Task.sleep(for: AddressEditorConfiguration.lookupDelay)
       guard !Task.isCancelled else { return }
       await updateDraft(at: coordinatesPendingLookup)
     }
@@ -155,20 +155,24 @@ struct AddressEditorView: View {
           .system(size: 20)
           .weight(.medium)
         )
-      
+
       HStack {
-        Button(action: { presentedSheet = .search }) {
+        Button {
+          presentedSheet = .search
+        } label: {
           Text("Ввести другой")
         }
         .buttonStyle(DSButtonStyle(size: .large, style: .outline))
-        
-        Button(action: { presentedSheet = .details }) {
+
+        Button {
+          presentedSheet = .details
+        } label: {
           Text("Выбрать адрес")
         }
         .buttonStyle(DSButtonStyle(size: .large, style: .accent))
       }
       .frame(maxWidth: .infinity, alignment: .center)
-      
+
     }
     .padding(.top, 12)
     .padding(.horizontal, 12)
@@ -184,7 +188,7 @@ struct AddressEditorView: View {
       .ignoresSafeArea(edges: .bottom)
     }
   }
-  
+
   private var marker: some View {
     Capsule()
       .frame(width: 25, height: 25)
@@ -206,7 +210,7 @@ struct AddressEditorView: View {
     .buttonStyle(DSMapControlButtonStyle())
     .accessibilityLabel(accessibilityLabel)
   }
-  
+
   private func updateDraft(at coordinates: AddressCoordinates) async {
     do {
       let addressLine = try await addressSearchService.addressLine(
@@ -216,8 +220,9 @@ struct AddressEditorView: View {
       guard !Task.isCancelled,
             coordinatesPendingLookup == coordinates else { return }
 
+      let previous = draft.coordinates
       Logger.map.debug(
-        "Address updated from \(draft.coordinates.latitude), \(draft.coordinates.longitude) to \(coordinates.latitude), \(coordinates.longitude)"
+        "Address: \(previous.latitude), \(previous.longitude) → \(coordinates.latitude), \(coordinates.longitude)"
       )
       draft.coordinates = coordinates
       draft.addressLine = addressLine
@@ -260,7 +265,7 @@ struct AddressEditorView: View {
     preservedAddressCoordinates = selection.coordinates
     draft.coordinates = selection.coordinates
     draft.addressLine = selection.addressLine
-    visibleRegion = Configuration.region(for: selection.coordinates)
+    visibleRegion = AddressEditorConfiguration.region(for: selection.coordinates)
     position = .region(visibleRegion)
     presentedSheet = nil
   }
@@ -277,8 +282,8 @@ struct AddressEditorView: View {
     _ delta: CLLocationDegrees
   ) -> CLLocationDegrees {
     min(
-      max(delta, Configuration.minimumMapDelta),
-      Configuration.maximumMapDelta
+      max(delta, AddressEditorConfiguration.minimumMapDelta),
+      AddressEditorConfiguration.maximumMapDelta
     )
   }
 
@@ -295,8 +300,8 @@ struct AddressEditorView: View {
     _ lhs: AddressCoordinates,
     _ rhs: AddressCoordinates
   ) -> Bool {
-    abs(lhs.latitude - rhs.latitude) < Configuration.coordinateTolerance
-      && abs(lhs.longitude - rhs.longitude) < Configuration.coordinateTolerance
+    abs(lhs.latitude - rhs.latitude) < AddressEditorConfiguration.coordinateTolerance
+      && abs(lhs.longitude - rhs.longitude) < AddressEditorConfiguration.coordinateTolerance
   }
 
 }

@@ -9,7 +9,7 @@ import SwiftUI
 
 public struct DSSuggestionToSearchView: View {
   public init() { }
-  
+
   public var body: some View {
     ContentUnavailableView(
       "Начните поиск",

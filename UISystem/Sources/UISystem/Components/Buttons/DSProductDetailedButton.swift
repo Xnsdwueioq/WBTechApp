@@ -10,7 +10,14 @@ public struct DSProductDetailedButton: View {
   let onDecrement: () -> Void
   let onOpenCart: () -> Void
 
-  public init(quantity: Int, priceValue: Int, priceSign: String, onIncrement: @escaping () -> Void, onDecrement: @escaping () -> Void, onOpenCart: @escaping () -> Void) {
+  public init(
+    quantity: Int,
+    priceValue: Int,
+    priceSign: String,
+    onIncrement: @escaping () -> Void,
+    onDecrement: @escaping () -> Void,
+    onOpenCart: @escaping () -> Void
+  ) {
     self.quantity = quantity
     self.priceValue = priceValue
     self.priceSign = priceSign
@@ -64,7 +71,14 @@ public struct DSProductDetailedButton: View {
 #Preview {
   @Previewable @State var quantity = 0
   VStack(spacing: 16) {
-    DSProductDetailedButton(quantity: quantity, priceValue: 900, priceSign: "₽", onIncrement: { quantity += 1 }, onDecrement: { quantity -= 1 }, onOpenCart: {})
+    DSProductDetailedButton(
+      quantity: quantity,
+      priceValue: 900,
+      priceSign: "₽",
+      onIncrement: { quantity += 1 },
+      onDecrement: { quantity -= 1 },
+      onOpenCart: {}
+    )
   }
   .padding()
 }

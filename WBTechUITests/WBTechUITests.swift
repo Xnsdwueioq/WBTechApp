@@ -3,13 +3,13 @@
 import XCTest
 
 final class WBTechUITests: XCTestCase {
-  
+
   override func setUpWithError() throws {
-    
+
     continueAfterFailure = false
-    
+
   }
-  
+
   @MainActor
   func testCatalogFlow() throws {
 

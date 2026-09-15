@@ -3,40 +3,40 @@
 import Foundation
 
 actor CartService: CartServiceProtocol {
-  
+
   private typealias CartDTO = Operations.getCart.Output.Ok.Body.jsonPayload
   private typealias CartItemDTO = CartDTO.itemsPayloadPayload
-  
+
   private let client: Client
-  
+
   init(token: String) {
     self.client = APIClientFactory.make(token: token)
   }
-  
+
   func fetchCart() async throws -> CartSummary {
     let response = try await client.getCart(.init())
     let payload = try response.ok.body.json
     return Self.cartSummary(from: payload)
   }
-  
+
   func addToCart(id: String) async throws -> Int {
     let response = try await client.addCartItem(.init(query: .init(id: id)))
     let payload = try response.ok.body.json
-    
+
     return payload.total
   }
-  
+
   func decrementCartItem(id: String) async throws -> Int {
     let response = try await client.removeCartItem(.init(path: .init(id: id)))
     let payload = try response.ok.body.json
-    
+
     return payload.total ?? 0
   }
-  
+
 }
 
 private extension CartService {
-  
+
   private static func cartSummary(from dto: CartDTO) -> CartSummary {
     .init(
       deliveryTime: dto.deliveryTime,
@@ -47,7 +47,7 @@ private extension CartService {
       items: dto.items.map(cartLine(from:)).sorted(by: {$0.name > $1.name})
     )
   }
-  
+
   private static func cartLine(from dto: CartItemDTO) -> CartLine {
     // нейминг value1, value2 автоматом генерится openapi generator
     let item = dto.value1
@@ -63,5 +63,5 @@ private extension CartService {
       available: availability.available
     )
   }
-    
+
 }

@@ -9,9 +9,9 @@ import UISystem
 
 struct CatalogView: View {
   let catalogService: CatalogServiceProtocol
-  
+
   @State private var viewState = ViewState<[Category]>.idle
-  
+
   var body: some View {
     Group {
       switch viewState {
@@ -36,7 +36,7 @@ struct CatalogView: View {
       await loadData()
     }
   }
-  
+
   private func loadData() async {
     viewState = .loading
     do {

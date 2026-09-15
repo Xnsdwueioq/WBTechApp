@@ -18,7 +18,7 @@ public struct DSAsyncImage: View {
     static let cardPixelSize: CGFloat = 500
     static let detailedPixelSize: CGFloat = 1200
   }
-  
+
   public init(
     url: URL?,
     size: DSImageSize = .card,
@@ -28,7 +28,7 @@ public struct DSAsyncImage: View {
     self.size = size
     self.onError = onError
   }
-  
+
   public var body: some View {
     if let request = imageRequest {
       LazyImage(
@@ -37,8 +37,7 @@ public struct DSAsyncImage: View {
       ) { state in
         if let image = state.image {
           image
-            .resizable()
-            .aspectRatio(contentMode: .fill)
+            .resizable().scaledToFill()
             .transition(.opacity)
         } else if let error = state.error {
           DSFallbackImage()

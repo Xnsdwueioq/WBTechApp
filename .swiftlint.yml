@@ -1,0 +1,16 @@
+disabled_rules:
+  - todo
+
+excluded:
+  - .build
+  - UISystem/.build
+  - DerivedData
+  - WBTech/UISystem/.build
+  - WBTech/UISystem/.swiftpm
+
+identifier_name:
+  min_length:
+    warning: 1
+    error: 1
+
+lenient: false

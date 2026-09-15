@@ -16,7 +16,7 @@ struct ProductListView: View {
     self.products = products
     self.productCardFooterStyle = productCardFooterStyle
   }
-  
+
   private enum Layout {
     static let gridVerticalSpacing: CGFloat = 8
     static let columns = Array(
@@ -24,7 +24,7 @@ struct ProductListView: View {
       count: 2
     )
   }
-  
+
   var body: some View {
     ScrollView {
       LazyVGrid(columns: Layout.columns, spacing: Layout.gridVerticalSpacing) {

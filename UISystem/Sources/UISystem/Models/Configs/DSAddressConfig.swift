@@ -13,7 +13,7 @@ public struct DSAddressConfig {
   public let entrance: String?
   public let intercomCode: String?
   public let comment: String?
-  
+
   public init(addressLine: String, floor: String?, entrance: String?, intercomCode: String?, comment: String?) {
     self.addressLine = addressLine
     self.floor = floor

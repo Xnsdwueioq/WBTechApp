@@ -7,7 +7,7 @@ struct CategoryProductsHeaderView: View {
   let groupTitle: String
   let categoryTitle: String
   let onTapBack: () -> Void
-  
+
   private enum Layout {
     static let topPadding: CGFloat = 10
     static let horizontalPadding: CGFloat = 12
@@ -16,7 +16,7 @@ struct CategoryProductsHeaderView: View {
     static let titlesSpacing: CGFloat = 4
     static let alignment: HorizontalAlignment = .leading
   }
-  
+
   var body: some View {
     VStack(alignment: Layout.alignment, spacing: Layout.barTextSpacing) {
       HStack {

@@ -11,7 +11,7 @@ public enum DSAddressStyle {
   case cartInfo
   case list
   case orderDetails
-  
+
   public var lineFont: Font {
     switch self {
     case .cartInfo: .dsCartInfoPrimary
@@ -19,7 +19,7 @@ public enum DSAddressStyle {
     case .orderDetails: .dsProductCardTitle
     }
   }
-  
+
   public var additionalInfoFont: Font {
     switch self {
     case .cartInfo: .dsCartInfoSecondary
@@ -27,7 +27,7 @@ public enum DSAddressStyle {
     case .orderDetails: .dsProductCardTitle
     }
   }
-  
+
   public var additionalColor: Color {
     switch self {
     case .cartInfo: .dsAddressPrimary
@@ -52,13 +52,13 @@ public struct DSAddressView: View {
   public let address: DSAddressConfig?
   public let withChevron: Bool
   public let style: DSAddressStyle
-  
+
   public init(address: DSAddressConfig?, withChevron: Bool, style: DSAddressStyle) {
     self.address = address
     self.withChevron = withChevron
     self.style = style
   }
-  
+
   private enum Configuration {
     static let addressPlaceholder = "Адрес не выбран"
   }

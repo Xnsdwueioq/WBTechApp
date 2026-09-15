@@ -9,7 +9,7 @@ import SwiftUI
 
 struct FavoritesTabView: View {
   let catalogService: CatalogServiceProtocol
-  
+
   var body: some View {
     NavigationStack {
       FavoritesView(catalogService: catalogService)

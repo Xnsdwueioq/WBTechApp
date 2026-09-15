@@ -17,6 +17,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "B7C99CFD2FF14DA700FA2D9D"
                BuildableName = "WBTech.app"
+               BlueprintName = "WBTech"
                ReferencedContainer = "container:WBTech.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -68,6 +69,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "B7C99CFD2FF14DA700FA2D9D"
             BuildableName = "WBTech.app"
+            BlueprintName = "WBTech"
             ReferencedContainer = "container:WBTech.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -91,6 +93,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "B7C99CFD2FF14DA700FA2D9D"
             BuildableName = "WBTech.app"
+            BlueprintName = "WBTech"
             ReferencedContainer = "container:WBTech.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
