@@ -35,7 +35,7 @@ actor CatalogService: CatalogServiceProtocol {
 
     return products
   }
-  
+
   func fetchProduct(id: String) async throws -> ProductDetailed {
     let response = try await client.getProduct(.init(path: .init(id: id)))
     let payload = try response.ok.body.json
@@ -77,7 +77,7 @@ private extension CatalogService {
       discount: dto.discount ?? 0
     )
   }
-  
+
   static func productDetailed(from dto: Components.Schemas.Product) -> ProductDetailed {
     ProductDetailed(
       id: dto.id,
@@ -92,7 +92,7 @@ private extension CatalogService {
       reviews: dto.reviews?.map(Self.review(from:)) ?? []
     )
   }
-  
+
   static func review(from dto: Components.Schemas.Review) -> Review {
     Review(
       rating: Double(dto.rating),
@@ -102,5 +102,5 @@ private extension CatalogService {
       images: dto.images.map(URL.init(string:))
     )
   }
-  
+
 }

@@ -6,17 +6,17 @@ public struct DSProductCardCompactButton: View {
   let price: String
   let priceSign: String
   let onIncrement: () -> Void
-  
+
   public init(price: String, priceSign: String, onIncrement: @escaping () -> Void) {
     self.price = price
     self.priceSign = priceSign
     self.onIncrement = onIncrement
   }
-  
+
   private enum Layout {
     static let elementsSpacing: CGFloat = 4
   }
-  
+
   public var body: some View {
     Button(action: onIncrement) {
       HStack(spacing: Layout.elementsSpacing) {

@@ -5,21 +5,21 @@ import SwiftUI
 public enum DSButtonSize {
   case large
   case small
-  
+
   public var height: CGFloat {
     switch self {
     case .large: return 50
     case .small: return 32
     }
   }
-  
+
   public var cornerRadius: CGFloat {
     switch self {
     case .large: return 12
     case .small: return 8
     }
   }
-  
+
   public var font: Font {
     switch self {
     case .large: return .dsLargeStandart
@@ -39,7 +39,7 @@ public enum DSButtonVariant: CaseIterable {
 }
 
 public extension DSButtonVariant {
-  
+
   var foregroundColor: Color {
     switch self {
     case .accent: .dsAccentButtonForeground
@@ -51,11 +51,11 @@ public extension DSButtonVariant {
     case .inverted: .dsInvertedButtonForeground
     }
   }
-  
+
 }
 
 public extension DSButtonVariant {
-  
+
   @ViewBuilder
   func backgroundView(cornerRadius: CGFloat) -> some View {
     switch self {
@@ -86,22 +86,22 @@ public extension DSButtonVariant {
       Color.dsInvertedButtonBackground
     }
   }
-  
+
 }
 
 public struct DSButtonStyle: ButtonStyle {
   let size: DSButtonSize
   let style: DSButtonVariant
-  
+
   public init(size: DSButtonSize, style: DSButtonVariant) {
     self.size = size
     self.style = style
   }
-  
+
   private enum Layout {
     static let horizontalPadding: CGFloat = 12
   }
-  
+
   public func makeBody(configuration: Configuration) -> some View {
     configuration.label
       .font(size.font)
@@ -122,7 +122,7 @@ public struct DSButtonStyle: ButtonStyle {
       Text("SOME TEXT")
     }
     VStack {
-      ForEach(DSButtonVariant.allCases, id:\.self) { variant in
+      ForEach(DSButtonVariant.allCases, id: \.self) { variant in
         Button(action: {}, label: {
           Text("Заказать")
         })
@@ -132,5 +132,5 @@ public struct DSButtonStyle: ButtonStyle {
       }
     }
   }
-  
+
 }

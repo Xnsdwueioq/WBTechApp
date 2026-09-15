@@ -145,9 +145,33 @@ public struct DSProductStepper: View {
 #Preview {
   @Previewable @State var quantity = 2
   VStack(spacing: 16) {
-    DSProductStepper(quantity: quantity, priceValue: 300, priceSign: "₽", onIncrement: { quantity += 1 }, onDecrement: { quantity -= 1 })
-    DSProductStepper(quantity: quantity, priceValue: 300, priceSign: "₽", size: .large, width: .fill, onIncrement: { quantity += 1 }, onDecrement: { quantity -= 1 })
-    DSProductStepper(quantity: quantity, priceValue: 300, priceSign: "₽", size: .large, value: .quantity, variant: .standart, width: .fixed(140), onIncrement: { quantity += 1 }, onDecrement: { quantity -= 1 })
+    DSProductStepper(
+      quantity: quantity,
+      priceValue: 300,
+      priceSign: "₽",
+      onIncrement: { quantity += 1 },
+      onDecrement: { quantity -= 1 }
+    )
+    DSProductStepper(
+      quantity: quantity,
+      priceValue: 300,
+      priceSign: "₽",
+      size: .large,
+      width: .fill,
+      onIncrement: { quantity += 1 },
+      onDecrement: { quantity -= 1 }
+    )
+    DSProductStepper(
+      quantity: quantity,
+      priceValue: 300,
+      priceSign: "₽",
+      size: .large,
+      value: .quantity,
+      variant: .standart,
+      width: .fixed(140),
+      onIncrement: { quantity += 1 },
+      onDecrement: { quantity -= 1 }
+    )
   }
   .padding()
 }

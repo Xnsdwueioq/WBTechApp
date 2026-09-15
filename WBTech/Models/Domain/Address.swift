@@ -16,7 +16,7 @@ struct Address: Identifiable, Hashable, Sendable {
 }
 
 extension Address {
-  
+
   static let `default`: Address = Address(
     id: "address1",
     coordinates: .init(longitude: 1.2, latitude: 0.9),
@@ -26,5 +26,5 @@ extension Address {
     intercomCode: "15809",
     comment: "Какой-то комментарий"
   )
-  
+
 }

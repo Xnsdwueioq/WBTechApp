@@ -9,9 +9,10 @@ struct CartOrderInfoView: View {
   let summary: CartSummary
   let address: Address?
   let isOrderEnabled: Bool
+  let isOrdering: Bool
   let onAddressTap: () -> Void
   let onOrder: () -> Void
-  
+
   private enum Configuration {
     static let topPadding: CGFloat = 16
     static let horizontalPadding: CGFloat = 12
@@ -27,20 +28,20 @@ struct CartOrderInfoView: View {
     static let freeDeliveryTitle = "Бесплатно"
     static let orderTitle = "Заказать"
   }
-  
+
   private var totalPriceText: String {
     "\(summary.totalPrice) \(Configuration.priceSign)"
   }
-  
+
   private var orderPriceText: String {
     "\(summary.orderPrice) \(Configuration.priceSign)"
   }
-  
+
   private var deliveryPriceText: String {
     guard summary.deliveryPrice > 0 else { return Configuration.freeDeliveryTitle }
     return "\(summary.deliveryPrice) \(Configuration.priceSign)"
   }
-  
+
   var body: some View {
     VStack(alignment: .leading, spacing: Configuration.buttonContentSpacing) {
       VStack(alignment: .leading, spacing: Configuration.infoVerticalSpacing) {
@@ -50,7 +51,7 @@ struct CartOrderInfoView: View {
         }
         .buttonStyle(DSStaticButtonStyle())
         .accessibilityHint("Открывает выбор адреса")
-        
+
         // MARK: Payment
         VStack(alignment: .leading, spacing: Configuration.paymentLinesSpacing) {
           HStack {
@@ -65,7 +66,7 @@ struct CartOrderInfoView: View {
         .font(.dsCartInfoPrimary)
         .accessibilityElement(children: .combine)
         .accessibilityHint("Открывает выбор способа оплаты")
-        
+
         // MARK: Totals
         VStack(alignment: .leading, spacing: Configuration.totalsSpacing) {
           HStack {
@@ -92,14 +93,28 @@ struct CartOrderInfoView: View {
           }
         }
       }
-      
+
       Button(action: onOrder) {
-        Text(Configuration.orderTitle)
-          .frame(maxWidth: .infinity)
+        ZStack {
+          Text(Configuration.orderTitle)
+            .opacity(isOrdering ? 0 : 1)
+
+          if isOrdering {
+            ProgressView()
+              .tint(.white)
+          }
+        }
+        .frame(maxWidth: .infinity)
       }
-      .buttonStyle(DSButtonStyle(size: .large, style: isOrderEnabled ? .accent : .accentDisabled))
-      .disabled(!isOrderEnabled)
-      
+      .buttonStyle(
+        DSButtonStyle(
+          size: .large,
+          style: isOrderEnabled || isOrdering ? .accent : .accentDisabled
+        )
+      )
+      .disabled(!isOrderEnabled || isOrdering)
+      .accessibilityLabel(isOrdering ? "Оформляем заказ" : Configuration.orderTitle)
+
     }
     .font(.dsCartInfoSecondary)
     .padding(.top, Configuration.topPadding)

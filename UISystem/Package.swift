@@ -1,4 +1,4 @@
-// swift-tools-version: 6.4
+// swift-tools-version: 6.3.3
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -11,27 +11,47 @@ let package = Package(
     .library(
       name: "UISystem",
       targets: ["UISystem"]
+    )
+  ],
+  dependencies: [
+    .package(
+      url: "https://github.com/kean/Nuke.git",
+      from: "13.2.0"
     ),
+    .package(
+      url: "https://github.com/realm/SwiftLint",
+      from: "0.65.1"
+    )
   ],
   targets: [
     // Targets are the basic building blocks of a package, defining a module or a test suite.
     // Targets can depend on other targets in this package and products from dependencies.
     .target(
       name: "UISystem",
+      dependencies: [
+        .product(name: "Nuke", package: "Nuke"),
+        .product(name: "NukeUI", package: "Nuke")
+      ],
       resources: [
         .process("DSAssets.xcassets")
       ],
       swiftSettings: [
-        .enableUpcomingFeature("ApproachableConcurrency"),
+        .enableUpcomingFeature("ApproachableConcurrency")
+      ],
+      plugins: [
+        .plugin(
+          name: "SwiftLintBuildToolPlugin",
+          package: "SwiftLint"
+        )
       ]
     ),
     .testTarget(
       name: "UISystemTests",
       dependencies: ["UISystem"],
       swiftSettings: [
-        .enableUpcomingFeature("ApproachableConcurrency"),
+        .enableUpcomingFeature("ApproachableConcurrency")
       ]
-    ),
+    )
   ],
   swiftLanguageModes: [.v6]
 )

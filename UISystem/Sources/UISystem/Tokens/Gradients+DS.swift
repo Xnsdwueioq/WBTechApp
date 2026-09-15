@@ -3,7 +3,7 @@
 import SwiftUI
 
 public extension LinearGradient {
-  
+
   static let dsViolet = LinearGradient(
     colors: [
       .dsVioletGradientColor1,
@@ -18,7 +18,7 @@ public extension LinearGradient {
     startPoint: .leading,
     endPoint: .trailing
   )
-  
+
   static let dsFade = LinearGradient(
     stops: [
       .init(color: .dsFadeGradientColor3, location: 0.20),
@@ -28,7 +28,7 @@ public extension LinearGradient {
     startPoint: .bottom,
     endPoint: .top
   )
-  
+
   static let dsBottomBarFade = LinearGradient(
     stops: [
       .init(color: .dsFadeGradientColor3, location: 0.30),
@@ -65,7 +65,7 @@ public extension LinearGradient {
     ],
     startPoint: .leading,
     endPoint: .trailing)
-  
+
   static let dsProductCard = LinearGradient(
     colors: [
       .dsProductCardGradientColor1,
@@ -74,5 +74,5 @@ public extension LinearGradient {
     startPoint: .leading,
     endPoint: .trailing
   )
-  
+
 }

@@ -10,4 +10,3 @@ struct CartSummary: Sendable {
   let totalItems: Int
   let items: [CartLine]
 }
-

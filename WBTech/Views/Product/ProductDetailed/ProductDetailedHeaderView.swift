@@ -12,7 +12,7 @@ struct ProductDetailedHeaderView: View {
   let config: DSProductConfig
   let onFavoriteTap: () -> Void
   let onReviews: () -> Void
-  
+
   private enum Configuration {
     static let contentVerticalSpacing: CGFloat = 0
     static let ratingReviewsTopPadding: CGFloat = 10
@@ -39,7 +39,12 @@ struct ProductDetailedHeaderView: View {
       }
       VStack(alignment: .leading, spacing: Configuration.contentVerticalSpacing) {
         DSProductTitle(title: config.name, weight: config.weight, weightSign: config.weightSign, titleStyle: .detailed)
-        DSProductRatingReviews(rating: config.rating, reviewCount: config.reviewCount, style: .extended(reviewNoun: config.reviewCountWord), size: .medium)
+        DSProductRatingReviews(
+          rating: config.rating,
+          reviewCount: config.reviewCount,
+          style: .extended(reviewNoun: config.reviewCountWord),
+          size: .medium
+        )
           .padding(.top, Configuration.ratingReviewsTopPadding)
           .onTapGesture(perform: onReviews)
       }

@@ -3,16 +3,16 @@
 import SwiftUI
 
 public struct DSFadeViewModifier: ViewModifier {
-  
+
   public init() {}
-  
+
   public func body(content: Content) -> some View {
     content
       .mask {
         LinearGradient.dsFade
       }
   }
-  
+
 }
 
 #Preview {

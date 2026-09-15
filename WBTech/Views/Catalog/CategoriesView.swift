@@ -6,9 +6,9 @@ import UISystem
 struct CategoriesView: View {
   let groupTitle: String
   let categories: [Category]
-  
+
   @Environment(CatalogRouter.self) private var router
-  
+
   private enum Layout {
     static let gridVerticalSpacing: CGFloat = 3
     static let columns = Array(
@@ -16,7 +16,7 @@ struct CategoriesView: View {
       count: 3
     )
   }
-  
+
   var body: some View {
     LazyVGrid(columns: Layout.columns, spacing: Layout.gridVerticalSpacing) {
       ForEach(categories, id: \.id) { category in

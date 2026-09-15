@@ -31,7 +31,8 @@ struct ReviewCreatingView: View {
     static let title = "Отзыв о товаре"
     static let ratingSectionTitle = "Оценка"
     static let commentSectionTitle = "Комментарий"
-    static let commentPlaceholder = "Впечатления, пожелания, проблемы с удобными пуфиками, большими зеркалами и плотной шторкой."
+    static let commentPlaceholder = "Впечатления, пожелания, проблемы с удобными пуфиками, " +
+      "большими зеркалами и плотной шторкой."
     static let photoTitle = "5 файлов JPG, PNG, BMP, GIF."
     static let photoSubtitle = "до 10 МБ каждый"
     static let videoTitle = "Видео в формате MOV, MP4."
@@ -54,7 +55,7 @@ struct ReviewCreatingView: View {
     static let fieldCornerRadius: CGFloat = 16
     static let topPadding: CGFloat = 20
     static let horizontalPadding: CGFloat = 12
-    
+
     static let previewTitle: String = "Отзыв отправлен"
     static let previewSubtitle: String = "Спасибо!\nСкоро мы его опубликуем"
     static let previewButtonName: String = "Закрыть"
@@ -73,7 +74,7 @@ struct ReviewCreatingView: View {
       formContent
     }
   }
-  
+
   private var formContent: some View {
     ScrollView {
       VStack(alignment: .leading, spacing: Configuration.contentSpacing) {
@@ -188,7 +189,7 @@ struct ReviewCreatingView: View {
         )
       )
       .disabled(!isSubmitEnabled)
-    } 
+    }
     .padding(.horizontal, Configuration.horizontalPadding)
     .padding(.top, Configuration.bottomBarSpacing)
     .padding(.bottom, Configuration.bottomBarSpacing)
@@ -222,13 +223,17 @@ struct ReviewCreatingView: View {
       priceValue: 100,
       discount: "0",
       priceSign: "₽",
-      imageUrl: URL(string: "https://damcdn.samokat.ru/dam-storage-ext-env-prod/2025/12/026c8f99-bbe3-40b4-9ef9-3c3759a857ff"),
+      imageUrl: URL(
+        string: "https://damcdn.samokat.ru/dam-storage-ext-env-prod/2025/12/" +
+          "026c8f99-bbe3-40b4-9ef9-3c3759a857ff"
+      ),
       rating: 4.5,
       reviewCount: "12",
       reviewCountWord: "отзывов",
       isFavorite: false
     ),
-    description: "Белый хлеб: мука пшеничная высшего сорта, вода очищенная, дрожжи хлебопекарные, соль пищевая, сахар, растительное масло.",
+    description: "Белый хлеб: мука пшеничная высшего сорта, вода очищенная, " +
+      "дрожжи хлебопекарные, соль пищевая, сахар, растительное масло.",
     productId: "product1",
     catalogService: MockCatalogService(),
     onReviewCreated: {}

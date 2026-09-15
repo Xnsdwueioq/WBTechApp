@@ -10,9 +10,9 @@ import OSLog
 struct CategoryProductsView: View {
   let route: CategoryRoute
   let service: CatalogServiceProtocol
-    
+
   @State private var viewState = ViewState<[Product]>.idle
-  
+
   var body: some View {
     Group {
       switch viewState {
@@ -34,14 +34,14 @@ struct CategoryProductsView: View {
     }
     .navigationBarBackButtonHidden()
   }
-  
+
   private func loadProducts() async {
     viewState = .loading
     do {
       let products = try await service.fetchProducts(categoryId: route.categoryId)
       viewState = .loaded(products)
     } catch {
-      Logger.catalog.error("Error loading products in the category with Id='\(route.categoryId)': \(error.localizedDescription)")
+      Logger.catalog.error("Loading category \(route.categoryId) failed: \(error.localizedDescription)")
       viewState = .error("Не удалось загрузить товары категории")
     }
   }

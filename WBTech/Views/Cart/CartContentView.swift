@@ -12,23 +12,24 @@ struct CartContentView: View {
   let quantity: (String) -> Int
   let address: Address?
   let isOrderEnabled: Bool
+  let isOrdering: Bool
   let onIncrement: (String) -> Void
   let onDecrement: (String) -> Void
   let onAddressTap: () -> Void
   let onOrder: () -> Void
   let onUnavailableTap: (String) -> Void
-  
+
   private enum Configuration {
     static let contentVerticalSpacing: CGFloat = 0
     static let topPadding: CGFloat = 20
     static let dismissButtonHorizontalPadding: CGFloat = 8
   }
-  
+
   private var listTitle: String? {
     guard let summary else { return nil }
     return "\(PluralNoun.minute.counted(summary.deliveryTime)) • \(PluralNoun.item.counted(summary.totalItems))"
   }
-  
+
   var body: some View {
     ScrollView {
       VStack(alignment: .leading, spacing: Configuration.contentVerticalSpacing) {
@@ -45,13 +46,14 @@ struct CartContentView: View {
           onDecrement: onDecrement,
           onUnavailableTap: onUnavailableTap
         )
-        
+
         if let summary, !availableItems.isEmpty {
           // MARK: Order Info
           CartOrderInfoView(
             summary: summary,
             address: address,
             isOrderEnabled: isOrderEnabled,
+            isOrdering: isOrdering,
             onAddressTap: onAddressTap,
             onOrder: onOrder
           )

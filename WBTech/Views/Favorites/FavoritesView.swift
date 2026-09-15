@@ -9,18 +9,18 @@ import OSLog
 
 struct FavoritesView: View {
   let catalogService: CatalogServiceProtocol
-  
+
   @Environment(FavoritesStore.self) private var favoritesStore
-  
+
   @State private var viewState = ViewState<[Product]>.idle
-  
+
   private enum Configuration {
     static let verticalSpacing: CGFloat = 20
     static let topPadding: CGFloat = 20
     static let horizontalPadding: CGFloat = 12
     static let bottomPadding: CGFloat = 0
   }
-  
+
   var body: some View {
     VStack(alignment: .leading, spacing: Configuration.verticalSpacing) {
       HStack {
@@ -61,7 +61,7 @@ struct FavoritesView: View {
       await loadProducts()
     }
   }
-  
+
   private func loadProducts() async {
     viewState = .loading
     do {

@@ -6,7 +6,7 @@ import SwiftUI
 
 public enum DSDismissButtonSize {
   case medium
-  
+
   var frameSize: CGFloat {
     switch self {
     case .medium: return 18

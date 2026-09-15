@@ -18,4 +18,3 @@ public struct DSBottomBarBackgroundViewModifier: ViewModifier {
       }
   }
 }
-

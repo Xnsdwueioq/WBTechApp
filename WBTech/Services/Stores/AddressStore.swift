@@ -148,7 +148,8 @@ final class AddressStore {
 
   private func refreshAfterMutation(title: String) async {
     do {
-      apply(try await orderService.fetchAddresses())
+      let addresses = try await orderService.fetchAddresses()
+      apply(addresses)
     } catch {
       loadState = .failed
       presentError(title: title, error: error)

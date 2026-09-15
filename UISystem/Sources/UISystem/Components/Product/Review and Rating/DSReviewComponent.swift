@@ -10,7 +10,7 @@ public enum DSReviewStyle {
 public enum DSReviewSize {
   case small
   case medium
-  
+
   var font: Font {
     switch self {
     case .small: return .dsReviewsCountCard
@@ -23,17 +23,17 @@ public struct DSReviewComponent: View {
   let reviewCount: String
   let reviewStyle: DSReviewStyle
   let reviewSize: DSReviewSize
-  
+
   public init(reviewCount: String, reviewStyle: DSReviewStyle, reviewSize: DSReviewSize) {
     self.reviewCount = reviewCount
     self.reviewStyle = reviewStyle
     self.reviewSize = reviewSize
   }
-  
+
   private enum Layout {
     static let IconNumberSpacing: CGFloat = 3
   }
-  
+
   public var body: some View {
     HStack(spacing: Layout.IconNumberSpacing) {
       Image.dsReview

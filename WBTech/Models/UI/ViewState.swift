@@ -17,12 +17,12 @@ extension ViewState {
     if case .loading = self { return true }
     return false
   }
-  
+
   var value: T? {
     if case .loaded(let data) = self { return data }
     return nil
   }
-  
+
   var errorMessage: String? {
     if case .error(let message) = self { return message }
     return nil

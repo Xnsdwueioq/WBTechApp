@@ -23,7 +23,7 @@ enum KeychainStore {
       kSecAttrAccount as String: account
     ]
     SecItemDelete(deleteQuery as CFDictionary)
-    
+
     let addQuery: [String: Any] = [
       kSecClass as String: kSecClassGenericPassword,
       kSecAttrService as String: service,

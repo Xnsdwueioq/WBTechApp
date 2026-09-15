@@ -10,7 +10,7 @@ import UISystem
 
 struct ReviewsTitleView: View {
   let reviewsCount: Int?
-  
+
   @Environment(\.dismiss) private var dismiss
 
   private enum Configuration {
@@ -20,11 +20,11 @@ struct ReviewsTitleView: View {
     static let listTopPadding: CGFloat = 10
     static let listBottomPadding: CGFloat = 0
   }
-  
+
   private var titleAccessibilityLabel: String {
     return "Отзывы" + ", " + String(reviewsCount ?? 0)
   }
-  
+
   var body: some View {
     HStack(spacing: Configuration.horizontalSpacing) {
       HStack(spacing: Configuration.horizontalSpacing) {

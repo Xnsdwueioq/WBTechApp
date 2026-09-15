@@ -7,7 +7,7 @@ import UISystem
 
 struct CartTitleView: View {
   let totalItems: Int?
-  
+
   private enum Configuration {
     static let horizontalSpacing: CGFloat = 10
     static let totalItemsTextOpacity: CGFloat = 0.2
@@ -16,12 +16,12 @@ struct CartTitleView: View {
     static let listHorizontalPadding: CGFloat = 12
     static let listBottomPadding: CGFloat = 0
   }
-  
+
   private var titleAccessibilityLabel: String {
     guard let totalItems else { return "Корзина" }
     return "Корзина, \(totalItems)"
   }
-  
+
   var body: some View {
     HStack(spacing: Configuration.horizontalSpacing) {
       HStack(spacing: Configuration.horizontalSpacing) {

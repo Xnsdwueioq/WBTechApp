@@ -25,7 +25,7 @@ struct AddressesListContentView: View {
   private enum Configuration {
     static let title = "Мои адреса"
   }
-  
+
   var body: some View {
     VStack(alignment: .leading, spacing: 12) {
       titleView
@@ -40,7 +40,7 @@ struct AddressesListContentView: View {
       bottomBar
     }
   }
-  
+
   private var titleView: some View {
     HStack {
       Text(Configuration.title)
@@ -50,16 +50,16 @@ struct AddressesListContentView: View {
       DSDismissButton(action: onDismiss, size: .medium)
     }
   }
-  
+
   private var listView: some View {
     VStack(alignment: .leading, spacing: 8) {
       ForEach(addresses) { address in
         addressRowView(address: address)
       }
 
-      Button(action: {
+      Button {
         onCreateAddress()
-      }) {
+      } label: {
         HStack(alignment: .center, spacing: 6) {
           Image.dsPlusRounded
             .resizable()
@@ -73,7 +73,7 @@ struct AddressesListContentView: View {
       .disabled(!canMutate)
     }
   }
-  
+
   private var bottomBar: some View {
     Button(action: onConfirm) {
       Text("Привезти сюда")
@@ -95,9 +95,9 @@ struct AddressesListContentView: View {
   @ViewBuilder
   private func addressRowView(address: Address) -> some View {
     HStack {
-      Button(action: {
+      Button {
         onAddressPick(address)
-      }) {
+      } label: {
         DSAddressView(
           address: address.uiConfig(),
           withChevron: false,
@@ -105,11 +105,10 @@ struct AddressesListContentView: View {
         )
       }
       Spacer()
-      Button(action: {
+      Button {
         onAddressEdit(address)
-      }) {
-        Image.dsPencil
-          .foregroundStyle(Color.dsAddressEdit)
+      } label: {
+        DSAddressEditButton()
       }
       .disabled(!canMutate)
     }

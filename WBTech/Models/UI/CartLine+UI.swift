@@ -6,7 +6,7 @@ import Foundation
 import UISystem
 
 extension CartLine {
-  
+
   func uiConfig() -> DSCartLineConfig {
     DSCartLineConfig(
       name: self.name,
@@ -19,5 +19,5 @@ extension CartLine {
       imageUrl: URL(string: self.image)
     )
   }
-  
+
 }

@@ -16,5 +16,5 @@ enum APIClientFactory {
       middlewares: [BearerTokenMiddleware(token: token)]
     )
   }
-  
+
 }

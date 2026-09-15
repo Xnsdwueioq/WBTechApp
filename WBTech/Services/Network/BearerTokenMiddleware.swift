@@ -19,5 +19,5 @@ struct BearerTokenMiddleware: ClientMiddleware {
     request.headerFields[.authorization] = "Bearer \(token)"
     return try await next(request, body, baseURL)
   }
-  
+
 }

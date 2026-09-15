@@ -13,12 +13,12 @@ protocol RatingDistributable {
   var counts: [Int: Int] { get }
   var total: Int { get }
   subscript(stars: Int) -> Int { get }
-  
+
 }
 
 struct RatingDistribution: RatingDistributable {
   private(set) var counts: [Int: Int]
-  
+
   init(reviews: [Review]) {
     self.counts = Dictionary(
       grouping: reviews,
@@ -26,11 +26,11 @@ struct RatingDistribution: RatingDistributable {
     )
       .mapValues { $0.count }
   }
-  
+
   subscript(stars: Int) -> Int {
     counts[stars, default: 0]
   }
-  
+
   var total: Int {
     counts.values.reduce(0, +)
   }
